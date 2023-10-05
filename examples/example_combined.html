@@ -156,15 +156,15 @@
         <div id="inspector_panel" class="inspector_panel" style="display: none;">
           <div class="inspector_panel-section">
             <div class="inspector_panel-heading">Registration Time</div>
-            <p class="inspector_panel-text">10/20/2022 10:43 AM</p>
+            <p id="assetTimestampCreated" class="inspector_panel-text"></p>
           </div>
           <div class="inspector_panel-section">
             <div class="inspector_panel-heading">Creator</div>
-            <p class="inspector_panel-text">Gregory Eddi Jones</p>
+            <p id="assetCreator" class="inspector_panel-text"></p>
           </div>
           <div class="inspector_panel-section">
             <div class="inspector_panel-heading">Source Type</div>
-            <p class="inspector_panel-text">AI/Trained Algorithm Media</p>
+            <p id="assetSourceType" class="inspector_panel-text"></p>
           </div>
           <div class="inspector_panel-section">
             <div class="inspector_panel-heading">Asset ID</div>
@@ -181,14 +181,32 @@
       </div>
     </div>
     <script>
-      var Nid = "bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe"; // Declare and initialize Nid as a global variable
+      var Nid = "bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe"; // [ACTION] Declare Nid as a global variable
       document.getElementById("dynamicLink").href = "https://nftsearch.site/asset-profile?cid=" + Nid;
       document.getElementById("displayNid").textContent = Nid;
-
-      function showInspector() {
+      document.getElementById("assetCreator").textContent = "Loading data from blockchain...";
+      document.getElementById("assetTimestampCreated").textContent = "Loading data from blockchain...";
+      document.getElementById("assetSourceType").textContent = "Loading data from blockchain...";
+      async function showInspector() {
         var inspector_panel = document.getElementById("inspector_panel");
         if (inspector_panel.style.display === "none") {
           inspector_panel.style.display = "block";
+          // Make the API call when the inspector is clicked
+          let response = await fetch('https://eognt1jfpe04mq8.m.pipedream.net?nid=' + Nid, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'token $YOUR_CAPTURE_TOKEN' // [ACTION] Replace YOUR_CAPTURE_TOKEN with your token
+            }
+          });
+          if (response.ok) {
+            let data = await response.json();
+            document.getElementById("assetCreator").textContent = data.assetCreator;
+            document.getElementById("assetTimestampCreated").textContent = data.assetTimestampCreated;
+            document.getElementById("assetSourceType").textContent = data.assetSourceType;
+          } else {
+            console.error('API request failed:', response.statusText);
+          }
         } else {
           inspector_panel.style.display = "none";
         }
