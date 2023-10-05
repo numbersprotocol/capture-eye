@@ -169,11 +169,11 @@
           <div class="inspector_panel-section">
             <div class="inspector_panel-heading">Asset ID</div>
             <a href="https://nftsearch.site/asset-profile?cid=bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe" class="inspector_panel-link w-inline-block" target="_blank">
-              <div> bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe </div>
+              <div id="displayNid"></div>
             </a>
           </div>
           <div class="inspector_panel-section">
-            <a href="https://nftsearch.site/asset-profile?cid=bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe" class="inspector_btn-view-more" target="_blank">
+            <a id="dynamicLink" class="inspector_btn-view-more" target="_blank">
               <div>View More</div>
             </a>
           </div>
@@ -181,6 +181,10 @@
       </div>
     </div>
     <script>
+      var Nid = "bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe"; // Declare and initialize Nid as a global variable
+      document.getElementById("dynamicLink").href = "https://nftsearch.site/asset-profile?cid=" + Nid;
+      document.getElementById("displayNid").textContent = Nid;
+
       function showInspector() {
         var inspector_panel = document.getElementById("inspector_panel");
         if (inspector_panel.style.display === "none") {
