@@ -173,7 +173,7 @@
             </a>
           </div>
           <div class="inspector_panel-section">
-            <a id="dynamicLink" class="inspector_btn-view-more" target="_blank">
+            <a id="dynamicDestination" class="inspector_btn-view-more" target="_blank">
               <div>View More</div>
             </a>
           </div>
@@ -183,6 +183,7 @@
     <script>
       var Nid = "bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe"; // [ACTION] Declare Nid as a global variable
       document.getElementById("dynamicLink").href = "https://nftsearch.site/asset-profile?nid=" + Nid;
+      document.getElementById("dynamicDestination").href = "https://nftsearch.site/asset-profile?nid=" + Nid;
       document.getElementById("displayNid").textContent = Nid;
       document.getElementById("assetCreator").textContent = "Loading data from blockchain...";
       document.getElementById("assetTimestampCreated").textContent = "Loading data from blockchain...";
