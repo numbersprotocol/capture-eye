@@ -164,7 +164,7 @@
           </div>
           <div class="inspector_panel-section">
             <div class="inspector_panel-heading">Source Type</div>
-            <p id="assetSourceType" class="inspector_panel-text"></p>
+            <p id="digitalSourceType" class="inspector_panel-text"></p>
           </div>
           <div class="inspector_panel-section">
             <div class="inspector_panel-heading">Asset ID</div>
@@ -186,7 +186,7 @@
       document.getElementById("displayNid").textContent = Nid;
       document.getElementById("assetCreator").textContent = "Loading data from blockchain...";
       document.getElementById("assetTimestampCreated").textContent = "Loading data from blockchain...";
-      document.getElementById("assetSourceType").textContent = "Loading data from blockchain...";
+      document.getElementById("digitalSourceType").textContent = "Loading data from blockchain...";
       async function showInspector() {
         var inspector_panel = document.getElementById("inspector_panel");
         if (inspector_panel.style.display === "none") {
@@ -203,7 +203,7 @@
             let data = await response.json();
             document.getElementById("assetCreator").textContent = data.assetCreator;
             document.getElementById("assetTimestampCreated").textContent = data.assetTimestampCreated;
-            document.getElementById("assetSourceType").textContent = data.assetSourceType;
+            document.getElementById("digitalSourceType").textContent = data.digitalSourceType;
           } else {
             console.error('API request failed:', response.statusText);
           }
