@@ -1,0 +1,12 @@
+/node_modules/
+/docs/node_modules/
+/lib/
+/test/
+custom-elements.json
+# top level source
+capture-eye.js
+capture-eye.js.map
+capture-eye.d.ts
+capture-eye.d.ts.map
+# only generated for size check
+capture-eye.bundled.js

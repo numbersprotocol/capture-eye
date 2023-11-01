@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inspector Component</title>
     <style>
       body {
@@ -68,7 +68,7 @@
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          content: "Click me!";
+          content: 'Click me!';
           position: absolute;
           left: 220%;
           /* Adjust as needed */
@@ -159,7 +159,7 @@
         background-color: #486cd9;
         color: #fff !important;
         /* button text color */
-        font-size: .75rem;
+        font-size: 0.75rem;
         font-weight: 600;
         text-transform: uppercase;
         padding-top: 0.5rem;
@@ -183,30 +183,58 @@
   <body>
     <div class="inspector_component">
       <div class="inspector_wrapper">
-        <div class="inspector-ref_eye" onclick="showInspector(this,  'bafybeigbrkjjgxl3vqa72lcvetbqo6ev6h5vpm7ftbfy77keqp4rhs6xja', '0')">
-          <img src="https://ipfs-pin.numbersprotocol.io/ipfs/bafkreicf4sruldnh4g3bmxnqr6zjgfzfgvbqoa5iy2jncewqqlgg75utd4" />
+        <div
+          class="inspector-ref_eye"
+          onclick="showInspector(this,  'bafybeigbrkjjgxl3vqa72lcvetbqo6ev6h5vpm7ftbfy77keqp4rhs6xja', '0')"
+        >
+          <img
+            src="https://ipfs-pin.numbersprotocol.io/ipfs/bafkreicf4sruldnh4g3bmxnqr6zjgfzfgvbqoa5iy2jncewqqlgg75utd4"
+          />
         </div>
-        <div id="inspector_panel0" class="inspector_panel" style="display: none;">
+        <div
+          id="inspector_panel0"
+          class="inspector_panel"
+          style="display: none"
+        >
           <div class="inspector_panel-section">
             <div class="inspector_panel-heading">Registration Time</div>
-            <p id=assetTimestampCreatedbafybeigbrkjjgxl3vqa72lcvetbqo6ev6h5vpm7ftbfy77keqp4rhs6xja0 class="inspector_panel-text"></p>
+            <p
+              id="assetTimestampCreatedbafybeigbrkjjgxl3vqa72lcvetbqo6ev6h5vpm7ftbfy77keqp4rhs6xja0"
+              class="inspector_panel-text"
+            ></p>
           </div>
           <div class="inspector_panel-section">
             <div class="inspector_panel-heading">Creator</div>
-            <p id=assetCreatorbafybeigbrkjjgxl3vqa72lcvetbqo6ev6h5vpm7ftbfy77keqp4rhs6xja0 class="inspector_panel-text"></p>
+            <p
+              id="assetCreatorbafybeigbrkjjgxl3vqa72lcvetbqo6ev6h5vpm7ftbfy77keqp4rhs6xja0"
+              class="inspector_panel-text"
+            ></p>
           </div>
           <div class="inspector_panel-section">
             <div class="inspector_panel-heading">Source Type</div>
-            <p id=digitalSourceTypebafybeigbrkjjgxl3vqa72lcvetbqo6ev6h5vpm7ftbfy77keqp4rhs6xja0 class="inspector_panel-text"></p>
+            <p
+              id="digitalSourceTypebafybeigbrkjjgxl3vqa72lcvetbqo6ev6h5vpm7ftbfy77keqp4rhs6xja0"
+              class="inspector_panel-text"
+            ></p>
           </div>
           <div class="inspector_panel-section">
             <div class="inspector_panel-heading">Asset ID</div>
-            <a id=dynamicLinkbafybeigbrkjjgxl3vqa72lcvetbqo6ev6h5vpm7ftbfy77keqp4rhs6xja0 class="inspector_panel-link w-inline-block" target="_blank">
-              <div id=displayNidbafybeigbrkjjgxl3vqa72lcvetbqo6ev6h5vpm7ftbfy77keqp4rhs6xja0></div>
+            <a
+              id="dynamicLinkbafybeigbrkjjgxl3vqa72lcvetbqo6ev6h5vpm7ftbfy77keqp4rhs6xja0"
+              class="inspector_panel-link w-inline-block"
+              target="_blank"
+            >
+              <div
+                id="displayNidbafybeigbrkjjgxl3vqa72lcvetbqo6ev6h5vpm7ftbfy77keqp4rhs6xja0"
+              ></div>
             </a>
           </div>
           <div class="inspector_panel-section">
-            <a id=dynamicDestinationbafybeigbrkjjgxl3vqa72lcvetbqo6ev6h5vpm7ftbfy77keqp4rhs6xja0 class="inspector_btn-view-more" target="_blank">
+            <a
+              id="dynamicDestinationbafybeigbrkjjgxl3vqa72lcvetbqo6ev6h5vpm7ftbfy77keqp4rhs6xja0"
+              class="inspector_btn-view-more"
+              target="_blank"
+            >
               <div>View More</div>
             </a>
           </div>
@@ -215,35 +243,50 @@
     </div>
     <script>
       async function showInspector(triggerElement, Nid, suffix) {
-        document.getElementById("dynamicLink" + Nid + suffix).href = "https://nftsearch.site/asset-profile?nid=" + Nid;
-        document.getElementById("dynamicDestination" + Nid + suffix).href = "https://nftsearch.site/asset-profile?nid=" + Nid;
-        document.getElementById("displayNid" + Nid + suffix).textContent = Nid;
-        document.getElementById("assetCreator" + Nid + suffix).textContent = "Loading data from blockchain...";
-        document.getElementById("assetTimestampCreated" + Nid + suffix).textContent = "Loading data from blockchain...";
-        document.getElementById("digitalSourceType" + Nid + suffix).textContent = "Loading data from blockchain...";
+        document.getElementById('dynamicLink' + Nid + suffix).href =
+          'https://nftsearch.site/asset-profile?nid=' + Nid;
+        document.getElementById('dynamicDestination' + Nid + suffix).href =
+          'https://nftsearch.site/asset-profile?nid=' + Nid;
+        document.getElementById('displayNid' + Nid + suffix).textContent = Nid;
+        document.getElementById('assetCreator' + Nid + suffix).textContent =
+          'Loading data from blockchain...';
+        document.getElementById(
+          'assetTimestampCreated' + Nid + suffix
+        ).textContent = 'Loading data from blockchain...';
+        document.getElementById(
+          'digitalSourceType' + Nid + suffix
+        ).textContent = 'Loading data from blockchain...';
         const inspectorPanel = triggerElement.nextElementSibling;
         const rect = triggerElement.getBoundingClientRect();
         inspectorPanel.style.top = rect.top;
         inspectorPanel.style.left = rect.left;
-        if (inspectorPanel.style.display === "none") {
-          inspectorPanel.style.display = "block";
+        if (inspectorPanel.style.display === 'none') {
+          inspectorPanel.style.display = 'block';
           // Make the API call when the inspector is clicked
-          let response = await fetch('https://eognt1jfpe04mq8.m.pipedream.net?nid=' + Nid, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json'
+          let response = await fetch(
+            'https://eognt1jfpe04mq8.m.pipedream.net?nid=' + Nid,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
             }
-          });
+          );
           if (response.ok) {
             let data = await response.json();
-            document.getElementById("assetCreator" + Nid + suffix).textContent = data.assetCreator;
-            document.getElementById("assetTimestampCreated" + Nid + suffix).textContent = data.assetTimestampCreated;
-            document.getElementById("digitalSourceType" + Nid + suffix).textContent = data.digitalSourceType;
+            document.getElementById('assetCreator' + Nid + suffix).textContent =
+              data.assetCreator;
+            document.getElementById(
+              'assetTimestampCreated' + Nid + suffix
+            ).textContent = data.assetTimestampCreated;
+            document.getElementById(
+              'digitalSourceType' + Nid + suffix
+            ).textContent = data.digitalSourceType;
           } else {
             console.error('API request failed:', response.statusText);
           }
         } else {
-          inspectorPanel.style.display = "none";
+          inspectorPanel.style.display = 'none';
         }
       }
     </script>

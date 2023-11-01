@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>&lt;capture-eye> Demo</title>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/lit/polyfill-support.js"></script>
+    <script type="module" src="../capture-eye.js"></script>
+    <style>
+      p {
+        border: solid 1px blue;
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <p>Sample webpage title</p>
+
+    <p>Example #1: using example Nid</p>
+    <capture-eye
+      nid="bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe"
+      prefetch="true"
+    >
+      <img
+        width="600px"
+        src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe"
+      />
+    </capture-eye>
+
+    <p>Example #2: using image Nid</p>
+    <capture-eye
+      nid="bafybeigv4t4nji5b6hbgzj3wllmnfc324c57no6chy66cp24lpcjt7ny4i"
+    >
+      <img
+        width="600px"
+        src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeigv4t4nji5b6hbgzj3wllmnfc324c57no6chy66cp24lpcjt7ny4i"
+      />
+    </capture-eye>
+
+    <p>Example #3: using video Nid</p>
+    <capture-eye
+      nid="bafybeicfoianboszadzqqauo6y4pvadc564zwmebfaryswcshiimsb5qz4"
+      prefetch="true"
+    >
+      <video controls width="300px">
+        <source
+          src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeicfoianboszadzqqauo6y4pvadc564zwmebfaryswcshiimsb5qz4"
+        />
+      </video>
+    </capture-eye>
+
+    <p>Sample webpage footer</p>
+  </body>
+</html>
