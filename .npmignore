@@ -1,0 +1,8 @@
+node_modules
+dev
+docs
+docs-src
+examples
+test
+.eleventy.cjs
+.vscode

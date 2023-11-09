@@ -3,6 +3,7 @@
 /lib/
 /test/
 custom-elements.json
+.npmrc
 # top level source
 capture-eye.js
 capture-eye.js.map

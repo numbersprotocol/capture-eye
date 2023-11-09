@@ -1,14 +1,15 @@
 {
   "name": "@numbersprotocol/capture-eye",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Capture Eye widget seamlessly integrates into your website, facilitating secure and transparent provenance display and purchases of digital content directly from the creator",
   "main": "capture-eye.js",
   "module": "capture-eye.js",
+  "types": "capture-eye.d.ts",
   "type": "module",
   "scripts": {
-    "build": "tsc",
-    "build:watch": "tsc --watch",
-    "clean": "rimraf capture-eye.{d.ts,d.ts.map,js,js.map} test/capture-eye.{d.ts,d.ts.map,js,js.map} test/capture-eye_test.{d.ts,d.ts.map,js,js.map}",
+    "build": "tsc && rollup -c",
+    "build:watch": "tsc --watch && rollup -c",
+    "clean": "rimraf capture-eye.{d.ts,d.ts.map,js,js.map,bundled.js} test/capture-eye.{d.ts,d.ts.map,js,js.map} test/capture-eye_test.{d.ts,d.ts.map,js,js.map}",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
     "lint:eslint": "eslint 'src/**/*.ts'",
     "lint:lit-analyzer": "lit-analyzer",
@@ -65,6 +66,5 @@
     "rollup-plugin-terser": "^7.0.2",
     "typescript": "~5.2.0"
   },
-  "customElements": "custom-elements.json",
-  "types": "capture-eye.d.ts"
+  "customElements": "custom-elements.json"
 }

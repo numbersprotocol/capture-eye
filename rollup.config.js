@@ -14,6 +14,7 @@ export default {
   output: {
     file: 'capture-eye.bundled.js',
     format: 'esm',
+    name: 'CaptureEye',
   },
   onwarn(warning) {
     if (warning.code !== 'THIS_IS_UNDEFINED') {
