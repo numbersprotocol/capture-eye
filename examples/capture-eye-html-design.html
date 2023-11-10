@@ -57,6 +57,7 @@
         align-items: center;
         justify-content: center;
         text-align: center;
+        font-family: 'Noto Sans', Arial, sans-serif;
         color: #5ce6a8;
       }
       .capture-eye-modal {
@@ -99,7 +100,7 @@
       .metadata-header {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-end;
         padding: 16px;
       }
       .metadata-header > h2 {
@@ -109,21 +110,23 @@
         opacity: 0.5;
       }
       .metadata-header > button.collect {
-        max-height: 35px;
+        padding: 13px 32px;
         border-radius: 43px;
         background: #5ce6a8;
-        padding: 6px 24px;
-        justify-content: center;
-        align-items: center;
+        border: none;
+        transition: transform 0.1s ease;
         color: #000;
-        cursor: pointer;
         text-align: center;
-        font-size: 12px;
+        font-family: 'Noto Sans', Arial, sans-serif;
+        font-size: 15px;
         font-style: normal;
         font-weight: 500;
         line-height: normal;
         letter-spacing: 0.3px;
         text-transform: uppercase;
+      }
+      .metadata-header > button.collect:active {
+        transform: scale(0.95);
       }
       .metadata-content {
         display: flex;
