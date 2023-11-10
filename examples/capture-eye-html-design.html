@@ -14,6 +14,10 @@
         background-color: white;
       }
 
+      #caputre-eye-button {
+        margin: 24px;
+      }
+
       /* Modal Styles */
       .modal {
         display: none; /* Hidden by default */
@@ -35,13 +39,21 @@
         padding: 20px;
         background-color: black;
         width: 80%; /* Could be more or less, depending on screen size */
+        min-height: 45vh;
         /* Add card shadow */
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
           0 6px 20px 0 rgba(0, 0, 0, 0.19);
         border-radius: 8px;
         overflow: hidden;
       }
-
+      .capture-eye-modal-placeholder {
+        display: flex;
+        padding: 16px;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #5ce6a8;
+      }
       .capture-eye-modal {
         display: flex;
         flex-wrap: wrap;
@@ -163,7 +175,7 @@
   </head>
   <body>
     <!-- Trigger/Open The Modal -->
-    <div id="myBtn">
+    <div id="caputre-eye-button">
       <img
         src="https://ipfs-pin.numbersprotocol.io/ipfs/bafkreihh5vsu7ru7o6gd54qicdn3mb5eqdpoc4f32shfacnhwelljt6ptu"
       />
@@ -171,6 +183,7 @@
 
     <div id="inspector-modal" class="modal">
       <div class="modal-content">
+        <div class="capture-eye-modal-placeholder"></div>
         <div class="capture-eye-modal">
           <section class="image-preview">
             <img
@@ -267,11 +280,24 @@
        * Contains UI-related scripts for modal management.
        */
 
+      function hideInspectorModal() {
+        document.getElementById('inspector-modal').style.display = 'none';
+      }
+
+      function showInspectorModal() {
+        document.getElementById('inspector-modal').style.display = 'block';
+      }
+
       /**
        * Hides the modal with the 'capture-eye-modal' class.
        */
-      function hideCaptureEyeModal() {
+      function hideCaptureEyeModal(placeholderText) {
         document.querySelector('.capture-eye-modal').style.display = 'none';
+
+        document.querySelector('.capture-eye-modal-placeholder').style.display =
+          'flex';
+        document.querySelector('.capture-eye-modal-placeholder').innerText =
+          placeholderText;
       }
 
       /**
@@ -279,26 +305,42 @@
        */
       function showCaptureEyeModal() {
         document.querySelector('.capture-eye-modal').style.display = 'flex';
+        document.querySelector('.capture-eye-modal-placeholder').style.display =
+          'none';
       }
 
-      function setupModal() {}
-      // Get the modal
-      var modal = document.getElementById('inspector-modal');
+      function setupModal() {
+        // Get the modal
+        var modal = document.getElementById('inspector-modal');
 
-      // Get the button that opens the modal
-      var btn = document.getElementById('myBtn');
+        // Get the button that opens the modal
+        var btn = document.getElementById('caputre-eye-button');
 
-      // When the user clicks the button, open the modal
-      btn.onclick = function () {
-        modal.style.display = 'block';
-      };
+        // When the user clicks the button, open the modal and fetch information
+        btn.onclick = async function () {
+          showInspectorModal();
+          hideCaptureEyeModal('Fetching information...');
 
-      // When the user clicks anywhere outside of the modal, close it
-      window.onclick = function (event) {
-        if (event.target == modal) {
-          modal.style.display = 'none';
-        }
-      };
+          // Call the fetchNID function here
+          try {
+            // TODO: QA change nid, userToken based on your test.
+            const nid =
+              'bafkreibfqutz3xybzgudrwfs43s7dlgmx2tbvqj5r7ivxzplwrahdoyrfi ';
+            const userToken = undefined;
+            await fetchNID(nid, userToken);
+          } catch (error) {
+            hideCaptureEyeModal(`Error fetching NID:  ${error}`);
+          }
+        };
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+          if (event.target == modal) {
+            hideInspectorModal();
+          }
+        };
+      }
+      setupModal();
 
       /**
        * Toggles the collapse/expand state of a metadata table body by adjusting the `max-height` CSS property.
@@ -433,8 +475,7 @@
             throw error;
           }
         } catch (error) {
-          hideCaptureEyeModal();
-          alert('Error fetching data: ' + error.message);
+          hideCaptureEyeModal('Error fetching data: ' + error.message);
         }
       }
     </script>
