@@ -4,6 +4,7 @@
 /test/
 custom-elements.json
 .npmrc
+.DS_Store
 # top level source
 capture-eye.js
 capture-eye.js.map
