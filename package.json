@@ -39,7 +39,7 @@
     "lit"
   ],
   "author": "Numbers Protocol",
-  "license": "BSD-3-Clause",
+  "license": "GPL-3.0",
   "dependencies": {
     "lit": "^3.0.0"
   },

@@ -1,9 +1,3 @@
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-
 import {CaptureEye} from '../capture-eye.js';
 
 import {fixture, assert} from '@open-wc/testing';
