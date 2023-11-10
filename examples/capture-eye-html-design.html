@@ -399,41 +399,6 @@
       }
 
       /**
-       * Listens for the DOMContentLoaded event to initialize the form and its event listeners.
-       */
-      document.addEventListener('DOMContentLoaded', (event) => {
-        // hideCaptureEyeModal();
-
-        const form = document.getElementById('nidForm');
-        const submitButton = form.querySelector('button[type="submit"]');
-
-        form.addEventListener('submit', async function (e) {
-          e.preventDefault(); // Prevent the default form submit action
-
-          const nid = form.nid.value;
-          const userToken = form.userToken.value;
-
-          // Disable the button and change the text
-          submitButton.disabled = true;
-          submitButton.textContent = 'Fetching...';
-
-          hideCaptureEyeModal();
-
-          // Call the fetchNID function here
-          try {
-            await fetchNID(nid, userToken);
-          } catch (error) {
-            console.error('Error fetching NID:', error);
-            // Handle any errors here
-          }
-
-          // Re-enable the button and reset the text
-          submitButton.disabled = false;
-          submitButton.textContent = 'Submit';
-        });
-      });
-
-      /**
        * Updates the UI with the fetched data.
        * @param {Object} data - The data object received from the fetch operation.
        */
