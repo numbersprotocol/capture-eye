@@ -9,9 +9,42 @@
 
 <p align="center"><img src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeiahjvz4urg6yzg4wkyalijhd7o7jt374xucbawmw5i7xr4wbzpleq" /></p>
 
-## Usage
+## Quickstart
 
-### Using with vanilla HTML
+```html
+<head>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@numbersprotocol/capture-eye/capture-eye.bundled.js"></script>
+</head>
+<body>
+  <capture-eye nid="bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou" prefetch="true">
+    <img width=600px src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou" />
+  </capture-eye>
+</body>
+```
+
+Visit the [interactive playground](https://playcode.io/capture_eye_demo) for the live demo.
+
+## Component attributes
+
+| Attribute Name  | Required | Description                                                                                                   | Example                                              |
+|-----------------|----------|---------------------------------------------------------------------------------------------------------------|------------------------------------------------------|
+| `nid`           | true     | The unique [Nid](https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/numbers-id-nid) of the asset.                                                                   | `bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe`  |
+| `prefetch`      | false    | If set to `true`, the component will start fetching asset data when added to the DOM. Default is `false`.  | `false`                                              |
+| `capture_token` | false    | The authentication token required to access private assets.                                                 | `false`                                              |
+
+## Integration with Frontend Frameworks
+
+Capture Eye has been designed as a web component to facilitate seamless integration with both vanilla HTML and various frontend frameworks.
+
+- [Vanilla HTML](#vanilla-html)
+
+- [React](#react)
+
+- [Angular](#angular)
+
+- [Vue](#vue)
+
+### Vanilla HTML
 
 The most simple way of adding Capture Eye to a webpage is by importing via CDN and add the component tag:
 
@@ -34,9 +67,7 @@ To run a development server and view the example HTML in your browser, execute t
 npm run dev
 ```
 
-You can also try out the component using the [interactive playground](https://playcode.io/capture_eye_demo).
-
-### Using with React
+### React
 
 To add Capture Eye to a React application, first install the packages:
 
@@ -64,13 +95,13 @@ const CaptureEyeComponent = createComponent({
 
 Use the CaptureEyeComponent in JSX:
 
-```
+```jsx
 <CaptureEyeComponent nid="bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe">
     <img src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe" />
 </CaptureEyeComponent>
 ```
 
-### Using with Angular
+### Angular
 
 To add Capture Eye to an Angular application, first install the packages:
 
@@ -110,7 +141,7 @@ import '@numbersprotocol/capture-eye';
 </capture-eye>
 ```
 
-### Using with Vue
+### Vue
 
 For Vue users, the usage is similar to use native HTML elements. The official Vue doc provides a guide on [Using Vue with Web Components](https://vuejs.org/guide/extras/web-components.html).
 
@@ -129,12 +160,3 @@ import '@numbersprotocol/capture-eye'
   </main>
 </template>
 ```
-
-
-### Component attributes
-
-| Attribute Name  | Required | Description                                                                                                   | Example                                              |
-|-----------------|----------|---------------------------------------------------------------------------------------------------------------|------------------------------------------------------|
-| `nid`           | true     | The unique [Nid](https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/numbers-id-nid) of the asset.                                                                   | `bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe`  |
-| `prefetch`      | false    | If set to `true`, the component will start fetching asset data when added to the DOM. Default is `false`.  | `false`                                              |
-| `capture_token` | false    | The authentication token required to access private assets.                                                 | `false`                                              |
