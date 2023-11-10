@@ -42,28 +42,6 @@
         overflow: hidden;
       }
 
-      /* QA DEBG TOOLBAR START */
-      .qa-debug-toolbar {
-        display: flex;
-        margin: 16px;
-        color: white;
-      }
-      .qa-debug-toolbar form {
-        width: 100vw;
-        display: flex;
-        flex-direction: column;
-      }
-      .qa-debug-toolbar form label {
-        margin-right: 12px;
-      }
-      .qa-debug-toolbar form div {
-        display: flex;
-        margin: 4px 0;
-      }
-      .qa-debug-toolbar form input {
-        flex: 1;
-      }
-      /* QA DEBG TOOLBAR END */
       .capture-eye-modal {
         display: flex;
         flex-wrap: wrap;
@@ -184,19 +162,6 @@
     </style>
   </head>
   <body>
-    <div class="qa-debug-toolbar">
-      <form id="nidForm">
-        <div>
-          <label for="nid">Enter NID:</label>
-          <input type="text" id="nid" name="nid" required />
-        </div>
-        <div>
-          <label for="userToken">User Token:</label>
-          <input type="text" id="userToken" name="userToken" />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
     <!-- Trigger/Open The Modal -->
     <div id="myBtn">
       <img
