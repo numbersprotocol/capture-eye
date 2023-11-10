@@ -11,13 +11,38 @@
 
 ## Usage
 
-### HTML
+### Using with vanilla HTML
 
-See the [example html](dev/index.html).
+The most simple way of adding Capture Eye to a webpage is by importing via CDN and add the component tag:
 
-To run a dev server and view the example HTML in browser, run `npm run dev`.
+```html
+<head>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@numbersprotocol/capture-eye/capture-eye.bundled.js"></script>
+</head>
+<body>
+  <capture-eye nid="bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou" prefetch="true">
+    <img width=600px src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou" />
+  </capture-eye>
+</body>
+```
 
-### React
+For a full example, see the [example html](dev/index.html).
+
+To run a development server and view the example HTML in your browser, execute the following command:
+
+```bash
+npm run dev
+```
+
+You can also try out the component using the [interactive playground](https://playcode.io/capture_eye_demo).
+
+### Using with React
+
+To add Capture Eye to a React application, first install the packages:
+
+```bash
+npm i @numbersprotocol/capture-eye @lit/react
+```
 
 Add the following code to define a React component for Capture Eye:
 
@@ -44,6 +69,67 @@ Use the CaptureEyeComponent in JSX:
     <img src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe" />
 </CaptureEyeComponent>
 ```
+
+### Using with Angular
+
+To add Capture Eye to an Angular application, first install the packages:
+
+```bash
+npm i @numbersprotocol/capture-eye @webcomponents/webcomponentsjs
+```
+
+Add the webcomponents loader to the `script` section in `angular.json`:
+
+```json
+...
+"scripts": [
+  "node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"
+],
+...
+```
+
+Make sure `CUSTOM_ELEMENTS_SCHEMA` is set in your module:
+
+```ts
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+@NgModule({
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  ...
+})
+```
+
+Finally, import the Capture Eye package in your `*.component.ts` and add the `<capture-eye nid="..."></capture-eye>` template tag to your component:
+
+```ts
+import '@numbersprotocol/capture-eye';
+```
+
+```html
+<capture-eye nid="bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou" prefetch="true">
+  <img width=600px src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou" />
+</capture-eye>
+```
+
+### Using with Vue
+
+For Vue users, the usage is similar to use native HTML elements. The official Vue doc provides a guide on [Using Vue with Web Components](https://vuejs.org/guide/extras/web-components.html).
+
+To add Capture Eye to a SFC, simply import the Capture Eye package in the script setup and add the component tag in the template:
+
+```vue
+<script setup>
+import '@numbersprotocol/capture-eye'
+</script>
+
+<template>
+  <main>
+    <capture-eye nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy" prefetch="true">
+    <img width=600 src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou" />
+    </capture-eye>
+  </main>
+</template>
+```
+
 
 ### Component attributes
 
