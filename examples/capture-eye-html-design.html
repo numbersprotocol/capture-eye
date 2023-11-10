@@ -11,8 +11,37 @@
     <style>
       body {
         margin: 0;
-        background-color: black;
+        background-color: white;
       }
+
+      /* Modal Styles */
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0); /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+        padding-top: 60px;
+      }
+
+      /* Modal Content */
+      .modal-content {
+        margin: 5% auto; /* 5% from the top and centered */
+        padding: 20px;
+        background-color: black;
+        width: 80%; /* Could be more or less, depending on screen size */
+        /* Add card shadow */
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
       /* QA DEBG TOOLBAR START */
       .qa-debug-toolbar {
         display: flex;
@@ -168,90 +197,104 @@
         <button type="submit">Submit</button>
       </form>
     </div>
-    <div class="capture-eye-modal">
-      <section class="image-preview">
-        <img
-          id="ipfs-image-preview"
-          src="https://images.pexels.com/photos/18290299/pexels-photo-18290299/free-photo-of-a-woman-taking-a-photo-in-a-vineyard.jpeg"
-        />
-      </section>
-      <section class="metadata">
-        <div class="metadata-header">
-          <h2>Untitled</h2>
-          <button class="collect">Collect</button>
-        </div>
-        <div class="metadata-content">
-          <div class="metadata-table">
-            <div class="metadata-table-header">
-              <h1>Provenance</h1>
-              <i
-                class="material-icons"
-                onclick="toggleCollapse('provenance-body')"
-              >
-                expand_more
-              </i>
+    <!-- Trigger/Open The Modal -->
+    <div id="myBtn">
+      <img
+        src="https://ipfs-pin.numbersprotocol.io/ipfs/bafkreihh5vsu7ru7o6gd54qicdn3mb5eqdpoc4f32shfacnhwelljt6ptu"
+      />
+    </div>
+
+    <div id="inspector-modal" class="modal">
+      <div class="modal-content">
+        <div class="capture-eye-modal">
+          <section class="image-preview">
+            <img
+              id="ipfs-image-preview"
+              src="https://images.pexels.com/photos/18290299/pexels-photo-18290299/free-photo-of-a-woman-taking-a-photo-in-a-vineyard.jpeg"
+            />
+          </section>
+          <section class="metadata">
+            <div class="metadata-header">
+              <h2>Untitled</h2>
+              <button class="collect">Collect</button>
             </div>
-            <div class="metadata-table-body" id="provenance-body">
-              <div class="metadata-table-row">
-                <div class="metadata-table-col-key">Nid</div>
-                <div class="metadata-table-col-value" id="ui-data-nid"></div>
-                <div class="metadata-table-col-optoins">
-                  <i class="material-icons" onclick="copyNidToClipboard()">
-                    content_copy
+            <div class="metadata-content">
+              <div class="metadata-table">
+                <div class="metadata-table-header">
+                  <h1>Provenance</h1>
+                  <i
+                    class="material-icons"
+                    onclick="toggleCollapse('provenance-body')"
+                  >
+                    expand_more
                   </i>
                 </div>
-              </div>
-              <div class="metadata-table-row">
-                <div class="metadata-table-col-key">Creator</div>
-                <div
-                  class="metadata-table-col-value"
-                  id="ui-data-assetCreator"
-                ></div>
-                <div class="metadata-table-col-optoins"></div>
-              </div>
-              <div class="metadata-table-row">
-                <div class="metadata-table-col-key">Creation Time</div>
-                <div
-                  class="metadata-table-col-value"
-                  id="ui-data-assetTimestampCreated"
-                ></div>
-                <div class="metadata-table-col-optoins"></div>
-              </div>
-              <div class="metadata-table-row">
-                <div class="metadata-table-col-key">Source type</div>
-                <div
-                  class="metadata-table-col-value"
-                  id="ui-data-digitalSourceType"
-                ></div>
-                <div class="metadata-table-col-optoins"></div>
-              </div>
-            </div>
-          </div>
-          <!-- TODO: uncomment and fill from backend -->
-          <!-- <div class="metadata-table">
-            <div class="metadata-table-header">
-              <h1>Details</h1>
-              <i
-                class="material-icons"
-                onclick="toggleCollapse('details-body')"
-              >
-                expand_more
-              </i>
-            </div>
-            <div class="metadata-table-body" id="details-body">
-              <div class="metadata-table-row">
-                <div class="metadata-table-col-key">Integrity Proof</div>
-                <div class="metadata-table-col-value">
-                  bafkreibfqutz3xybzgudrwfs43s7dlgmx2tbvqj5r7ivxzplwrahdoyrfi
-                </div>
-                <div class="metadata-table-col-optoins">
-                  <i class="material-icons">content_copy</i>
+                <div class="metadata-table-body" id="provenance-body">
+                  <div class="metadata-table-row">
+                    <div class="metadata-table-col-key">Nid</div>
+                    <div
+                      class="metadata-table-col-value"
+                      id="ui-data-nid"
+                    ></div>
+                    <div class="metadata-table-col-optoins">
+                      <i class="material-icons" onclick="copyNidToClipboard()">
+                        content_copy
+                      </i>
+                    </div>
+                  </div>
+                  <div class="metadata-table-row">
+                    <div class="metadata-table-col-key">Creator</div>
+                    <div
+                      class="metadata-table-col-value"
+                      id="ui-data-assetCreator"
+                    ></div>
+                    <div class="metadata-table-col-optoins"></div>
+                  </div>
+                  <div class="metadata-table-row">
+                    <div class="metadata-table-col-key">Creation Time</div>
+                    <div
+                      class="metadata-table-col-value"
+                      id="ui-data-assetTimestampCreated"
+                    ></div>
+                    <div class="metadata-table-col-optoins"></div>
+                  </div>
+                  <div class="metadata-table-row">
+                    <div class="metadata-table-col-key">Source type</div>
+                    <div
+                      class="metadata-table-col-value"
+                      id="ui-data-digitalSourceType"
+                    ></div>
+                    <div class="metadata-table-col-optoins"></div>
+                  </div>
                 </div>
               </div>
+              <!-- TODO: uncomment and fill from backend -->
+              <!-- <div class="metadata-table">
+                <div class="metadata-table-header">
+                  <h1>Details</h1>
+                  <i
+                    class="material-icons"
+                    onclick="toggleCollapse('details-body')"
+                  >
+                    expand_more
+                  </i>
+                </div>
+                <div class="metadata-table-body" id="details-body">
+                  <div class="metadata-table-row">
+                    <div class="metadata-table-col-key">Integrity Proof</div>
+                    <div class="metadata-table-col-value">
+                      bafkreibfqutz3xybzgudrwfs43s7dlgmx2tbvqj5r7ivxzplwrahdoyrfi
+                    </div>
+                    <div class="metadata-table-col-optoins">
+                      <i class="material-icons">content_copy</i>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
             </div>
-          </div> -->
+          </section>
         </div>
-      </section>
+      </div>
     </div>
 
     <script>
@@ -263,15 +306,34 @@
        * Hides the modal with the 'capture-eye-modal' class.
        */
       function hideCaptureEyeModal() {
-        document.querySelector(".capture-eye-modal").style.display = "none";
+        document.querySelector('.capture-eye-modal').style.display = 'none';
       }
 
       /**
        * Displays the modal with the 'capture-eye-modal' class.
        */
       function showCaptureEyeModal() {
-        document.querySelector(".capture-eye-modal").style.display = "flex";
+        document.querySelector('.capture-eye-modal').style.display = 'flex';
       }
+
+      function setupModal() {}
+      // Get the modal
+      var modal = document.getElementById('inspector-modal');
+
+      // Get the button that opens the modal
+      var btn = document.getElementById('myBtn');
+
+      // When the user clicks the button, open the modal
+      btn.onclick = function () {
+        modal.style.display = 'block';
+      };
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = 'none';
+        }
+      };
 
       /**
        * Toggles the collapse/expand state of a metadata table body by adjusting the `max-height` CSS property.
@@ -284,43 +346,43 @@
       function toggleCollapse(targetId) {
         var body = document.getElementById(targetId);
         var isCollapsed = body.classList.contains(
-          "metadata-table-body-collapsed"
+          'metadata-table-body-collapsed'
         );
-        var icon = body.previousElementSibling.querySelector(".material-icons");
+        var icon = body.previousElementSibling.querySelector('.material-icons');
 
         function updateIcon() {
-          icon.textContent = isCollapsed ? "expand_more" : "expand_less";
-          body.removeEventListener("transitionend", updateIcon);
+          icon.textContent = isCollapsed ? 'expand_more' : 'expand_less';
+          body.removeEventListener('transitionend', updateIcon);
         }
 
         if (isCollapsed) {
           // If it's collapsed, we want to expand it
-          body.style.maxHeight = body.scrollHeight + "px"; // Set max height to scrollHeight to expand content
-          body.classList.remove("metadata-table-body-collapsed");
+          body.style.maxHeight = body.scrollHeight + 'px'; // Set max height to scrollHeight to expand content
+          body.classList.remove('metadata-table-body-collapsed');
         } else {
           // If it's not collapsed, we want to collapse it
           // We need to reset the max-height for the transition to work when collapsing
-          body.style.maxHeight = body.scrollHeight + "px";
+          body.style.maxHeight = body.scrollHeight + 'px';
           // Need to trigger the reflow, then set max-height to 0 to collapse content
           body.offsetHeight; // Triggering reflow, ensuring the browser acknowledges the max-height set above
-          body.style.maxHeight = "0";
-          body.classList.add("metadata-table-body-collapsed");
+          body.style.maxHeight = '0';
+          body.classList.add('metadata-table-body-collapsed');
         }
 
         // Listen for the end of the transition to update the icon
-        body.addEventListener("transitionend", updateIcon);
+        body.addEventListener('transitionend', updateIcon);
       }
 
       /**
        * Listens for the DOMContentLoaded event to initialize the form and its event listeners.
        */
-      document.addEventListener("DOMContentLoaded", (event) => {
-        hideCaptureEyeModal();
+      document.addEventListener('DOMContentLoaded', (event) => {
+        // hideCaptureEyeModal();
 
-        const form = document.getElementById("nidForm");
+        const form = document.getElementById('nidForm');
         const submitButton = form.querySelector('button[type="submit"]');
 
-        form.addEventListener("submit", async function (e) {
+        form.addEventListener('submit', async function (e) {
           e.preventDefault(); // Prevent the default form submit action
 
           const nid = form.nid.value;
@@ -328,7 +390,7 @@
 
           // Disable the button and change the text
           submitButton.disabled = true;
-          submitButton.textContent = "Fetching...";
+          submitButton.textContent = 'Fetching...';
 
           hideCaptureEyeModal();
 
@@ -336,13 +398,13 @@
           try {
             await fetchNID(nid, userToken);
           } catch (error) {
-            console.error("Error fetching NID:", error);
+            console.error('Error fetching NID:', error);
             // Handle any errors here
           }
 
           // Re-enable the button and reset the text
           submitButton.disabled = false;
-          submitButton.textContent = "Submit";
+          submitButton.textContent = 'Submit';
         });
       });
 
@@ -352,24 +414,24 @@
        */
       function updateCaptureEyeUIData(data) {
         document
-          .getElementById("ipfs-image-preview")
+          .getElementById('ipfs-image-preview')
           .setAttribute(
-            "src",
+            'src',
             `https://ipfs-pin.numbersprotocol.io/ipfs/${data.nid}`
           );
 
         document.getElementById(
-          "ui-data-nid"
+          'ui-data-nid'
         ).innerHTML = `<a target="_blank" href="https://ipfs-pin.numbersprotocol.io/ipfs/${data.nid}">${data.nid}</a>`;
 
         document.getElementById(
-          "ui-data-assetCreator"
+          'ui-data-assetCreator'
         ).innerHTML = `<a target="_blank" href="https://mainnet.num.network/address/${data.creatorWallet}">${data.assetCreator}</a>`;
 
-        document.getElementById("ui-data-assetTimestampCreated").textContent =
+        document.getElementById('ui-data-assetTimestampCreated').textContent =
           data.assetTimestampCreated;
 
-        document.getElementById("ui-data-digitalSourceType").textContent =
+        document.getElementById('ui-data-digitalSourceType').textContent =
           data.digitalSourceType;
       }
     </script>
@@ -386,14 +448,14 @@
        * @throws Will throw an error if the fetch operation fails.
        */
       async function fetchNID(nid, userToken) {
-        let headers = { "Content-Type": "application/json" };
+        let headers = {'Content-Type': 'application/json'};
         // If a userToken is provided, add the Authorization header
         if (userToken) {
-          headers["Authorization"] = `Bearer ${userToken}`;
+          headers['Authorization'] = `Bearer ${userToken}`;
         }
 
         const requestUrl = `https://eognt1jfpe04mq8.m.pipedream.net?nid=${nid}`;
-        const requestOptions = { method: "GET", headers: headers };
+        const requestOptions = {method: 'GET', headers: headers};
 
         try {
           const response = await fetch(requestUrl, requestOptions);
@@ -407,7 +469,7 @@
           }
         } catch (error) {
           hideCaptureEyeModal();
-          alert("Error fetching data: " + error.message);
+          alert('Error fetching data: ' + error.message);
         }
       }
     </script>
@@ -423,7 +485,7 @@
        */
       function copyNidToClipboard() {
         // Select the element that holds the NID text
-        var nidElement = document.getElementById("ui-data-nid");
+        var nidElement = document.getElementById('ui-data-nid');
         var nidText = nidElement.textContent || nidElement.innerText; // Get the text content or inner text
 
         // Use the Clipboard API to copy text to the clipboard
@@ -432,12 +494,12 @@
           navigator.clipboard
             .writeText(nidText)
             .then(function () {
-              console.log("NID copied to clipboard");
+              console.log('NID copied to clipboard');
               // Optionally, inform the user that the text was copied.
               alert(`NID copied to clipboard ${nidText}`);
             })
             .catch(function (error) {
-              console.error("Error copying NID to clipboard: ", error);
+              console.error('Error copying NID to clipboard: ', error);
               // Fallback for older browsers
               fallbackCopyTextToClipboard(nidText);
             });
@@ -453,24 +515,24 @@
        * @param {string} text - The text to be copied to the clipboard.
        */
       function fallbackCopyTextToClipboard(text) {
-        var textArea = document.createElement("textarea");
+        var textArea = document.createElement('textarea');
         textArea.value = text;
 
         // Avoid scrolling to bottom
-        textArea.style.top = "0";
-        textArea.style.left = "0";
-        textArea.style.position = "fixed";
+        textArea.style.top = '0';
+        textArea.style.left = '0';
+        textArea.style.position = 'fixed';
 
         document.body.appendChild(textArea);
         textArea.focus();
         textArea.select();
 
         try {
-          var successful = document.execCommand("copy");
-          var msg = successful ? "successful" : "unsuccessful";
-          console.log("Fallback: Copying text command was " + msg);
+          var successful = document.execCommand('copy');
+          var msg = successful ? 'successful' : 'unsuccessful';
+          console.log('Fallback: Copying text command was ' + msg);
         } catch (err) {
-          console.error("Fallback: Oops, unable to copy", err);
+          console.error('Fallback: Oops, unable to copy', err);
         }
 
         document.body.removeChild(textArea);
