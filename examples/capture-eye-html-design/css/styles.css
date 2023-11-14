@@ -9,7 +9,7 @@
 
 /* Modal styles */
 .modal {
-  display: block; /* Hidden by default */
+  display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
@@ -67,6 +67,22 @@
     display: flex;
     flex-direction: column;
   }
+}
+
+.modal-content-error {
+  display: none; /* Hidden by default */
+  height: 60vh;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: 'Noto Sans', Helvetica;
+  font-weight: 400;
+  color: #ffffff;
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center;
 }
 
 .modal-content section {
@@ -462,4 +478,27 @@ section.metadata-container {
     bottom: 0;
     opacity: 0;
   }
+}
+
+/* Define the shimmer animation */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/* Apply the shimmer effect to elements with the .shimmer class */
+.shimmer {
+  background: linear-gradient(90deg, #3d3939 10%, #d0d0d0 25%, #2d2c2c 40%);
+  background-size: 200% 200%;
+  animation: shimmer 3s infinite;
+  color: transparent !important;
+}
+
+/* Make all child elements transparent */
+.shimmer * {
+  color: transparent !important;
 }
