@@ -502,3 +502,8 @@ section.metadata-container {
 .shimmer * {
   color: transparent !important;
 }
+
+/* Use this css class to temporarely hide elements  */
+.temporarely-hidden {
+  display: none !important;
+}

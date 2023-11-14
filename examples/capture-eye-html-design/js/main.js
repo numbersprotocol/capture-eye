@@ -282,6 +282,33 @@ function updateIPFSImagePreview(
 }
 
 /**
+ * Temporarily hides specific UI elements based on provided CSS selectors.
+ *
+ * This function is used to hide certain UI elements when necessary. For example,
+ * it can be used to hide elements that depend on data from an external source that
+ * may not be available yet. See https://app.asana.com/0/1201016280880508/1205923376919599
+ *
+ * @description
+ * This function hides UI elements specified by the CSS selectors in the
+ * `selectorsToHide` array. You can customize the `selectorsToHide` array to
+ * specify which elements should be hidden temporarily.
+ */
+function temporarilyHideUIElements() {
+  const selectorsToHide = [
+    '#geolocaton-row',
+    '#mime-type-row',
+    '#generated-by-row',
+    '#initial-committer-row',
+    '.heading-2',
+    '.table-2',
+  ];
+  selectorsToHide.forEach((selector) => {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach((element) => element.classList.add('temporarely-hidden'));
+  });
+}
+
+/**
  * Reset the UI state by updating loading state, modal content visibility, and error modal content visibility.
  */
 function resetUIState() {
@@ -289,4 +316,5 @@ function resetUIState() {
   toggleModelContentVisibility({visible: true});
   toggleModelContentErrorVisibility({visible: false});
   updateIPFSImagePreview();
+  temporarilyHideUIElements(); // devs can comment out to see full UI during debugging
 }
