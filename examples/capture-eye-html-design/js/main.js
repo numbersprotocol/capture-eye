@@ -11,6 +11,11 @@
   // When the user clicks on the button, open the modal
   btn.onclick = function () {
     modal.style.display = 'block';
+
+    resetUIState();
+
+    // fetchData() // used in QA Testing or Prod
+    fetchDataDebug(); // used in dev mode for fast UI Development
   };
 
   // When the user clicks on <span> (x), close the modal
@@ -105,4 +110,183 @@ function copyToClipboard(elementId) {
   } else {
     showSnackbar('Element with ID ' + elementId + ' not found.');
   }
+}
+
+/**
+ * Fetch data from a remote API using the specified NID and user token.
+ * If successful, update the UI with the retrieved data.
+ * If there's an error, update the UI with an error message.
+ * @async
+ */
+async function fetchData() {
+  const nid = 'bafkreibfqutz3xybzgudrwfs43s7dlgmx2tbvqj5r7ivxzplwrahdoyrfi ';
+  const userToken = undefined;
+
+  let headers = {'Content-Type': 'application/json'};
+  if (userToken) headers['Authorization'] = `Bearer ${userToken}`;
+
+  const requestUrl = `https://eognt1jfpe04mq8.m.pipedream.net?nid=${nid}`;
+  const requestOptions = {method: 'GET', headers: headers};
+
+  try {
+    updateUILoadingState({isLoading: true});
+    const response = await fetch(requestUrl, requestOptions);
+    if (response.ok) {
+      const data = await response.json();
+      updateUILoadingState({isLoading: false});
+      updateUISuccessState(data);
+    } else {
+      const error = await response.json();
+      throw error;
+    }
+  } catch (error) {
+    updateUILoadingState({isLoading: false});
+    updateUIWithErrorState('Error fetching data: ' + error.message);
+  }
+}
+
+/**
+ * Simulate fetching data for debugging purposes and faster UI development.
+ * This function simulates few test cases:
+ * 1. Successful data retrieval after a delay.
+ * 2. Error response after a delay.
+ * 3. More can be added in the future
+ * It updates the UI accordingly with loading, success, or error states.
+ * @async
+ */
+async function fetchDataDebug() {
+  const sampleImageData = {
+    nid: 'bafkreibfqutz3xybzgudrwfs43s7dlgmx2tbvqj5r7ivxzplwrahdoyrfi',
+    assetCreator: 'sultanmyrza001',
+    creatorWallet: '0xd753C118b157AEA80b371567eCFF1C32F165B710',
+    assetTimestampCreated: '10/03/2023 21:41 UTC',
+    digitalSourceType: 'digitalUpload',
+  };
+  const testNetworkDelay = 1300;
+  const testCases = [
+    function () {
+      updateUILoadingState({isLoading: true});
+      setTimeout(() => {
+        updateUILoadingState({isLoading: false});
+        updateUISuccessState(sampleImageData);
+      }, testNetworkDelay);
+    },
+    function () {
+      updateUILoadingState({isLoading: true});
+      setTimeout(() => {
+        updateUILoadingState({isLoading: false});
+        updateUIWithErrorState('Sample error message');
+      }, testNetworkDelay);
+    },
+  ];
+  // Run one of the test cases
+  testCases[0]();
+}
+
+/**
+ * Update the UI loading state by adding or removing the 'shimmer' class from specified elements.
+ * @param {Object} options - Options for updating the UI loading state.
+ * @param {boolean} options.isLoading - Indicates whether the UI is in a loading state.
+ */
+function updateUILoadingState({isLoading}) {
+  const elementsByID = [
+    'ui-data-nid',
+    'ui-data-assetCreator',
+    'ui-data-assetTimestampCreated',
+    'ui-data-digitalSourceType',
+  ];
+
+  elementsByID.forEach((elementId) => {
+    const element = document.getElementById(elementId);
+    if (element && isLoading) element.classList.add('shimmer');
+    if (element && !isLoading) element.classList.remove('shimmer');
+  });
+}
+
+/**
+ * Updates the UI with the fetched data.
+ * @param {Object} data - The data object received from the fetch operation.
+ */
+function updateUISuccessState(data) {
+  updateIPFSImagePreview(
+    `https://ipfs-pin.numbersprotocol.io/ipfs/${data.nid}`
+  );
+
+  document.getElementById(
+    'ui-data-nid'
+  ).innerHTML = `<a target="_blank" href="https://ipfs-pin.numbersprotocol.io/ipfs/${data.nid}">${data.nid}</a>`;
+
+  document.getElementById(
+    'ui-data-assetCreator'
+  ).innerHTML = `<a target="_blank" href="https://mainnet.num.network/address/${data.creatorWallet}">${data.assetCreator}</a>`;
+
+  document.getElementById('ui-data-assetTimestampCreated').textContent =
+    data.assetTimestampCreated;
+
+  document.getElementById('ui-data-digitalSourceType').textContent =
+    data.digitalSourceType;
+}
+
+/**
+ * Update the UI to display an error state by hiding the modal content and showing the error modal content.
+ * @param {string} errorMessage - The error message to display.
+ */
+function updateUIWithErrorState(errorMessage) {
+  toggleModelContentVisibility({visible: false});
+  toggleModelContentErrorVisibility({visible: true, errorMessage});
+}
+
+/**
+ * Toggle the visibility of the modal content.
+ *
+ * @param {Object} options - The options for toggling visibility.
+ * @param {boolean} [options.visible=true] - Whether to make the modal content visible (true) or hidden (false).
+ */
+function toggleModelContentVisibility({visible = true}) {
+  const modalContent = document.querySelector('.modal-content');
+  if (modalContent) modalContent.style.display = visible ? 'flex' : 'none';
+}
+
+/**
+ * Toggle the visibility of the modal error content and set the error message.
+ *
+ * @param {Object} options - An object containing options.
+ * @param {boolean} [options.visible=false] - Whether to make the error content visible.
+ * @param {string} [options.errorMessage=''] - The error message to display.
+ */
+function toggleModelContentErrorVisibility({
+  visible = false,
+  errorMessage = '',
+}) {
+  const errorInstructions = 'Try to re-open modal to refetch data';
+  const innerHTML = errorMessage + '<br/>' + errorInstructions;
+
+  const modalContentError = document.querySelector('.modal-content-error');
+
+  if (modalContentError) {
+    modalContentError.innerHTML = innerHTML;
+    modalContentError.style.display = visible ? 'flex' : 'none';
+  }
+}
+
+/**
+ * Update the source (src) of the IPFS image preview element.
+ *
+ * @param {string} [imgSrc='https://c.animaapp.com/twFYQx58/img/placeholder-image.png'] - The default URL preview img.
+ */
+function updateIPFSImagePreview(
+  imgSrc = 'https://c.animaapp.com/twFYQx58/img/placeholder-image.png'
+) {
+  const imgPreview = document.getElementById('ipfs-image-preview');
+  if (imgPreview) imgPreview.setAttribute('src', imgSrc);
+}
+
+/**
+ * Reset the UI state by updating loading state, modal content visibility, and error modal content visibility.
+ */
+function resetUIState() {
+  updateUILoadingState({isLoading: false});
+  toggleModelContentVisibility({visible: true});
+  toggleModelContentErrorVisibility({visible: false});
+  updateIPFSImagePreview();
 }
