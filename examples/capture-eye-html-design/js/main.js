@@ -67,3 +67,42 @@ function toggleTooltipText(event) {
     }, 1000);
   }
 }
+
+/**
+ * Displays a snackbar notification with the specified text for a short duration.
+ *
+ * @param {string} text - The text to display in the snackbar notification.
+ */
+function showSnackbar(text) {
+  var x = document.getElementById('snackbar');
+  x.className = 'show';
+  x.innerText = text;
+  setTimeout(function () {
+    x.className = x.className.replace('show', '');
+  }, 3000);
+}
+
+/**
+ * Copies the text content of an element with the given ID to the clipboard.
+ * Displays a snackbar notification upon successful copy or if the element is not found.
+ *
+ * @param {string} elementId - The ID of the element whose text content will be copied.
+ */
+function copyToClipboard(elementId) {
+  // Get the element by its ID
+  var element = document.getElementById(elementId);
+
+  if (element) {
+    // Create a temporary textarea element to copy the text to the clipboard
+    var textarea = document.createElement('textarea');
+    textarea.value = element.textContent || element.innerText;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+
+    showSnackbar('NID copied to clipboard');
+  } else {
+    showSnackbar('Element with ID ' + elementId + ' not found.');
+  }
+}
