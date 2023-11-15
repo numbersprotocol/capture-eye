@@ -30,7 +30,11 @@
               id="ipfs-image-preview"
               class="preview-image"
               src="https://c.animaapp.com/twFYQx58/img/placeholder-image.png"
+              onerror="handleIpfsImagePreviewError()"
             />
+            <span id="ipfs-no-preview-available-text">
+              No Preview Available
+            </span>
           </section>
           <section class="metadata-container">
             <div class="link">

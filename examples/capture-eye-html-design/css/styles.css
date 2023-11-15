@@ -93,8 +93,10 @@
 
 section.preview-container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   flex: 1;
-  /* background-color: #212121; */
   min-width: 200px;
   margin: 40px;
 }
@@ -102,6 +104,22 @@ section.preview-container {
 section.preview-container img {
   border-radius: 8px;
   overflow: hidden;
+}
+
+section.preview-container #ipfs-no-preview-available-text {
+  display: none; /* hidden by default */
+  background-color: #212121;
+  border-radius: 8px;
+  width: 100%;
+  aspect-ratio: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Noto Sans', Helvetica;
+  font-weight: 400;
+  color: #ffffff5a;
+  letter-spacing: 0;
+  line-height: normal;
 }
 
 @media (max-width: 600px) {

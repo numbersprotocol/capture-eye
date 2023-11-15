@@ -14,8 +14,8 @@
 
     resetUIState();
 
-    // fetchData() // used in QA Testing or Prod
-    fetchDataDebug(); // used in dev mode for fast UI Development
+    fetchData(); // used in QA Testing or Prod
+    // fetchDataDebug(); // used in dev mode for fast UI Development
   };
 
   // When the user clicks on <span> (x), close the modal
@@ -162,25 +162,39 @@ async function fetchDataDebug() {
     assetTimestampCreated: '10/03/2023 21:41 UTC',
     digitalSourceType: 'digitalUpload',
   };
+  const sampleVideoData = {
+    nid: 'bafybeifuvl3zihxcedzhyajtr4jnde3qqxqa2lmv7txsjlfamepnurjbu4',
+    assetCreator: 'CaptureClub6959',
+    creatorWallet: '0xCb555eD03F012F1C0B5D977459cBA5bFe1dDF084',
+    assetTimestampCreated: '07/21/2021 02:04 UTC',
+    digitalSourceType: 'digitalUpload',
+  };
   const testNetworkDelay = 1300;
   const testCases = [
-    function () {
+    function testSuccessCase() {
       updateUILoadingState({isLoading: true});
       setTimeout(() => {
         updateUILoadingState({isLoading: false});
         updateUISuccessState(sampleImageData);
       }, testNetworkDelay);
     },
-    function () {
+    function testErrorCase() {
       updateUILoadingState({isLoading: true});
       setTimeout(() => {
         updateUILoadingState({isLoading: false});
         updateUIWithErrorState('Sample error message');
       }, testNetworkDelay);
     },
+    function testPreviewLoaadErrorCase() {
+      updateUILoadingState({isLoading: true});
+      setTimeout(() => {
+        updateUILoadingState({isLoading: false});
+        updateUISuccessState(sampleVideoData);
+      }, testNetworkDelay);
+    },
   ];
   // Run one of the test cases
-  testCases[0]();
+  testCases[2]();
 }
 
 /**
@@ -278,7 +292,19 @@ function updateIPFSImagePreview(
   imgSrc = 'https://c.animaapp.com/twFYQx58/img/placeholder-image.png'
 ) {
   const imgPreview = document.getElementById('ipfs-image-preview');
-  if (imgPreview) imgPreview.setAttribute('src', imgSrc);
+  if (imgPreview) {
+    imgPreview.setAttribute('src', imgSrc);
+    // restore if it was hidden before
+    imgPreview.style.display = 'block';
+  }
+
+  const imgPreviewError = document.getElementById(
+    'ipfs-no-preview-available-text'
+  );
+  if (imgPreviewError) {
+    // hide if it was shown before
+    imgPreviewError.style.display = 'none';
+  }
 }
 
 /**
@@ -317,4 +343,13 @@ function resetUIState() {
   toggleModelContentErrorVisibility({visible: false});
   updateIPFSImagePreview();
   temporarilyHideUIElements(); // devs can comment out to see full UI during debugging
+}
+
+function handleIpfsImagePreviewError() {
+  // Hide the failed image
+  document.getElementById('ipfs-image-preview').style.display = 'none';
+
+  // Show the error message
+  document.getElementById('ipfs-no-preview-available-text').style.display =
+    'flex';
 }
