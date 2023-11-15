@@ -44,7 +44,7 @@ function toggleTooltipText(event) {
     var newTooltip = document.createElement('div');
     newTooltip.id = 'custom-tooltip';
     newTooltip.textContent =
-      'SourceType: digitalSourceType is a controlled vocabulary that indicates from which source a digital media was created.';
+      'digitalSourceType is a controlled vocabulary that indicates from which source a digital media was created.';
     // style tooltip
     newTooltip.style.position = 'absolute';
     newTooltip.style.width = '220px';
@@ -69,7 +69,7 @@ function toggleTooltipText(event) {
 
     setTimeout(() => {
       newTooltip.remove();
-    }, 1000);
+    }, 1300);
   }
 }
 
