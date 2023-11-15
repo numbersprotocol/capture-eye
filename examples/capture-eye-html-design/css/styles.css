@@ -118,6 +118,7 @@ section.preview-container .preview-image {
 
 section.metadata-container {
   border: 1px solid #383838;
+  border-top: none;
 }
 
 @media (max-width: 1200px) {
