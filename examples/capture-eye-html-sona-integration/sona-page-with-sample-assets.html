@@ -655,7 +655,7 @@
                   <img
                     class="img"
                     src="https://c.animaapp.com/twFYQx58/img/help-2@2x.png"
-                    onclick="toggleTooltipText(event)"
+                    onclick="captureEyeToggleTooltipText(event)"
                   />
                 </div>
               </div>
@@ -699,7 +699,7 @@
        *
        * @param {Event} event - The event that triggered the tooltip display.
        */
-      function toggleTooltipText(event) {
+      function captureEyeToggleTooltipText(event) {
         console.log(event);
         // Check if a tooltip already exists
         var existingTooltip = document.getElementById('custom-tooltip');
@@ -721,7 +721,7 @@
           newTooltip.style.color = 'white';
           newTooltip.style.textAlign = 'center';
           newTooltip.style.fontFamily = "'Noto Sans', Arial, sans-serif";
-          newTooltip.style.zIndex = 1000;
+          newTooltip.style.zIndex = 2999;
           newTooltip.style.borderRadius = '5px';
 
           // Get the position of the target element
