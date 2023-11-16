@@ -1,7 +1,10 @@
-:root {
-  --mobile-breakpoint: 768px;
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans:400');
+@font-face {
+  /* We name it Capture-Eye-Degular-Medium to avoid clashes with parent font if any */
+  font-family: 'Capture-Eye-Degular-Medium';
+  src: url('https://anima-uploads.s3.amazonaws.com/5e7abf65eb876cc1084e5bac/.44512.otf')
+    format('opentype');
 }
-
 #capture-eye-button {
   display: flex;
   width: fit-content;
