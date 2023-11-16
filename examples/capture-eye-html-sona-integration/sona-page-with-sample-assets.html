@@ -586,7 +586,10 @@
     </div>
     <div class="item-container">
       <div class="item-image-preview">[Video] nid baf...bu4</div>
-      <div class="capture-eye-button">
+      <div
+        class="capture-eye-button"
+        onclick="showCaptureEyeInspectorForNid('bafybeifuvl3zihxcedzhyajtr4jnde3qqxqa2lmv7txsjlfamepnurjbu4')"
+      >
         <img
           src="https://ipfs-pin.numbersprotocol.io/ipfs/bafkreihh5vsu7ru7o6gd54qicdn3mb5eqdpoc4f32shfacnhwelljt6ptu"
         />
@@ -594,7 +597,10 @@
     </div>
     <div class="item-container">
       <div class="item-image-preview">[Audio] nid baf...n2a</div>
-      <div class="capture-eye-button">
+      <div
+        class="capture-eye-button"
+        onclick="showCaptureEyeInspectorForNid('bafybeicktabllpleoe2qhgaeqseh4o7mhwcoec5pdsbbf3ddkmtbz6zn2a')"
+      >
         <img
           src="https://ipfs-pin.numbersprotocol.io/ipfs/bafkreihh5vsu7ru7o6gd54qicdn3mb5eqdpoc4f32shfacnhwelljt6ptu"
         />
@@ -602,7 +608,10 @@
     </div>
     <div class="item-container">
       <div class="item-image-preview">[PDF] nid baf...i5y</div>
-      <div class="capture-eye-button">
+      <div
+        class="capture-eye-button"
+        onclick="showCaptureEyeInspectorForNid('bafkreibu6frgp7j6xcvae4obat6j5qwlzi447us6knxoctk3r52fmnri5y')"
+      >
         <img
           src="https://ipfs-pin.numbersprotocol.io/ipfs/bafkreihh5vsu7ru7o6gd54qicdn3mb5eqdpoc4f32shfacnhwelljt6ptu"
         />
@@ -776,6 +785,7 @@
         toggleCaptureModal({hide: false});
         resetUIState();
         fetchData(nid);
+        // fetchDataDebug(nid); // Used for debug mode only
       }
 
       /**
@@ -907,47 +917,87 @@
        * It updates the UI accordingly with loading, success, or error states.
        * @async
        */
-      async function fetchDataDebug() {
-        const sampleImageData = {
-          nid: 'bafkreibfqutz3xybzgudrwfs43s7dlgmx2tbvqj5r7ivxzplwrahdoyrfi',
-          assetCreator: 'sultanmyrza001',
-          creatorWallet: '0xd753C118b157AEA80b371567eCFF1C32F165B710',
-          assetTimestampCreated: '10/03/2023 21:41 UTC',
-          digitalSourceType: 'digitalUpload',
-        };
-        const sampleVideoData = {
-          nid: 'bafybeifuvl3zihxcedzhyajtr4jnde3qqxqa2lmv7txsjlfamepnurjbu4',
-          assetCreator: 'CaptureClub6959',
-          creatorWallet: '0xCb555eD03F012F1C0B5D977459cBA5bFe1dDF084',
-          assetTimestampCreated: '07/21/2021 02:04 UTC',
-          digitalSourceType: 'digitalUpload',
-        };
+      async function fetchDataDebug(nid) {
         const testNetworkDelay = 1300;
-        const testCases = [
-          function testSuccessCase() {
-            updateUILoadingState({isLoading: true});
-            setTimeout(() => {
-              updateUILoadingState({isLoading: false});
-              updateUISuccessState(sampleImageData);
-            }, testNetworkDelay);
-          },
-          function testErrorCase() {
-            updateUILoadingState({isLoading: true});
-            setTimeout(() => {
-              updateUILoadingState({isLoading: false});
-              updateUIWithErrorState('Sample error message');
-            }, testNetworkDelay);
-          },
-          function testPreviewLoaadErrorCase() {
-            updateUILoadingState({isLoading: true});
-            setTimeout(() => {
-              updateUILoadingState({isLoading: false});
-              updateUISuccessState(sampleVideoData);
-            }, testNetworkDelay);
-          },
-        ];
-        // Run one of the test cases
-        testCases[2]();
+        if (nid) {
+          const sampleData = [
+            {
+              nid: 'bafkreibfqutz3xybzgudrwfs43s7dlgmx2tbvqj5r7ivxzplwrahdoyrfi',
+              assetCreator: 'sultanmyrza001',
+              creatorWallet: '0xd753C118b157AEA80b371567eCFF1C32F165B710',
+              assetTimestampCreated: '10/03/2023 21:41 UTC',
+              digitalSourceType: 'digitalUpload',
+            },
+            {
+              nid: 'bafybeifuvl3zihxcedzhyajtr4jnde3qqxqa2lmv7txsjlfamepnurjbu4',
+              assetCreator: 'CaptureClub6959',
+              creatorWallet: '0xCb555eD03F012F1C0B5D977459cBA5bFe1dDF084',
+              assetTimestampCreated: '07/21/2021 02:04 UTC',
+              digitalSourceType: 'digitalUpload',
+            },
+            {
+              nid: 'bafybeicktabllpleoe2qhgaeqseh4o7mhwcoec5pdsbbf3ddkmtbz6zn2a',
+              assetCreator: 'FMA',
+              creatorWallet: '0x08E0F01Feef642A249e95541C1dDB522d6E5a625',
+              assetTimestampCreated: '05/16/2023 08:30 UTC',
+              digitalSourceType: 'digitalUpload',
+            },
+            {
+              nid: 'bafkreibu6frgp7j6xcvae4obat6j5qwlzi447us6knxoctk3r52fmnri5y',
+              assetCreator: 'Numbers Archive',
+              creatorWallet: '0xE6073bd2C912e6F887607B707f7d31a4c6621aFA',
+              assetTimestampCreated: '01/27/2023 08:51 UTC',
+              digitalSourceType: 'digitalUpload',
+            },
+          ];
+          updateUILoadingState({isLoading: true});
+          setTimeout(() => {
+            const data = sampleData.find((data) => data.nid === nid);
+            if (data) updateUISuccessState(data);
+            else updateUIWithErrorState('Not found in sampleData');
+            updateUILoadingState({isLoading: false});
+          }, testNetworkDelay);
+        } else {
+          const sampleImageData = {
+            nid: 'bafkreibfqutz3xybzgudrwfs43s7dlgmx2tbvqj5r7ivxzplwrahdoyrfi',
+            assetCreator: 'sultanmyrza001',
+            creatorWallet: '0xd753C118b157AEA80b371567eCFF1C32F165B710',
+            assetTimestampCreated: '10/03/2023 21:41 UTC',
+            digitalSourceType: 'digitalUpload',
+          };
+          const sampleVideoData = {
+            nid: 'bafybeifuvl3zihxcedzhyajtr4jnde3qqxqa2lmv7txsjlfamepnurjbu4',
+            assetCreator: 'CaptureClub6959',
+            creatorWallet: '0xCb555eD03F012F1C0B5D977459cBA5bFe1dDF084',
+            assetTimestampCreated: '07/21/2021 02:04 UTC',
+            digitalSourceType: 'digitalUpload',
+          };
+          const testCases = [
+            function testSuccessCase() {
+              updateUILoadingState({isLoading: true});
+              setTimeout(() => {
+                updateUILoadingState({isLoading: false});
+                updateUISuccessState(sampleImageData);
+              }, testNetworkDelay);
+            },
+            function testErrorCase() {
+              updateUILoadingState({isLoading: true});
+              setTimeout(() => {
+                updateUILoadingState({isLoading: false});
+                updateUIWithErrorState('Sample error message');
+              }, testNetworkDelay);
+            },
+            function testPreviewLoaadErrorCase() {
+              updateUILoadingState({isLoading: true});
+              setTimeout(() => {
+                updateUILoadingState({isLoading: false});
+                updateUISuccessState(sampleVideoData);
+              }, testNetworkDelay);
+            },
+          ];
+          // Run one of the test cases
+          testCases[2]();
+        }
       }
 
       /**
