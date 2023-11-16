@@ -18,6 +18,9 @@
         width: fit-content;
       }
 
+      .capture-eye-no-scroll {
+        overflow: hidden;
+      }
       /* Modal styles */
       .modal {
         display: none; /* Hidden by default */
@@ -560,6 +563,10 @@
       />
     </div>
 
+    <div
+      style="height: 3000px; width: 200px; background-color: rebeccapurple"
+    ></div>
+
     <!-- This HTML code should be injected to SONA page START -->
     <div id="capture-eye-modal" class="modal">
       <div class="modal-container">
@@ -682,7 +689,13 @@
     <script>
       function toggleCaptureModal({hide = true}) {
         var modal = document.getElementById('capture-eye-modal');
-        modal.style.display = hide ? 'none' : 'block';
+        if (hide) {
+          modal.style.display = 'none';
+          document.body.classList.remove('capture-eye-no-scroll');
+        } else {
+          document.body.classList.add('capture-eye-no-scroll');
+          modal.style.display = 'block';
+        }
       }
 
       async function showCaptureEyeInspectorForNid(nid) {
