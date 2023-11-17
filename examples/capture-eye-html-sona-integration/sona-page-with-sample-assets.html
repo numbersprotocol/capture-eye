@@ -13,9 +13,56 @@
         src: url('https://anima-uploads.s3.amazonaws.com/5e7abf65eb876cc1084e5bac/.44512.otf')
           format('opentype');
       }
-      #capture-eye-button {
+      .capture-eye-button {
         display: flex;
         width: fit-content;
+        position: relative;
+      }
+
+      .capture-eye-button {
+        z-index: 999;
+        width: 2rem;
+        height: 2rem;
+        cursor: pointer;
+        border-radius: 100vw;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        position: relative;
+        opacity: 0.4;
+      }
+
+      .capture-eye-button:hover {
+        opacity: 1;
+        /* Change the opacity when the mouse hovers over it. */
+      }
+
+      @media (min-width: 401px) {
+        .capture-eye-button:hover::before {
+          max-width: 170px;
+          /* Adjust to your desired maximum width */
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          content: 'Click me!';
+          position: absolute;
+          left: 220%;
+          /* Adjust as needed */
+          transform: translateX(-50%);
+          padding: 5px 10px;
+          background-color: #fff;
+          /* Background color of the popup */
+          color: #333;
+          /* Text color */
+          opacity: 0.7;
+          border-radius: 5px;
+          font-size: 12px;
+          z-index: 1000;
+          /* To make sure it stays on top */
+          pointer-events: none;
+          /* Ensure it doesn't interfere with other 		interactions */
+          font-family: 'Noto Sans', Helvetica;
+        }
       }
 
       .capture-eye-no-scroll {
