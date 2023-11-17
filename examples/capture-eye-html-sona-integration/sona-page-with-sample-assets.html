@@ -667,7 +667,7 @@
             </span>
           </section>
           <section class="metadata-container">
-            <div class="link" onclick="captureEyeCollect()">
+            <div data-inStock="-1" class="link" onclick="captureEyeCollect()">
               <div class="purchase-license">COLLECT</div>
             </div>
             <div class="heading">
@@ -775,7 +775,7 @@
         toggleCaptureModal({hide: false});
         resetUIState();
         fetchData(nid);
-        // fetchDataDebug(nid); // Used for debug mode only
+        // fetchDataDebug(); // Used for debug mode only
       }
 
       /**
@@ -987,6 +987,7 @@
             creatorWallet: '0xd753C118b157AEA80b371567eCFF1C32F165B710',
             assetTimestampCreated: '10/03/2023 21:41 UTC',
             digitalSourceType: 'digitalUpload',
+            inStock: 3,
           };
           const sampleVideoData = {
             nid: 'bafybeifuvl3zihxcedzhyajtr4jnde3qqxqa2lmv7txsjlfamepnurjbu4',
@@ -1019,7 +1020,7 @@
             },
           ];
           // Run one of the test cases
-          testCases[2]();
+          testCases[0]();
         }
       }
 
@@ -1065,6 +1066,8 @@
 
         document.getElementById('ui-data-digitalSourceType').textContent =
           data.digitalSourceType;
+
+        updateCaptureEyeButton({inStock: data.inStock});
       }
 
       /**
@@ -1174,6 +1177,7 @@
         toggleModelContentErrorVisibility({visible: false});
         updateIPFSImagePreview();
         temporarilyHideUIElements(); // devs can comment out to see full UI during debugging
+        updateCaptureEyeButton({inStock: -1});
       }
 
       function handleIpfsImagePreviewError() {
@@ -1187,16 +1191,47 @@
       }
 
       function captureEyeCollect() {
+        const inStock = document.querySelector('.metadata-container .link')
+          .dataset.inStock;
+
+        if (inStock < 1) return;
+
         const element = document.querySelector('#ui-data-nid a');
         if (!element || !element.textContent) return;
-        const nid = element.textContent; // or element.innerText
+        const nid = element.textContent;
+
         const url = `https://captureappiframe.numbersprotocol.io/checkout?from=nse&nid=${nid}`;
         window.open(url, '_blank').focus();
       }
+
       function captureEyeOpenImageInIpfs() {
         const element = document.querySelector('#ui-data-nid a');
         if (!element) return;
         element.click();
+      }
+
+      function updateCaptureEyeButton({inStock = -1}) {
+        const text = inStock > 0 ? 'COLLECT' : 'COLLECTED';
+        const hidden = inStock < 0;
+
+        const button = document.querySelector('.metadata-container .link');
+        const buttonText = document.querySelector(
+          '.metadata-container .purchase-license'
+        );
+
+        button.dataset.inStock = inStock;
+
+        if (!hidden) {
+          button.style.visibility = 'visible';
+          button.style.display = 'inline-flex';
+        } else {
+          button.style.visibility = 'hidden';
+
+          if (window.matchMedia('(min-width: 1200px)').matches === false) {
+            button.style.display = 'none';
+          }
+        }
+        buttonText.innerText = text;
       }
     </script>
     <!-- This JS code should be injected to SONA page END -->
