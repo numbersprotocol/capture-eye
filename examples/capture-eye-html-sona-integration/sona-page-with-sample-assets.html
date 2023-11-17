@@ -587,6 +587,7 @@
               class="preview-image"
               src="https://c.animaapp.com/twFYQx58/img/placeholder-image.png"
               onerror="handleIpfsImagePreviewError()"
+              onclick="captureEyeOpenImageInIpfs()"
             />
             <span id="ipfs-no-preview-available-text">
               No Preview Available
@@ -1084,6 +1085,11 @@
         const nid = element.textContent; // or element.innerText
         const url = `https://captureappiframe.numbersprotocol.io/checkout?from=nse&nid=${nid}`;
         window.open(url, '_blank').focus();
+      }
+      function captureEyeOpenImageInIpfs() {
+        const element = document.querySelector('#ui-data-nid a');
+        if (!element) return;
+        element.click();
       }
     </script>
     <!-- This JS code should be injected to SONA page END -->
