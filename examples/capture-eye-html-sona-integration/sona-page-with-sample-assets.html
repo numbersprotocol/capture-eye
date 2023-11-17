@@ -631,7 +631,7 @@
   <body>
     <div
       class="capture-eye-button"
-      onclick="showCaptureEyeInspectorForNid('bafybeigbrkjjgxl3vqa72lcvetbqo6ev6h5vpm7ftbfy77keqp4rhs6xja')"
+      onclick="showCaptureEyeInspectorForNid('bafkreidplv5s5jjehljoc6hv7tbvq2hmxak2hsndewt2rdybhcidqeawjy')"
     >
       <img
         src="https://ipfs-pin.numbersprotocol.io/ipfs/bafkreicf4sruldnh4g3bmxnqr6zjgfzfgvbqoa5iy2jncewqqlgg75utd4"
@@ -916,6 +916,10 @@
 
         try {
           updateUILoadingState({isLoading: true});
+          // No need to wait for API response we can directly generate image url
+          updateIPFSImagePreview(
+            `https://ipfs-pin.numbersprotocol.io/ipfs/${nid}`
+          );
           const response = await fetch(requestUrl, requestOptions);
           if (response.ok) {
             const data = await response.json();
@@ -1049,9 +1053,9 @@
        * @param {Object} data - The data object received from the fetch operation.
        */
       function updateUISuccessState(data) {
-        updateIPFSImagePreview(
-          `https://ipfs-pin.numbersprotocol.io/ipfs/${data.nid}`
-        );
+        // updateIPFSImagePreview(
+        //   `https://ipfs-pin.numbersprotocol.io/ipfs/${data.nid}`
+        // );
 
         document.getElementById(
           'ui-data-nid'
