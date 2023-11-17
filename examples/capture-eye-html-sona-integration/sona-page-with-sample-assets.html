@@ -631,7 +631,7 @@
   <body>
     <div
       class="capture-eye-button"
-      onclick="showCaptureEyeInspectorForNid('bafkreidplv5s5jjehljoc6hv7tbvq2hmxak2hsndewt2rdybhcidqeawjy')"
+      onclick="showCaptureEyeInspectorForNid('bafkreic4lykmkut63g6b6wci2pey2bcxa5dcolvbcevmyw7hxtjw47mimu')"
     >
       <img
         src="https://ipfs-pin.numbersprotocol.io/ipfs/bafkreicf4sruldnh4g3bmxnqr6zjgfzfgvbqoa5iy2jncewqqlgg75utd4"
@@ -660,9 +660,9 @@
               class="preview-image"
               src="https://c.animaapp.com/twFYQx58/img/placeholder-image.png"
               onerror="handleIpfsImagePreviewError()"
-              onclick="captureEyeOpenImageInIpfs()"
+              onclick="openInNSE()"
             />
-            <span id="ipfs-no-preview-available-text">
+            <span id="ipfs-no-preview-available-text" onclick="openInNSE()">
               No Preview Available
             </span>
           </section>
@@ -774,7 +774,9 @@
       async function showCaptureEyeInspectorForNid(nid) {
         toggleCaptureModal({hide: false});
         resetUIState();
-        updateIPFSImagePreview(`https://ipfs-pin.numbersprotocol.io/ipfs/${nid}`);
+        updateIPFSImagePreview(
+          `https://ipfs-pin.numbersprotocol.io/ipfs/${nid}`
+        );
         fetchData(nid);
         // fetchDataDebug(); // Used for debug mode only
       }
@@ -921,6 +923,7 @@
           updateIPFSImagePreview(
             `https://ipfs-pin.numbersprotocol.io/ipfs/${nid}`
           );
+          updateImagePreviewDestination(nid);
           const response = await fetch(requestUrl, requestOptions);
           if (response.ok) {
             const data = await response.json();
@@ -1144,6 +1147,11 @@
         }
       }
 
+      function updateImagePreviewDestination(nid) {
+        // we will use it later
+        document.querySelector('section.preview-container').dataset.nid = nid;
+      }
+
       /**
        * Temporarily hides specific UI elements based on provided CSS selectors.
        *
@@ -1209,10 +1217,13 @@
         window.open(url, '_blank').focus();
       }
 
-      function captureEyeOpenImageInIpfs() {
-        const element = document.querySelector('#ui-data-nid a');
-        if (!element) return;
-        element.click();
+      function openInNSE() {
+        const nid = document.querySelector('section.preview-container').dataset
+          .nid;
+        if (!nid) return; // Do nothing if for some reason nid is not found
+
+        const url = `https://nftsearch.site/asset-profile?nid=${nid}`;
+        window.open(url, '_blank').focus();
       }
 
       function updateCaptureEyeButton({inStock = -1}) {
