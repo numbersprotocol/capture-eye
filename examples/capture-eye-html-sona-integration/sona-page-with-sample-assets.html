@@ -774,6 +774,7 @@
       async function showCaptureEyeInspectorForNid(nid) {
         toggleCaptureModal({hide: false});
         resetUIState();
+        updateIPFSImagePreview(`https://ipfs-pin.numbersprotocol.io/ipfs/${nid}`);
         fetchData(nid);
         // fetchDataDebug(); // Used for debug mode only
       }
