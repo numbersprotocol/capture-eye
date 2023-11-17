@@ -567,6 +567,32 @@
         }
       }
 
+      #capture-eye-tooltip-snackbar {
+        visibility: hidden;
+        background-color: #333;
+        font-family: 'Noto Sans', Helvetica;
+        font-weight: 400;
+        color: #ffffff;
+        font-size: 14px;
+        letter-spacing: 0;
+        line-height: normal;
+        text-align: center;
+        border-radius: 8px;
+        padding: 16px;
+        position: absolute;
+        height: fit-content;
+        z-index: 1;
+        font-size: 17px;
+        font-family: 'no';
+      }
+
+      #capture-eye-tooltip-snackbar.show {
+        visibility: visible;
+        z-index: 99999;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      }
+
       /* Define the shimmer animation */
       @keyframes shimmer {
         0% {
@@ -708,7 +734,7 @@
                   <img
                     class="img"
                     src="https://c.animaapp.com/twFYQx58/img/help-2@2x.png"
-                    onclick="captureEyeToggleTooltipText(event)"
+                    onclick="showCaptureEyeTooltip(event)"
                   />
                 </div>
               </div>
@@ -729,6 +755,7 @@
       </div>
     </div>
     <div id="snackbar"></div>
+    <div id="capture-eye-tooltip-snackbar"></div>
     <!-- This HTML code should be injected to SONA page END -->
 
     <!-- This JS code should be injected to SONA page START -->
@@ -774,6 +801,7 @@
             'digitalSourceType is a controlled vocabulary that indicates from which source a digital media was created.';
           // style tooltip
           newTooltip.style.position = 'absolute';
+          newTooltip.style.height = 'fit-content';
           newTooltip.style.width = '220px';
           newTooltip.style.padding = '8px';
           newTooltip.style.backgroundColor = 'black';
@@ -789,7 +817,7 @@
 
           // Position the tooltip below the target element
           newTooltip.style.left = targetRect.left - 150 + 'px';
-          newTooltip.style.top = targetRect.bottom - 130 + 'px';
+          newTooltip.style.top = targetRect.bottom - 150 + 'px';
 
           // Append the new tooltip to the body
           document.body.appendChild(newTooltip);
@@ -812,6 +840,38 @@
         setTimeout(function () {
           x.className = x.className.replace('show', '');
         }, 3000);
+      }
+
+      function showCaptureEyeTooltip(event) {
+        const tooltip = document.getElementById('capture-eye-tooltip-snackbar');
+        if (!tooltip) return;
+
+        tooltip.style.position = 'absolute';
+        tooltip.style.width = '220px';
+        tooltip.style.padding = '8px';
+        tooltip.style.backgroundColor = 'black';
+        tooltip.style.color = 'white';
+        tooltip.style.textAlign = 'center';
+        tooltip.style.fontFamily = "'Noto Sans', Arial, sans-serif";
+        tooltip.style.zIndex = 88888;
+        tooltip.style.borderRadius = '5px';
+
+        // Get the position of the target element
+        var targetElement = event.target;
+        var targetRect = targetElement.getBoundingClientRect();
+        // Position the tooltip below the target element
+        tooltip.style.left = targetRect.left - 150 + 'px';
+        tooltip.style.top = targetRect.bottom - 150 + 'px';
+
+        tooltip.textContent =
+          'digitalSourceType is a controlled vocabulary that indicates from which source a digital media was created.';
+
+        tooltip.classList.add('show');
+        // tooltip.className = 'show';
+        setTimeout(() => {
+          tooltip.classList.remove('show');
+          // tooltip.className.replace('show', '');
+        }, 1200);
       }
 
       /**
