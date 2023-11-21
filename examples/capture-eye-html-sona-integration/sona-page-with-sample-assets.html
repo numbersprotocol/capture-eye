@@ -498,7 +498,7 @@
         object-fit: cover;
       }
 
-      #snackbar {
+      #capture-eye-snackbar {
         visibility: hidden;
         min-width: 250px;
         max-width: 90vw;
@@ -521,7 +521,7 @@
         font-family: 'no';
       }
 
-      #snackbar.show {
+      #capture-eye-snackbar.show {
         visibility: visible;
         z-index: 99999;
         -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
@@ -764,7 +764,7 @@
         </div>
       </div>
     </div>
-    <div id="snackbar"></div>
+    <div id="capture-eye-snackbar"></div>
     <div id="capture-eye-tooltip-snackbar"></div>
     <!-- This HTML code should be injected to SONA page END -->
 
@@ -847,7 +847,7 @@
        * @param {string} text - The text to display in the snackbar notification.
        */
       function captureEyeShowSnackbar(text) {
-        var x = document.getElementById('snackbar');
+        var x = document.getElementById('capture-eye-snackbar');
         x.className = 'show';
         x.innerText = text;
         setTimeout(function () {
