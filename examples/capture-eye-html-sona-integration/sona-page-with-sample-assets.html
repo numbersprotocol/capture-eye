@@ -649,7 +649,7 @@
         <div class="modal-header">
           <div
             class="keyboard-arrow-left"
-            onclick="toggleCaptureModal({hide: true})"
+            onclick="captureEyeToggleCaptureModal({hide: true})"
           >
             <img
               class="close"
@@ -664,7 +664,7 @@
               id="ipfs-image-preview"
               class="preview-image"
               src="https://c.animaapp.com/twFYQx58/img/placeholder-image.png"
-              onerror="handleIpfsImagePreviewError()"
+              onerror="captureEyeHandleIpfsImagePreviewError()"
               onclick="openInNSE()"
             />
             <span id="ipfs-no-preview-available-text" onclick="openInNSE()">
@@ -692,7 +692,7 @@
                   <img
                     class="img"
                     src="https://c.animaapp.com/twFYQx58/img/content-copy@2x.png"
-                    onclick="copyToClipboard('ui-data-nid')"
+                    onclick="captureEyeCopyToClipboard('ui-data-nid')"
                   />
                 </div>
               </div>
@@ -739,8 +739,8 @@
                   <img
                     class="img"
                     src="https://c.animaapp.com/twFYQx58/img/help-2@2x.png"
-                    onclick="showCaptureEyeTooltip(event)"
-                    onmouseover="showCaptureEyeTooltip(event)"
+                    onclick="captureEyeShowCaptureEyeTooltip(event)"
+                    onmouseover="captureEyeShowCaptureEyeTooltip(event)"
                   />
                 </div>
               </div>
@@ -766,7 +766,7 @@
 
     <!-- This JS code should be injected to SONA page START -->
     <script>
-      function toggleCaptureModal({hide = true}) {
+      function captureEyeToggleCaptureModal({hide = true}) {
         var modal = document.getElementById('capture-eye-modal');
         if (hide) {
           modal.style.display = 'none';
@@ -778,12 +778,12 @@
       }
 
       async function showCaptureEyeInspectorForNid(nid) {
-        toggleCaptureModal({hide: false});
-        resetUIState();
-        updateIPFSImagePreview(
+        captureEyeToggleCaptureModal({hide: false});
+        captureEyeResetUIState();
+        captureEyeUpdateIPFSImagePreview(
           `https://ipfs-pin.numbersprotocol.io/ipfs/${nid}`
         );
-        fetchData(nid);
+        captureEyeFetchData(nid);
         // fetchDataDebug(); // Used for debug mode only
       }
 
@@ -842,7 +842,7 @@
        *
        * @param {string} text - The text to display in the snackbar notification.
        */
-      function showSnackbar(text) {
+      function captureEyeShowSnackbar(text) {
         var x = document.getElementById('snackbar');
         x.className = 'show';
         x.innerText = text;
@@ -851,7 +851,7 @@
         }, 3000);
       }
 
-      function showCaptureEyeTooltip(event) {
+      function captureEyeShowCaptureEyeTooltip(event) {
         const tooltip = document.getElementById('capture-eye-tooltip-snackbar');
         if (!tooltip) return;
 
@@ -889,7 +889,7 @@
        *
        * @param {string} elementId - The ID of the element whose text content will be copied.
        */
-      function copyToClipboard(elementId) {
+      function captureEyeCopyToClipboard(elementId) {
         // Get the element by its ID
         var element = document.getElementById(elementId);
 
@@ -914,7 +914,7 @@
        * If there's an error, update the UI with an error message.
        * @async
        */
-      async function fetchData(nid) {
+      async function captureEyeFetchData(nid) {
         const captureToken = undefined; // [ACTION] Replace captureToken with your token. You may also skip it if the asset is public available.
 
         let headers = {'Content-Type': 'application/json'};
@@ -924,24 +924,26 @@
         const requestOptions = {method: 'GET', headers: headers};
 
         try {
-          updateUILoadingState({isLoading: true});
+          captureEyeUpdateUILoadingState({isLoading: true});
           // No need to wait for API response we can directly generate image url
-          updateIPFSImagePreview(
+          captureEyeUpdateIPFSImagePreview(
             `https://ipfs-pin.numbersprotocol.io/ipfs/${nid}`
           );
-          updateImagePreviewDestination(nid);
+          captureEyeUpdateImagePreviewDestination(nid);
           const response = await fetch(requestUrl, requestOptions);
           if (response.ok) {
             const data = await response.json();
-            updateUILoadingState({isLoading: false});
-            updateUISuccessState(data);
+            captureEyeUpdateUILoadingState({isLoading: false});
+            captureEyeUpdateUISuccessState(data);
           } else {
             const error = await response.json();
             throw error;
           }
         } catch (error) {
-          updateUILoadingState({isLoading: false});
-          updateUIWithErrorState('Error fetching data: ' + error.message);
+          captureEyeUpdateUILoadingState({isLoading: false});
+          captureEyeUpdateUIWithErrorState(
+            'Error fetching data: ' + error.message
+          );
         }
       }
 
@@ -954,7 +956,7 @@
        * It updates the UI accordingly with loading, success, or error states.
        * @async
        */
-      async function fetchDataDebug(nid) {
+      async function captureEyeFetchDataDebug(nid) {
         const testNetworkDelay = 1300;
         if (nid) {
           const sampleData = [
@@ -987,12 +989,12 @@
               digitalSourceType: 'digitalUpload',
             },
           ];
-          updateUILoadingState({isLoading: true});
+          captureEyeUpdateUILoadingState({isLoading: true});
           setTimeout(() => {
             const data = sampleData.find((data) => data.nid === nid);
-            if (data) updateUISuccessState(data);
-            else updateUIWithErrorState('Not found in sampleData');
-            updateUILoadingState({isLoading: false});
+            if (data) captureEyeUpdateUISuccessState(data);
+            else captureEyeUpdateUIWithErrorState('Not found in sampleData');
+            captureEyeUpdateUILoadingState({isLoading: false});
           }, testNetworkDelay);
         } else {
           const sampleImageData = {
@@ -1012,24 +1014,24 @@
           };
           const testCases = [
             function testSuccessCase() {
-              updateUILoadingState({isLoading: true});
+              captureEyeUpdateUILoadingState({isLoading: true});
               setTimeout(() => {
-                updateUILoadingState({isLoading: false});
-                updateUISuccessState(sampleImageData);
+                captureEyeUpdateUILoadingState({isLoading: false});
+                captureEyeUpdateUISuccessState(sampleImageData);
               }, testNetworkDelay);
             },
             function testErrorCase() {
-              updateUILoadingState({isLoading: true});
+              captureEyeUpdateUILoadingState({isLoading: true});
               setTimeout(() => {
-                updateUILoadingState({isLoading: false});
-                updateUIWithErrorState('Sample error message');
+                captureEyeUpdateUILoadingState({isLoading: false});
+                captureEyeUpdateUIWithErrorState('Sample error message');
               }, testNetworkDelay);
             },
             function testPreviewLoaadErrorCase() {
-              updateUILoadingState({isLoading: true});
+              captureEyeUpdateUILoadingState({isLoading: true});
               setTimeout(() => {
-                updateUILoadingState({isLoading: false});
-                updateUISuccessState(sampleVideoData);
+                captureEyeUpdateUILoadingState({isLoading: false});
+                captureEyeUpdateUISuccessState(sampleVideoData);
               }, testNetworkDelay);
             },
           ];
@@ -1043,7 +1045,7 @@
        * @param {Object} options - Options for updating the UI loading state.
        * @param {boolean} options.isLoading - Indicates whether the UI is in a loading state.
        */
-      function updateUILoadingState({isLoading}) {
+      function captureEyeUpdateUILoadingState({isLoading}) {
         const elementsByID = [
           'ui-data-nid',
           'ui-data-assetCreator',
@@ -1062,7 +1064,7 @@
        * Updates the UI with the fetched data.
        * @param {Object} data - The data object received from the fetch operation.
        */
-      function updateUISuccessState(data) {
+      function captureEyeUpdateUISuccessState(data) {
         // updateIPFSImagePreview(
         //   `https://ipfs-pin.numbersprotocol.io/ipfs/${data.nid}`
         // );
@@ -1081,16 +1083,19 @@
         document.getElementById('ui-data-digitalSourceType').textContent =
           data.digitalSourceType;
 
-        updateCaptureEyeButton({inStock: data.inStock});
+        captureEyeUpdateCaptureEyeButton({inStock: data.inStock});
       }
 
       /**
        * Update the UI to display an error state by hiding the modal content and showing the error modal content.
        * @param {string} errorMessage - The error message to display.
        */
-      function updateUIWithErrorState(errorMessage) {
-        toggleModelContentVisibility({visible: false});
-        toggleModelContentErrorVisibility({visible: true, errorMessage});
+      function captureEyeUpdateUIWithErrorState(errorMessage) {
+        captureEyeToggleModelContentVisibility({visible: false});
+        captureEyeToggleModelContentErrorVisibility({
+          visible: true,
+          errorMessage,
+        });
       }
 
       /**
@@ -1099,7 +1104,7 @@
        * @param {Object} options - The options for toggling visibility.
        * @param {boolean} [options.visible=true] - Whether to make the modal content visible (true) or hidden (false).
        */
-      function toggleModelContentVisibility({visible = true}) {
+      function captureEyeToggleModelContentVisibility({visible = true}) {
         const modalContent = document.querySelector('.modal-content');
         if (modalContent)
           modalContent.style.display = visible ? 'flex' : 'none';
@@ -1112,7 +1117,7 @@
        * @param {boolean} [options.visible=false] - Whether to make the error content visible.
        * @param {string} [options.errorMessage=''] - The error message to display.
        */
-      function toggleModelContentErrorVisibility({
+      function captureEyeToggleModelContentErrorVisibility({
         visible = false,
         errorMessage = '',
       }) {
@@ -1134,7 +1139,7 @@
        *
        * @param {string} [imgSrc='https://c.animaapp.com/twFYQx58/img/placeholder-image.png'] - The default URL preview img.
        */
-      function updateIPFSImagePreview(
+      function captureEyeUpdateIPFSImagePreview(
         imgSrc = 'https://c.animaapp.com/twFYQx58/img/placeholder-image.png'
       ) {
         const imgPreview = document.getElementById('ipfs-image-preview');
@@ -1153,7 +1158,7 @@
         }
       }
 
-      function updateImagePreviewDestination(nid) {
+      function captureEyeUpdateImagePreviewDestination(nid) {
         // we will use it later
         document.querySelector('section.preview-container').dataset.nid = nid;
       }
@@ -1170,7 +1175,7 @@
        * `selectorsToHide` array. You can customize the `selectorsToHide` array to
        * specify which elements should be hidden temporarily.
        */
-      function temporarilyHideUIElements() {
+      function captureEyeTemporarilyHideUIElements() {
         const selectorsToHide = [
           '#geolocaton-row',
           '#mime-type-row',
@@ -1190,16 +1195,16 @@
       /**
        * Reset the UI state by updating loading state, modal content visibility, and error modal content visibility.
        */
-      function resetUIState() {
-        updateUILoadingState({isLoading: false});
-        toggleModelContentVisibility({visible: true});
-        toggleModelContentErrorVisibility({visible: false});
-        updateIPFSImagePreview();
-        temporarilyHideUIElements(); // devs can comment out to see full UI during debugging
-        updateCaptureEyeButton({inStock: -1});
+      function captureEyeResetUIState() {
+        captureEyeUpdateUILoadingState({isLoading: false});
+        captureEyeToggleModelContentVisibility({visible: true});
+        captureEyeToggleModelContentErrorVisibility({visible: false});
+        captureEyeUpdateIPFSImagePreview();
+        captureEyeTemporarilyHideUIElements(); // devs can comment out to see full UI during debugging
+        captureEyeUpdateCaptureEyeButton({inStock: -1});
       }
 
-      function handleIpfsImagePreviewError() {
+      function captureEyeHandleIpfsImagePreviewError() {
         // Hide the failed image
         document.getElementById('ipfs-image-preview').style.display = 'none';
 
@@ -1232,7 +1237,7 @@
         window.open(url, '_blank').focus();
       }
 
-      function updateCaptureEyeButton({inStock = -1}) {
+      function captureEyeUpdateCaptureEyeButton({inStock = -1}) {
         const text = inStock > 0 ? 'COLLECT' : 'COLLECTED';
         const hidden = inStock < 0;
 
