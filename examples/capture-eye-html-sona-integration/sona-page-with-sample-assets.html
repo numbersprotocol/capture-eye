@@ -263,7 +263,7 @@
         }
       }
 
-      .capture-eye-metadata-container .link {
+      .capture-eye-metadata-container .capture-eye-link {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -277,17 +277,17 @@
       }
 
       @media (min-width: 1200px) {
-        .link {
+        .capture-eye-link {
           align-self: flex-end;
         }
       }
 
-      .link:hover,
-      .link *:hover {
+      .capture-eye-link:hover,
+      .capture-eye-link *:hover {
         cursor: pointer;
       }
 
-      .link .purchase-license {
+      .capture-eye-link .purchase-license {
         width: fit-content;
         font-family: 'Capture-Eye-Degular-Medium', Helvetica;
         font-weight: 500;
@@ -298,12 +298,12 @@
         line-height: normal;
       }
 
-      .link {
+      .capture-eye-link {
         margin: 24px 40px;
       }
 
       @media (max-width: 600px) {
-        .link {
+        .capture-eye-link {
           margin: 24px 24px;
         }
       }
@@ -672,7 +672,11 @@
             </span>
           </section>
           <section class="capture-eye-metadata-container">
-            <div data-inStock="-1" class="link" onclick="captureEyeCollect()">
+            <div
+              data-inStock="-1"
+              class="capture-eye-link"
+              onclick="captureEyeCollect()"
+            >
               <div class="purchase-license">COLLECT</div>
             </div>
             <div class="capture-eye-heading">
@@ -1220,7 +1224,7 @@
 
       function captureEyeCollect() {
         const inStock = document.querySelector(
-          '.capture-eye-metadata-container .link'
+          '.capture-eye-metadata-container .capture-eye-link'
         ).dataset.inStock;
 
         if (inStock < 1) return;
@@ -1248,7 +1252,7 @@
         const hidden = inStock < 0;
 
         const button = document.querySelector(
-          '.capture-eye-metadata-container .link'
+          '.capture-eye-metadata-container .capture-eye-link'
         );
         const buttonText = document.querySelector(
           '.capture-eye-metadata-container .purchase-license'
