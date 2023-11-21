@@ -69,7 +69,7 @@
         overflow: hidden;
       }
       /* Modal styles */
-      .modal {
+      .capture-eye-modal {
         display: none; /* Hidden by default */
         position: fixed; /* Stay in place */
         z-index: 1999; /* Sit on top */
@@ -82,7 +82,7 @@
         background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
       }
 
-      .modal-container {
+      .capture-eye-modal-container {
         background-color: #fefefe;
         border-radius: 1rem;
         margin: 48px auto; /* 15% from the top and centered */
@@ -90,7 +90,7 @@
         background: #111112;
       }
 
-      .modal-header {
+      .capture-eye-modal-header {
         display: flex;
         height: 90px;
         align-items: center;
@@ -119,18 +119,18 @@
         height: 24px;
       }
 
-      .modal-content {
+      .capture-eye-modal-content {
         display: flex;
       }
 
       @media (max-width: 1200px) {
-        .modal-content {
+        .capture-eye-modal-content {
           display: flex;
           flex-direction: column;
         }
       }
 
-      .modal-content-error {
+      .capture-eye-modal-content-error {
         display: none; /* Hidden by default */
         height: 60vh;
         width: 100%;
@@ -146,7 +146,7 @@
         text-align: center;
       }
 
-      .modal-content section {
+      .capture-eye-modal-content section {
         flex: 1; /* Each section takes equal width */
         aspect-ratio: 1; /* Maintain aspect ratio of 1 */
         color: white;
@@ -644,9 +644,9 @@
     </div>
 
     <!-- This HTML code should be injected to SONA page START -->
-    <div id="capture-eye-modal" class="modal">
-      <div class="modal-container">
-        <div class="modal-header">
+    <div id="capture-eye-modal" class="capture-eye-modal">
+      <div class="capture-eye-modal-container">
+        <div class="capture-eye-modal-header">
           <div
             class="keyboard-arrow-left"
             onclick="captureEyeToggleCaptureModal({hide: true})"
@@ -657,8 +657,8 @@
             />
           </div>
         </div>
-        <div class="modal-content-error"></div>
-        <div class="modal-content">
+        <div class="capture-eye-modal-content-error"></div>
+        <div class="capture-eye-modal-container">
           <section class="preview-container">
             <img
               id="ipfs-image-preview"
@@ -1105,7 +1105,9 @@
        * @param {boolean} [options.visible=true] - Whether to make the modal content visible (true) or hidden (false).
        */
       function captureEyeToggleModelContentVisibility({visible = true}) {
-        const modalContent = document.querySelector('.modal-content');
+        const modalContent = document.querySelector(
+          '.capture-eye-modal-content'
+        );
         if (modalContent)
           modalContent.style.display = visible ? 'flex' : 'none';
       }
@@ -1125,7 +1127,7 @@
         const innerHTML = errorMessage + '<br/>' + errorInstructions;
 
         const modalContentError = document.querySelector(
-          '.modal-content-error'
+          '.capture-eye-modal-content-error'
         );
 
         if (modalContentError) {
