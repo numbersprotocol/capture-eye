@@ -152,7 +152,7 @@
         color: white;
       }
 
-      section.preview-container {
+      section.capture-eye-preview-container {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -162,12 +162,12 @@
         margin: 40px;
       }
 
-      section.preview-container img {
+      section.capture-eye-preview-container img {
         border-radius: 8px;
         overflow: hidden;
       }
 
-      section.preview-container #ipfs-no-preview-available-text {
+      section.capture-eye-preview-container #ipfs-no-preview-available-text {
         display: none; /* hidden by default */
         background-color: #212121;
         border-radius: 8px;
@@ -184,12 +184,12 @@
       }
 
       @media (max-width: 600px) {
-        section.preview-container {
+        section.capture-eye-preview-container {
           margin: 24px;
         }
       }
 
-      section.preview-container .preview-image {
+      section.capture-eye-preview-container .preview-image {
         width: 100%;
         aspect-ratio: 1;
         object-fit: contain;
@@ -659,7 +659,7 @@
         </div>
         <div class="capture-eye-modal-content-error"></div>
         <div class="capture-eye-modal-container">
-          <section class="preview-container">
+          <section class="capture-eye-preview-container">
             <img
               id="ipfs-image-preview"
               class="preview-image"
@@ -1162,7 +1162,9 @@
 
       function captureEyeUpdateImagePreviewDestination(nid) {
         // we will use it later
-        document.querySelector('section.preview-container').dataset.nid = nid;
+        document.querySelector(
+          'section.capture-eye-preview-container'
+        ).dataset.nid = nid;
       }
 
       /**
@@ -1231,8 +1233,9 @@
       }
 
       function openInNSE() {
-        const nid = document.querySelector('section.preview-container').dataset
-          .nid;
+        const nid = document.querySelector(
+          'section.capture-eye-preview-container'
+        ).dataset.nid;
         if (!nid) return; // Do nothing if for some reason nid is not found
 
         const url = `https://nftsearch.site/asset-profile?nid=${nid}`;
