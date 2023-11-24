@@ -282,6 +282,11 @@
         }
       }
 
+      .link:hover,
+      .link *:hover {
+        cursor: pointer;
+      }
+
       .link .purchase-license {
         width: fit-content;
         font-family: 'Capture-Eye-Degular-Medium', Helvetica;
@@ -774,7 +779,9 @@
       async function showCaptureEyeInspectorForNid(nid) {
         toggleCaptureModal({hide: false});
         resetUIState();
-        updateIPFSImagePreview(`https://ipfs-pin.numbersprotocol.io/ipfs/${nid}`);
+        updateIPFSImagePreview(
+          `https://ipfs-pin.numbersprotocol.io/ipfs/${nid}`
+        );
         fetchData(nid);
         // fetchDataDebug(); // Used for debug mode only
       }
