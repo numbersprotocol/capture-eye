@@ -282,6 +282,11 @@
         }
       }
 
+      .link:hover,
+      .link *:hover {
+        cursor: pointer;
+      }
+
       .link .purchase-license {
         width: fit-content;
         font-family: 'Capture-Eye-Degular-Medium', Helvetica;
@@ -660,9 +665,9 @@
               class="preview-image"
               src="https://c.animaapp.com/twFYQx58/img/placeholder-image.png"
               onerror="handleIpfsImagePreviewError()"
-              onclick="captureEyeOpenImageInIpfs()"
+              onclick="openInNSE()"
             />
-            <span id="ipfs-no-preview-available-text">
+            <span id="ipfs-no-preview-available-text" onclick="openInNSE()">
               No Preview Available
             </span>
           </section>
@@ -735,6 +740,7 @@
                     class="img"
                     src="https://c.animaapp.com/twFYQx58/img/help-2@2x.png"
                     onclick="showCaptureEyeTooltip(event)"
+                    onmouseover="showCaptureEyeTooltip(event)"
                   />
                 </div>
               </div>
@@ -774,7 +780,9 @@
       async function showCaptureEyeInspectorForNid(nid) {
         toggleCaptureModal({hide: false});
         resetUIState();
-        updateIPFSImagePreview(`https://ipfs-pin.numbersprotocol.io/ipfs/${nid}`);
+        updateIPFSImagePreview(
+          `https://ipfs-pin.numbersprotocol.io/ipfs/${nid}`
+        );
         fetchData(nid);
         // fetchDataDebug(); // Used for debug mode only
       }
@@ -862,7 +870,7 @@
         var targetRect = targetElement.getBoundingClientRect();
         // Position the tooltip below the target element
         tooltip.style.left = targetRect.left - 150 + 'px';
-        tooltip.style.top = targetRect.bottom - 150 + 'px';
+        tooltip.style.top = event.pageY - 150 + 'px';
 
         tooltip.textContent =
           'digitalSourceType is a controlled vocabulary that indicates from which source a digital media was created.';
@@ -921,6 +929,7 @@
           updateIPFSImagePreview(
             `https://ipfs-pin.numbersprotocol.io/ipfs/${nid}`
           );
+          updateImagePreviewDestination(nid);
           const response = await fetch(requestUrl, requestOptions);
           if (response.ok) {
             const data = await response.json();
@@ -1060,7 +1069,7 @@
 
         document.getElementById(
           'ui-data-nid'
-        ).innerHTML = `<a target="_blank" href="https://nftsearch.site/asset-profile?nid=${data.nid}">${data.nid}</a>`;
+        ).innerHTML = `<a target="_blank" href="https://ipfs-pin.numbersprotocol.io/ipfs/${data.nid}">${data.nid}</a>`;
 
         document.getElementById(
           'ui-data-assetCreator'
@@ -1144,6 +1153,11 @@
         }
       }
 
+      function updateImagePreviewDestination(nid) {
+        // we will use it later
+        document.querySelector('section.preview-container').dataset.nid = nid;
+      }
+
       /**
        * Temporarily hides specific UI elements based on provided CSS selectors.
        *
@@ -1209,10 +1223,13 @@
         window.open(url, '_blank').focus();
       }
 
-      function captureEyeOpenImageInIpfs() {
-        const element = document.querySelector('#ui-data-nid a');
-        if (!element) return;
-        element.click();
+      function openInNSE() {
+        const nid = document.querySelector('section.preview-container').dataset
+          .nid;
+        if (!nid) return; // Do nothing if for some reason nid is not found
+
+        const url = `https://nftsearch.site/asset-profile?nid=${nid}`;
+        window.open(url, '_blank').focus();
       }
 
       function updateCaptureEyeButton({inStock = -1}) {
