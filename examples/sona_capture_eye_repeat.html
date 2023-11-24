@@ -1,609 +1,604 @@
 <body>
-    <div
-      class="capture-eye-button"
-      onclick="showCaptureEyeInspectorForNid('$NID')"
-    >
-      <img
-        src="https://ipfs-pin.numbersprotocol.io/ipfs/bafkreicf4sruldnh4g3bmxnqr6zjgfzfgvbqoa5iy2jncewqqlgg75utd4"
-      />
-    </div>
+  <div
+    class="capture-eye-button"
+    onclick="showCaptureEyeInspectorForNid('$NID')"
+  >
+    <img
+      src="https://ipfs-pin.numbersprotocol.io/ipfs/bafkreicf4sruldnh4g3bmxnqr6zjgfzfgvbqoa5iy2jncewqqlgg75utd4"
+    />
+  </div>
 
-    <!-- This HTML code should be injected to SONA page START -->
-    <div id="capture-eye-modal" class="modal">
-      <div class="modal-container">
-        <div class="modal-header">
-          <div
-            class="keyboard-arrow-left"
-            onclick="toggleCaptureModal({hide: true})"
-          >
-            <img
-              class="close"
-              src="https://c.animaapp.com/twFYQx58/img/close@2x.png"
-            />
-          </div>
-        </div>
-        <div class="modal-content-error"></div>
-        <div class="modal-content">
-          <section class="preview-container">
-            <img
-              id="ipfs-image-preview"
-              class="preview-image"
-              src="https://c.animaapp.com/twFYQx58/img/placeholder-image.png"
-              onerror="handleIpfsImagePreviewError()"
-              onclick="captureEyeOpenImageInIpfs()"
-            />
-            <span id="ipfs-no-preview-available-text">
-              No Preview Available
-            </span>
-          </section>
-          <section class="metadata-container">
-            <div data-inStock="-1" class="link" onclick="captureEyeCollect()">
-              <div class="purchase-license">COLLECT</div>
-            </div>
-            <div class="heading">
-              <div class="text-wrapper">Provenance</div>
-              <img
-                class="keyboard-arrow-up"
-                src="https://c.animaapp.com/twFYQx58/img/keyboard-arrow-up-1@2x.png"
-              />
-            </div>
-            <div class="table">
-              <div class="row">
-                <div class="first-column text-wrapper-2">Nid</div>
-                <div class="second-column ID">
-                  <div class="second-column text-wrapper-3" id="ui-data-nid">
-                    bafybeidq6jv6oklxehd3vpx275xage37gl2kyygxxkyqsiwt2v4aqb625a
-                  </div>
-                  <img
-                    class="img"
-                    src="https://c.animaapp.com/twFYQx58/img/content-copy@2x.png"
-                    onclick="copyToClipboard('ui-data-nid')"
-                  />
-                </div>
-              </div>
-              <div class="row">
-                <div class="first-column text-wrapper-2">Creator</div>
-                <div
-                  class="second-column text-wrapper-4"
-                  id="ui-data-assetCreator"
-                >
-                  Koen Van Damme
-                </div>
-              </div>
-              <div class="row">
-                <div class="first-column text-wrapper-2">Creation Time</div>
-                <div
-                  class="second-column text-wrapper-5"
-                  id="ui-data-assetTimestampCreated"
-                >
-                  2023-04-23 23:10:57 (GMT)
-                </div>
-              </div>
-              <div class="row" id="geolocaton-row">
-                <div class="first-column text-wrapper-2">Geolocation</div>
-                <div class="second-column text-wrapper-4">
-                  51.11582, 3.986580
-                </div>
-              </div>
-              <div class="row" id="mime-type-row">
-                <div class="first-column text-wrapper-2">File Mimetype</div>
-                <div class="second-column ID">
-                  <div class="text-wrapper-6">Image/JPEG</div>
-                  <img
-                    class="img"
-                    src="https://c.animaapp.com/twFYQx58/img/help-2@2x.png"
-                  />
-                </div>
-              </div>
-              <div class="row">
-                <div class="first-column text-wrapper-2">Source Type</div>
-                <div class="second-column ID">
-                  <div class="text-wrapper-6" id="ui-data-digitalSourceType">
-                    trainedAlgorithmicData
-                  </div>
-                  <img
-                    class="img"
-                    src="https://c.animaapp.com/twFYQx58/img/help-2@2x.png"
-                    onclick="showCaptureEyeTooltip(event)"
-                  />
-                </div>
-              </div>
-              <div class="row" id="initial-committer-row">
-                <div class="first-column text-wrapper-2">Initial Committer</div>
-                <div class="second-column text-wrapper-7">
-                  0x1A00791d3FCdD167982a263fd1A05Cf6f1965B8e
-                </div>
-              </div>
-              <div class="row" id="generated-by-row">
-                <div class="first-column text-wrapper-2">Generated By</div>
-                <div class="second-column text-wrapper-4">Midjourney v5</div>
-              </div>
-            </div>
-            <div class="metadata-container-bottom-spacer"></div>
-          </section>
+  <!-- This HTML code should be injected to SONA page START -->
+  <div id="capture-eye-modal" class="modal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div
+          class="keyboard-arrow-left"
+          onclick="toggleCaptureModal({hide: true})"
+        >
+          <img
+            class="close"
+            src="https://c.animaapp.com/twFYQx58/img/close@2x.png"
+          />
         </div>
       </div>
+      <div class="modal-content-error"></div>
+      <div class="modal-content">
+        <section class="preview-container">
+          <img
+            id="ipfs-image-preview"
+            class="preview-image"
+            src="https://c.animaapp.com/twFYQx58/img/placeholder-image.png"
+            onerror="handleIpfsImagePreviewError()"
+            onclick="openInNSE()"
+          />
+          <span id="ipfs-no-preview-available-text" onclick="openInNSE()">
+            No Preview Available
+          </span>
+        </section>
+        <section class="metadata-container">
+          <div data-inStock="-1" class="link" onclick="captureEyeCollect()">
+            <div class="purchase-license">COLLECT</div>
+          </div>
+          <div class="heading">
+            <div class="text-wrapper">Provenance</div>
+            <img
+              class="keyboard-arrow-up"
+              src="https://c.animaapp.com/twFYQx58/img/keyboard-arrow-up-1@2x.png"
+            />
+          </div>
+          <div class="table">
+            <div class="row">
+              <div class="first-column text-wrapper-2">Nid</div>
+              <div class="second-column ID">
+                <div class="second-column text-wrapper-3" id="ui-data-nid">
+                  bafybeidq6jv6oklxehd3vpx275xage37gl2kyygxxkyqsiwt2v4aqb625a
+                </div>
+                <img
+                  class="img"
+                  src="https://c.animaapp.com/twFYQx58/img/content-copy@2x.png"
+                  onclick="copyToClipboard('ui-data-nid')"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="first-column text-wrapper-2">Creator</div>
+              <div
+                class="second-column text-wrapper-4"
+                id="ui-data-assetCreator"
+              >
+                Koen Van Damme
+              </div>
+            </div>
+            <div class="row">
+              <div class="first-column text-wrapper-2">Creation Time</div>
+              <div
+                class="second-column text-wrapper-5"
+                id="ui-data-assetTimestampCreated"
+              >
+                2023-04-23 23:10:57 (GMT)
+              </div>
+            </div>
+            <div class="row" id="geolocaton-row">
+              <div class="first-column text-wrapper-2">Geolocation</div>
+              <div class="second-column text-wrapper-4">51.11582, 3.986580</div>
+            </div>
+            <div class="row" id="mime-type-row">
+              <div class="first-column text-wrapper-2">File Mimetype</div>
+              <div class="second-column ID">
+                <div class="text-wrapper-6">Image/JPEG</div>
+                <img
+                  class="img"
+                  src="https://c.animaapp.com/twFYQx58/img/help-2@2x.png"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="first-column text-wrapper-2">Source Type</div>
+              <div class="second-column ID">
+                <div class="text-wrapper-6" id="ui-data-digitalSourceType">
+                  trainedAlgorithmicData
+                </div>
+                <img
+                  class="img"
+                  src="https://c.animaapp.com/twFYQx58/img/help-2@2x.png"
+                  onclick="showCaptureEyeTooltip(event)"
+                  onmouseover="showCaptureEyeTooltip(event)"
+                />
+              </div>
+            </div>
+            <div class="row" id="initial-committer-row">
+              <div class="first-column text-wrapper-2">Initial Committer</div>
+              <div class="second-column text-wrapper-7">
+                0x1A00791d3FCdD167982a263fd1A05Cf6f1965B8e
+              </div>
+            </div>
+            <div class="row" id="generated-by-row">
+              <div class="first-column text-wrapper-2">Generated By</div>
+              <div class="second-column text-wrapper-4">Midjourney v5</div>
+            </div>
+          </div>
+          <div class="metadata-container-bottom-spacer"></div>
+        </section>
+      </div>
     </div>
-    <div id="snackbar"></div>
-    <div id="capture-eye-tooltip-snackbar"></div>
-    <!-- This HTML code should be injected to SONA page END -->
+  </div>
+  <div id="snackbar"></div>
+  <div id="capture-eye-tooltip-snackbar"></div>
+  <!-- This HTML code should be injected to SONA page END -->
 
-    <!-- This JS code should be injected to SONA page START -->
-    <script>
-      function toggleCaptureModal({hide = true}) {
-        var modal = document.getElementById('capture-eye-modal');
-        if (hide) {
-          modal.style.display = 'none';
-          document.body.classList.remove('capture-eye-no-scroll');
-        } else {
-          document.body.classList.add('capture-eye-no-scroll');
-          modal.style.display = 'block';
-        }
+  <!-- This JS code should be injected to SONA page START -->
+  <script>
+    function toggleCaptureModal({hide = true}) {
+      var modal = document.getElementById('capture-eye-modal');
+      if (hide) {
+        modal.style.display = 'none';
+        document.body.classList.remove('capture-eye-no-scroll');
+      } else {
+        document.body.classList.add('capture-eye-no-scroll');
+        modal.style.display = 'block';
       }
+    }
 
-      async function showCaptureEyeInspectorForNid(nid) {
-        toggleCaptureModal({hide: false});
-        resetUIState();
-        updateIPFSImagePreview(`https://ipfs-pin.numbersprotocol.io/ipfs/${nid}`);
-        fetchData(nid);
-        // fetchDataDebug(); // Used for debug mode only
-      }
+    async function showCaptureEyeInspectorForNid(nid) {
+      toggleCaptureModal({hide: false});
+      resetUIState();
+      updateIPFSImagePreview(`https://ipfs-pin.numbersprotocol.io/ipfs/${nid}`);
+      fetchData(nid);
+      // fetchDataDebug(); // Used for debug mode only
+    }
 
-      /**
-       * Toggles a custom tooltip on a target element when triggered by an event.
-       * If the tooltip already exists, it will be removed; otherwise, a new one will be created.
-       * The tooltip provides information about a source type of asset.
-       *
-       * @param {Event} event - The event that triggered the tooltip display.
-       */
-      function captureEyeToggleTooltipText(event) {
-        console.log(event);
-        // Check if a tooltip already exists
-        var existingTooltip = document.getElementById('custom-tooltip');
+    /**
+     * Toggles a custom tooltip on a target element when triggered by an event.
+     * If the tooltip already exists, it will be removed; otherwise, a new one will be created.
+     * The tooltip provides information about a source type of asset.
+     *
+     * @param {Event} event - The event that triggered the tooltip display.
+     */
+    function captureEyeToggleTooltipText(event) {
+      console.log(event);
+      // Check if a tooltip already exists
+      var existingTooltip = document.getElementById('custom-tooltip');
 
-        if (existingTooltip) {
-          // If tooltip exists, remove it
-          existingTooltip.remove();
-        } else {
-          // If no tooltip, create a new one
-          var newTooltip = document.createElement('div');
-          newTooltip.id = 'custom-tooltip';
-          newTooltip.textContent =
-            'digitalSourceType is a controlled vocabulary that indicates from which source a digital media was created.';
-          // style tooltip
-          newTooltip.style.position = 'absolute';
-          newTooltip.style.height = 'fit-content';
-          newTooltip.style.width = '220px';
-          newTooltip.style.padding = '8px';
-          newTooltip.style.backgroundColor = 'black';
-          newTooltip.style.color = 'white';
-          newTooltip.style.textAlign = 'center';
-          newTooltip.style.fontFamily = "'Noto Sans', Arial, sans-serif";
-          newTooltip.style.zIndex = 88888;
-          newTooltip.style.borderRadius = '5px';
-
-          // Get the position of the target element
-          var targetElement = event.target;
-          var targetRect = targetElement.getBoundingClientRect();
-
-          // Position the tooltip below the target element
-          newTooltip.style.left = targetRect.left - 150 + 'px';
-          newTooltip.style.top = targetRect.bottom - 150 + 'px';
-
-          // Append the new tooltip to the body
-          document.body.appendChild(newTooltip);
-
-          setTimeout(() => {
-            newTooltip.remove();
-          }, 1300);
-        }
-      }
-
-      /**
-       * Displays a snackbar notification with the specified text for a short duration.
-       *
-       * @param {string} text - The text to display in the snackbar notification.
-       */
-      function showSnackbar(text) {
-        var x = document.getElementById('snackbar');
-        x.className = 'show';
-        x.innerText = text;
-        setTimeout(function () {
-          x.className = x.className.replace('show', '');
-        }, 3000);
-      }
-
-      function showCaptureEyeTooltip(event) {
-        const tooltip = document.getElementById('capture-eye-tooltip-snackbar');
-        if (!tooltip) return;
-
-        tooltip.style.position = 'absolute';
-        tooltip.style.width = '220px';
-        tooltip.style.padding = '8px';
-        tooltip.style.backgroundColor = 'black';
-        tooltip.style.color = 'white';
-        tooltip.style.textAlign = 'center';
-        tooltip.style.fontFamily = "'Noto Sans', Arial, sans-serif";
-        tooltip.style.zIndex = 88888;
-        tooltip.style.borderRadius = '5px';
+      if (existingTooltip) {
+        // If tooltip exists, remove it
+        existingTooltip.remove();
+      } else {
+        // If no tooltip, create a new one
+        var newTooltip = document.createElement('div');
+        newTooltip.id = 'custom-tooltip';
+        newTooltip.textContent =
+          'digitalSourceType is a controlled vocabulary that indicates from which source a digital media was created.';
+        // style tooltip
+        newTooltip.style.position = 'absolute';
+        newTooltip.style.height = 'fit-content';
+        newTooltip.style.width = '220px';
+        newTooltip.style.padding = '8px';
+        newTooltip.style.backgroundColor = 'black';
+        newTooltip.style.color = 'white';
+        newTooltip.style.textAlign = 'center';
+        newTooltip.style.fontFamily = "'Noto Sans', Arial, sans-serif";
+        newTooltip.style.zIndex = 88888;
+        newTooltip.style.borderRadius = '5px';
 
         // Get the position of the target element
         var targetElement = event.target;
         var targetRect = targetElement.getBoundingClientRect();
+
         // Position the tooltip below the target element
-        tooltip.style.left = targetRect.left - 150 + 'px';
-        tooltip.style.top = targetRect.bottom - 150 + 'px';
+        newTooltip.style.left = targetRect.left - 150 + 'px';
+        newTooltip.style.top = targetRect.bottom - 150 + 'px';
 
-        tooltip.textContent =
-          'digitalSourceType is a controlled vocabulary that indicates from which source a digital media was created.';
+        // Append the new tooltip to the body
+        document.body.appendChild(newTooltip);
 
-        tooltip.classList.add('show');
-        // tooltip.className = 'show';
         setTimeout(() => {
-          tooltip.classList.remove('show');
-          // tooltip.className.replace('show', '');
-        }, 1200);
+          newTooltip.remove();
+        }, 1300);
       }
+    }
 
-      /**
-       * Copies the text content of an element with the given ID to the clipboard.
-       * Displays a snackbar notification upon successful copy or if the element is not found.
-       *
-       * @param {string} elementId - The ID of the element whose text content will be copied.
-       */
-      function copyToClipboard(elementId) {
-        // Get the element by its ID
-        var element = document.getElementById(elementId);
+    /**
+     * Displays a snackbar notification with the specified text for a short duration.
+     *
+     * @param {string} text - The text to display in the snackbar notification.
+     */
+    function showSnackbar(text) {
+      var x = document.getElementById('snackbar');
+      x.className = 'show';
+      x.innerText = text;
+      setTimeout(function () {
+        x.className = x.className.replace('show', '');
+      }, 3000);
+    }
 
-        if (element) {
-          // Create a temporary textarea element to copy the text to the clipboard
-          var textarea = document.createElement('textarea');
-          textarea.value = element.textContent || element.innerText;
-          document.body.appendChild(textarea);
-          textarea.select();
-          document.execCommand('copy');
-          document.body.removeChild(textarea);
+    function showCaptureEyeTooltip(event) {
+      const tooltip = document.getElementById('capture-eye-tooltip-snackbar');
+      if (!tooltip) return;
 
-          // showSnackbar('NID copied to clipboard');
-        } else {
-          // showSnackbar('Element with ID ' + elementId + ' not found.');
-        }
+      tooltip.style.position = 'absolute';
+      tooltip.style.width = '220px';
+      tooltip.style.padding = '8px';
+      tooltip.style.backgroundColor = 'black';
+      tooltip.style.color = 'white';
+      tooltip.style.textAlign = 'center';
+      tooltip.style.fontFamily = "'Noto Sans', Arial, sans-serif";
+      tooltip.style.zIndex = 88888;
+      tooltip.style.borderRadius = '5px';
+
+      // Get the position of the target element
+      var targetElement = event.target;
+      var targetRect = targetElement.getBoundingClientRect();
+      // Position the tooltip below the target element
+      tooltip.style.left = targetRect.left - 150 + 'px';
+      tooltip.style.top = targetRect.bottom - 150 + 'px';
+
+      tooltip.textContent =
+        'digitalSourceType is a controlled vocabulary that indicates from which source a digital media was created.';
+
+      tooltip.classList.add('show');
+      // tooltip.className = 'show';
+      setTimeout(() => {
+        tooltip.classList.remove('show');
+        // tooltip.className.replace('show', '');
+      }, 1200);
+    }
+
+    /**
+     * Copies the text content of an element with the given ID to the clipboard.
+     * Displays a snackbar notification upon successful copy or if the element is not found.
+     *
+     * @param {string} elementId - The ID of the element whose text content will be copied.
+     */
+    function copyToClipboard(elementId) {
+      // Get the element by its ID
+      var element = document.getElementById(elementId);
+
+      if (element) {
+        // Create a temporary textarea element to copy the text to the clipboard
+        var textarea = document.createElement('textarea');
+        textarea.value = element.textContent || element.innerText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+
+        // showSnackbar('NID copied to clipboard');
+      } else {
+        // showSnackbar('Element with ID ' + elementId + ' not found.');
       }
+    }
 
-      /**
-       * Fetch data from a remote API using the specified NID and user token.
-       * If successful, update the UI with the retrieved data.
-       * If there's an error, update the UI with an error message.
-       * @async
-       */
-      async function fetchData(nid) {
-        const captureToken = undefined; // [ACTION] Replace captureToken with your token. You may also skip it if the asset is public available.
+    /**
+     * Fetch data from a remote API using the specified NID and user token.
+     * If successful, update the UI with the retrieved data.
+     * If there's an error, update the UI with an error message.
+     * @async
+     */
+    async function fetchData(nid) {
+      const captureToken = undefined; // [ACTION] Replace captureToken with your token. You may also skip it if the asset is public available.
 
-        let headers = {'Content-Type': 'application/json'};
-        if (captureToken) headers['Authorization'] = `Bearer ${captureToken}`;
+      let headers = {'Content-Type': 'application/json'};
+      if (captureToken) headers['Authorization'] = `Bearer ${captureToken}`;
 
-        const requestUrl = `https://eognt1jfpe04mq8.m.pipedream.net?nid=${nid}`;
-        const requestOptions = {method: 'GET', headers: headers};
+      const requestUrl = `https://eognt1jfpe04mq8.m.pipedream.net?nid=${nid}`;
+      const requestOptions = {method: 'GET', headers: headers};
 
-        try {
-          updateUILoadingState({isLoading: true});
-          const response = await fetch(requestUrl, requestOptions);
-          if (response.ok) {
-            const data = await response.json();
-            updateUILoadingState({isLoading: false});
-            updateUISuccessState(data);
-          } else {
-            const error = await response.json();
-            throw error;
-          }
-        } catch (error) {
+      try {
+        updateUILoadingState({isLoading: true});
+        const response = await fetch(requestUrl, requestOptions);
+        if (response.ok) {
+          const data = await response.json();
           updateUILoadingState({isLoading: false});
-          updateUIWithErrorState('Error fetching data: ' + error.message);
-        }
-      }
-
-      /**
-       * Simulate fetching data for debugging purposes and faster UI development.
-       * This function simulates few test cases:
-       * 1. Successful data retrieval after a delay.
-       * 2. Error response after a delay.
-       * 3. More can be added in the future
-       * It updates the UI accordingly with loading, success, or error states.
-       * @async
-       */
-      async function fetchDataDebug(nid) {
-        const testNetworkDelay = 1300;
-        if (nid) {
-          const sampleData = [
-            {
-              nid: 'bafkreibfqutz3xybzgudrwfs43s7dlgmx2tbvqj5r7ivxzplwrahdoyrfi',
-              assetCreator: 'sultanmyrza001',
-              creatorWallet: '0xd753C118b157AEA80b371567eCFF1C32F165B710',
-              assetTimestampCreated: '10/03/2023 21:41 UTC',
-              digitalSourceType: 'digitalUpload',
-            },
-            {
-              nid: 'bafybeifuvl3zihxcedzhyajtr4jnde3qqxqa2lmv7txsjlfamepnurjbu4',
-              assetCreator: 'CaptureClub6959',
-              creatorWallet: '0xCb555eD03F012F1C0B5D977459cBA5bFe1dDF084',
-              assetTimestampCreated: '07/21/2021 02:04 UTC',
-              digitalSourceType: 'digitalUpload',
-            },
-            {
-              nid: 'bafybeicktabllpleoe2qhgaeqseh4o7mhwcoec5pdsbbf3ddkmtbz6zn2a',
-              assetCreator: 'FMA',
-              creatorWallet: '0x08E0F01Feef642A249e95541C1dDB522d6E5a625',
-              assetTimestampCreated: '05/16/2023 08:30 UTC',
-              digitalSourceType: 'digitalUpload',
-            },
-            {
-              nid: 'bafkreibu6frgp7j6xcvae4obat6j5qwlzi447us6knxoctk3r52fmnri5y',
-              assetCreator: 'Numbers Archive',
-              creatorWallet: '0xE6073bd2C912e6F887607B707f7d31a4c6621aFA',
-              assetTimestampCreated: '01/27/2023 08:51 UTC',
-              digitalSourceType: 'digitalUpload',
-            },
-          ];
-          updateUILoadingState({isLoading: true});
-          setTimeout(() => {
-            const data = sampleData.find((data) => data.nid === nid);
-            if (data) updateUISuccessState(data);
-            else updateUIWithErrorState('Not found in sampleData');
-            updateUILoadingState({isLoading: false});
-          }, testNetworkDelay);
+          updateUISuccessState(data);
         } else {
-          const sampleImageData = {
+          const error = await response.json();
+          throw error;
+        }
+      } catch (error) {
+        updateUILoadingState({isLoading: false});
+        updateUIWithErrorState('Error fetching data: ' + error.message);
+      }
+    }
+
+    /**
+     * Simulate fetching data for debugging purposes and faster UI development.
+     * This function simulates few test cases:
+     * 1. Successful data retrieval after a delay.
+     * 2. Error response after a delay.
+     * 3. More can be added in the future
+     * It updates the UI accordingly with loading, success, or error states.
+     * @async
+     */
+    async function fetchDataDebug(nid) {
+      const testNetworkDelay = 1300;
+      if (nid) {
+        const sampleData = [
+          {
             nid: 'bafkreibfqutz3xybzgudrwfs43s7dlgmx2tbvqj5r7ivxzplwrahdoyrfi',
             assetCreator: 'sultanmyrza001',
             creatorWallet: '0xd753C118b157AEA80b371567eCFF1C32F165B710',
             assetTimestampCreated: '10/03/2023 21:41 UTC',
             digitalSourceType: 'digitalUpload',
-            inStock: 3,
-          };
-          const sampleVideoData = {
+          },
+          {
             nid: 'bafybeifuvl3zihxcedzhyajtr4jnde3qqxqa2lmv7txsjlfamepnurjbu4',
             assetCreator: 'CaptureClub6959',
             creatorWallet: '0xCb555eD03F012F1C0B5D977459cBA5bFe1dDF084',
             assetTimestampCreated: '07/21/2021 02:04 UTC',
             digitalSourceType: 'digitalUpload',
-          };
-          const testCases = [
-            function testSuccessCase() {
-              updateUILoadingState({isLoading: true});
-              setTimeout(() => {
-                updateUILoadingState({isLoading: false});
-                updateUISuccessState(sampleImageData);
-              }, testNetworkDelay);
-            },
-            function testErrorCase() {
-              updateUILoadingState({isLoading: true});
-              setTimeout(() => {
-                updateUILoadingState({isLoading: false});
-                updateUIWithErrorState('Sample error message');
-              }, testNetworkDelay);
-            },
-            function testPreviewLoaadErrorCase() {
-              updateUILoadingState({isLoading: true});
-              setTimeout(() => {
-                updateUILoadingState({isLoading: false});
-                updateUISuccessState(sampleVideoData);
-              }, testNetworkDelay);
-            },
-          ];
-          // Run one of the test cases
-          testCases[0]();
-        }
-      }
-
-      /**
-       * Update the UI loading state by adding or removing the 'shimmer' class from specified elements.
-       * @param {Object} options - Options for updating the UI loading state.
-       * @param {boolean} options.isLoading - Indicates whether the UI is in a loading state.
-       */
-      function updateUILoadingState({isLoading}) {
-        const elementsByID = [
-          'ui-data-nid',
-          'ui-data-assetCreator',
-          'ui-data-assetTimestampCreated',
-          'ui-data-digitalSourceType',
+          },
+          {
+            nid: 'bafybeicktabllpleoe2qhgaeqseh4o7mhwcoec5pdsbbf3ddkmtbz6zn2a',
+            assetCreator: 'FMA',
+            creatorWallet: '0x08E0F01Feef642A249e95541C1dDB522d6E5a625',
+            assetTimestampCreated: '05/16/2023 08:30 UTC',
+            digitalSourceType: 'digitalUpload',
+          },
+          {
+            nid: 'bafkreibu6frgp7j6xcvae4obat6j5qwlzi447us6knxoctk3r52fmnri5y',
+            assetCreator: 'Numbers Archive',
+            creatorWallet: '0xE6073bd2C912e6F887607B707f7d31a4c6621aFA',
+            assetTimestampCreated: '01/27/2023 08:51 UTC',
+            digitalSourceType: 'digitalUpload',
+          },
         ];
-
-        elementsByID.forEach((elementId) => {
-          const element = document.getElementById(elementId);
-          if (element && isLoading) element.classList.add('shimmer');
-          if (element && !isLoading) element.classList.remove('shimmer');
-        });
-      }
-
-      /**
-       * Updates the UI with the fetched data.
-       * @param {Object} data - The data object received from the fetch operation.
-       */
-      function updateUISuccessState(data) {
-        updateIPFSImagePreview(
-          `https://ipfs-pin.numbersprotocol.io/ipfs/${data.nid}`
-        );
-
-        document.getElementById(
-          'ui-data-nid'
-        ).innerHTML = `<a target="_blank" href="https://nftsearch.site/asset-profile?nid=${data.nid}">${data.nid}</a>`;
-
-        document.getElementById(
-          'ui-data-assetCreator'
-        ).innerHTML = `<a target="_blank" href="https://mainnet.num.network/address/${data.creatorWallet}">${data.assetCreator}</a>`;
-
-        document.getElementById('ui-data-assetTimestampCreated').textContent =
-          data.assetTimestampCreated;
-
-        document.getElementById('ui-data-digitalSourceType').textContent =
-          data.digitalSourceType;
-
-        updateCaptureEyeButton({inStock: data.inStock});
-      }
-
-      /**
-       * Update the UI to display an error state by hiding the modal content and showing the error modal content.
-       * @param {string} errorMessage - The error message to display.
-       */
-      function updateUIWithErrorState(errorMessage) {
-        toggleModelContentVisibility({visible: false});
-        toggleModelContentErrorVisibility({visible: true, errorMessage});
-      }
-
-      /**
-       * Toggle the visibility of the modal content.
-       *
-       * @param {Object} options - The options for toggling visibility.
-       * @param {boolean} [options.visible=true] - Whether to make the modal content visible (true) or hidden (false).
-       */
-      function toggleModelContentVisibility({visible = true}) {
-        const modalContent = document.querySelector('.modal-content');
-        if (modalContent)
-          modalContent.style.display = visible ? 'flex' : 'none';
-      }
-
-      /**
-       * Toggle the visibility of the modal error content and set the error message.
-       *
-       * @param {Object} options - An object containing options.
-       * @param {boolean} [options.visible=false] - Whether to make the error content visible.
-       * @param {string} [options.errorMessage=''] - The error message to display.
-       */
-      function toggleModelContentErrorVisibility({
-        visible = false,
-        errorMessage = '',
-      }) {
-        const errorInstructions = 'Try to re-open modal to refetch data';
-        const innerHTML = errorMessage + '<br/>' + errorInstructions;
-
-        const modalContentError = document.querySelector(
-          '.modal-content-error'
-        );
-
-        if (modalContentError) {
-          modalContentError.innerHTML = innerHTML;
-          modalContentError.style.display = visible ? 'flex' : 'none';
-        }
-      }
-
-      /**
-       * Update the source (src) of the IPFS image preview element.
-       *
-       * @param {string} [imgSrc='https://c.animaapp.com/twFYQx58/img/placeholder-image.png'] - The default URL preview img.
-       */
-      function updateIPFSImagePreview(
-        imgSrc = 'https://c.animaapp.com/twFYQx58/img/placeholder-image.png'
-      ) {
-        const imgPreview = document.getElementById('ipfs-image-preview');
-        if (imgPreview) {
-          imgPreview.setAttribute('src', imgSrc);
-          // restore if it was hidden before
-          imgPreview.style.display = 'block';
-        }
-
-        const imgPreviewError = document.getElementById(
-          'ipfs-no-preview-available-text'
-        );
-        if (imgPreviewError) {
-          // hide if it was shown before
-          imgPreviewError.style.display = 'none';
-        }
-      }
-
-      /**
-       * Temporarily hides specific UI elements based on provided CSS selectors.
-       *
-       * This function is used to hide certain UI elements when necessary. For example,
-       * it can be used to hide elements that depend on data from an external source that
-       * may not be available yet. See https://app.asana.com/0/1201016280880508/1205923376919599
-       *
-       * @description
-       * This function hides UI elements specified by the CSS selectors in the
-       * `selectorsToHide` array. You can customize the `selectorsToHide` array to
-       * specify which elements should be hidden temporarily.
-       */
-      function temporarilyHideUIElements() {
-        const selectorsToHide = [
-          '#geolocaton-row',
-          '#mime-type-row',
-          '#generated-by-row',
-          '#initial-committer-row',
-          '.heading-2',
-          '.table-2',
+        updateUILoadingState({isLoading: true});
+        setTimeout(() => {
+          const data = sampleData.find((data) => data.nid === nid);
+          if (data) updateUISuccessState(data);
+          else updateUIWithErrorState('Not found in sampleData');
+          updateUILoadingState({isLoading: false});
+        }, testNetworkDelay);
+      } else {
+        const sampleImageData = {
+          nid: 'bafkreibfqutz3xybzgudrwfs43s7dlgmx2tbvqj5r7ivxzplwrahdoyrfi',
+          assetCreator: 'sultanmyrza001',
+          creatorWallet: '0xd753C118b157AEA80b371567eCFF1C32F165B710',
+          assetTimestampCreated: '10/03/2023 21:41 UTC',
+          digitalSourceType: 'digitalUpload',
+          inStock: 3,
+        };
+        const sampleVideoData = {
+          nid: 'bafybeifuvl3zihxcedzhyajtr4jnde3qqxqa2lmv7txsjlfamepnurjbu4',
+          assetCreator: 'CaptureClub6959',
+          creatorWallet: '0xCb555eD03F012F1C0B5D977459cBA5bFe1dDF084',
+          assetTimestampCreated: '07/21/2021 02:04 UTC',
+          digitalSourceType: 'digitalUpload',
+        };
+        const testCases = [
+          function testSuccessCase() {
+            updateUILoadingState({isLoading: true});
+            setTimeout(() => {
+              updateUILoadingState({isLoading: false});
+              updateUISuccessState(sampleImageData);
+            }, testNetworkDelay);
+          },
+          function testErrorCase() {
+            updateUILoadingState({isLoading: true});
+            setTimeout(() => {
+              updateUILoadingState({isLoading: false});
+              updateUIWithErrorState('Sample error message');
+            }, testNetworkDelay);
+          },
+          function testPreviewLoaadErrorCase() {
+            updateUILoadingState({isLoading: true});
+            setTimeout(() => {
+              updateUILoadingState({isLoading: false});
+              updateUISuccessState(sampleVideoData);
+            }, testNetworkDelay);
+          },
         ];
-        selectorsToHide.forEach((selector) => {
-          const elements = document.querySelectorAll(selector);
-          elements.forEach((element) =>
-            element.classList.add('temporarely-hidden')
-          );
-        });
+        // Run one of the test cases
+        testCases[0]();
+      }
+    }
+
+    /**
+     * Update the UI loading state by adding or removing the 'shimmer' class from specified elements.
+     * @param {Object} options - Options for updating the UI loading state.
+     * @param {boolean} options.isLoading - Indicates whether the UI is in a loading state.
+     */
+    function updateUILoadingState({isLoading}) {
+      const elementsByID = [
+        'ui-data-nid',
+        'ui-data-assetCreator',
+        'ui-data-assetTimestampCreated',
+        'ui-data-digitalSourceType',
+      ];
+
+      elementsByID.forEach((elementId) => {
+        const element = document.getElementById(elementId);
+        if (element && isLoading) element.classList.add('shimmer');
+        if (element && !isLoading) element.classList.remove('shimmer');
+      });
+    }
+
+    /**
+     * Updates the UI with the fetched data.
+     * @param {Object} data - The data object received from the fetch operation.
+     */
+    function updateUISuccessState(data) {
+      updateIPFSImagePreview(
+        `https://ipfs-pin.numbersprotocol.io/ipfs/${data.nid}`
+      );
+
+      document.getElementById(
+        'ui-data-nid'
+      ).innerHTML = `<a target="_blank" href="https://nftsearch.site/asset-profile?nid=${data.nid}">${data.nid}</a>`;
+
+      document.getElementById(
+        'ui-data-assetCreator'
+      ).innerHTML = `<a target="_blank" href="https://mainnet.num.network/address/${data.creatorWallet}">${data.assetCreator}</a>`;
+
+      document.getElementById('ui-data-assetTimestampCreated').textContent =
+        data.assetTimestampCreated;
+
+      document.getElementById('ui-data-digitalSourceType').textContent =
+        data.digitalSourceType;
+
+      updateCaptureEyeButton({inStock: data.inStock});
+    }
+
+    /**
+     * Update the UI to display an error state by hiding the modal content and showing the error modal content.
+     * @param {string} errorMessage - The error message to display.
+     */
+    function updateUIWithErrorState(errorMessage) {
+      toggleModelContentVisibility({visible: false});
+      toggleModelContentErrorVisibility({visible: true, errorMessage});
+    }
+
+    /**
+     * Toggle the visibility of the modal content.
+     *
+     * @param {Object} options - The options for toggling visibility.
+     * @param {boolean} [options.visible=true] - Whether to make the modal content visible (true) or hidden (false).
+     */
+    function toggleModelContentVisibility({visible = true}) {
+      const modalContent = document.querySelector('.modal-content');
+      if (modalContent) modalContent.style.display = visible ? 'flex' : 'none';
+    }
+
+    /**
+     * Toggle the visibility of the modal error content and set the error message.
+     *
+     * @param {Object} options - An object containing options.
+     * @param {boolean} [options.visible=false] - Whether to make the error content visible.
+     * @param {string} [options.errorMessage=''] - The error message to display.
+     */
+    function toggleModelContentErrorVisibility({
+      visible = false,
+      errorMessage = '',
+    }) {
+      const errorInstructions = 'Try to re-open modal to refetch data';
+      const innerHTML = errorMessage + '<br/>' + errorInstructions;
+
+      const modalContentError = document.querySelector('.modal-content-error');
+
+      if (modalContentError) {
+        modalContentError.innerHTML = innerHTML;
+        modalContentError.style.display = visible ? 'flex' : 'none';
+      }
+    }
+
+    /**
+     * Update the source (src) of the IPFS image preview element.
+     *
+     * @param {string} [imgSrc='https://c.animaapp.com/twFYQx58/img/placeholder-image.png'] - The default URL preview img.
+     */
+    function updateIPFSImagePreview(
+      imgSrc = 'https://c.animaapp.com/twFYQx58/img/placeholder-image.png'
+    ) {
+      const imgPreview = document.getElementById('ipfs-image-preview');
+      if (imgPreview) {
+        imgPreview.setAttribute('src', imgSrc);
+        // restore if it was hidden before
+        imgPreview.style.display = 'block';
       }
 
-      /**
-       * Reset the UI state by updating loading state, modal content visibility, and error modal content visibility.
-       */
-      function resetUIState() {
-        updateUILoadingState({isLoading: false});
-        toggleModelContentVisibility({visible: true});
-        toggleModelContentErrorVisibility({visible: false});
-        updateIPFSImagePreview();
-        temporarilyHideUIElements(); // devs can comment out to see full UI during debugging
-        updateCaptureEyeButton({inStock: -1});
+      const imgPreviewError = document.getElementById(
+        'ipfs-no-preview-available-text'
+      );
+      if (imgPreviewError) {
+        // hide if it was shown before
+        imgPreviewError.style.display = 'none';
       }
+    }
 
-      function handleIpfsImagePreviewError() {
-        // Hide the failed image
-        document.getElementById('ipfs-image-preview').style.display = 'none';
-
-        // Show the error message
-        document.getElementById(
-          'ipfs-no-preview-available-text'
-        ).style.display = 'flex';
-      }
-
-      function captureEyeCollect() {
-        const inStock = document.querySelector('.metadata-container .link')
-          .dataset.inStock;
-
-        if (inStock < 1) return;
-
-        const element = document.querySelector('#ui-data-nid a');
-        if (!element || !element.textContent) return;
-        const nid = element.textContent;
-
-        const url = `https://captureappiframe.numbersprotocol.io/checkout?from=nse&nid=${nid}`;
-        window.open(url, '_blank').focus();
-      }
-
-      function captureEyeOpenImageInIpfs() {
-        const element = document.querySelector('#ui-data-nid a');
-        if (!element) return;
-        element.click();
-      }
-
-      function updateCaptureEyeButton({inStock = -1}) {
-        const text = inStock > 0 ? 'COLLECT' : 'COLLECTED';
-        const hidden = inStock < 0;
-
-        const button = document.querySelector('.metadata-container .link');
-        const buttonText = document.querySelector(
-          '.metadata-container .purchase-license'
+    /**
+     * Temporarily hides specific UI elements based on provided CSS selectors.
+     *
+     * This function is used to hide certain UI elements when necessary. For example,
+     * it can be used to hide elements that depend on data from an external source that
+     * may not be available yet. See https://app.asana.com/0/1201016280880508/1205923376919599
+     *
+     * @description
+     * This function hides UI elements specified by the CSS selectors in the
+     * `selectorsToHide` array. You can customize the `selectorsToHide` array to
+     * specify which elements should be hidden temporarily.
+     */
+    function temporarilyHideUIElements() {
+      const selectorsToHide = [
+        '#geolocaton-row',
+        '#mime-type-row',
+        '#generated-by-row',
+        '#initial-committer-row',
+        '.heading-2',
+        '.table-2',
+      ];
+      selectorsToHide.forEach((selector) => {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach((element) =>
+          element.classList.add('temporarely-hidden')
         );
+      });
+    }
 
-        button.dataset.inStock = inStock;
+    /**
+     * Reset the UI state by updating loading state, modal content visibility, and error modal content visibility.
+     */
+    function resetUIState() {
+      updateUILoadingState({isLoading: false});
+      toggleModelContentVisibility({visible: true});
+      toggleModelContentErrorVisibility({visible: false});
+      updateIPFSImagePreview();
+      temporarilyHideUIElements(); // devs can comment out to see full UI during debugging
+      updateCaptureEyeButton({inStock: -1});
+    }
 
-        if (!hidden) {
-          button.style.visibility = 'visible';
-          button.style.display = 'inline-flex';
-        } else {
-          button.style.visibility = 'hidden';
+    function handleIpfsImagePreviewError() {
+      // Hide the failed image
+      document.getElementById('ipfs-image-preview').style.display = 'none';
 
-          if (window.matchMedia('(min-width: 1200px)').matches === false) {
-            button.style.display = 'none';
-          }
+      // Show the error message
+      document.getElementById('ipfs-no-preview-available-text').style.display =
+        'flex';
+    }
+
+    function captureEyeCollect() {
+      const inStock = document.querySelector('.metadata-container .link')
+        .dataset.inStock;
+
+      if (inStock < 1) return;
+
+      const element = document.querySelector('#ui-data-nid a');
+      if (!element || !element.textContent) return;
+      const nid = element.textContent;
+
+      const url = `https://captureappiframe.numbersprotocol.io/checkout?from=nse&nid=${nid}`;
+      window.open(url, '_blank').focus();
+    }
+
+    function captureEyeOpenImageInIpfs() {
+      const element = document.querySelector('#ui-data-nid a');
+      if (!element) return;
+      element.click();
+    }
+
+    function updateCaptureEyeButton({inStock = -1}) {
+      const text = inStock > 0 ? 'COLLECT' : 'COLLECTED';
+      const hidden = inStock < 0;
+
+      const button = document.querySelector('.metadata-container .link');
+      const buttonText = document.querySelector(
+        '.metadata-container .purchase-license'
+      );
+
+      button.dataset.inStock = inStock;
+
+      if (!hidden) {
+        button.style.visibility = 'visible';
+        button.style.display = 'inline-flex';
+      } else {
+        button.style.visibility = 'hidden';
+
+        if (window.matchMedia('(min-width: 1200px)').matches === false) {
+          button.style.display = 'none';
         }
-        buttonText.innerText = text;
       }
-    </script>
-    <!-- This JS code should be injected to SONA page END -->
-  </body>
+      buttonText.innerText = text;
+    }
+  </script>
+  <!-- This JS code should be injected to SONA page END -->
+</body>
