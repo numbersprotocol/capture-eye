@@ -281,7 +281,10 @@
           align-self: flex-end;
         }
       }
-
+	  .link:hover,
+        .link *:hover {
+          cursor: pointer;
+      }
       .link .purchase-license {
         width: fit-content;
         font-family: 'Capture-Eye-Degular-Medium', Helvetica;
@@ -573,7 +576,7 @@
         font-family: 'Noto Sans', Helvetica;
         font-weight: 400;
         color: #ffffff;
-        font-size: 14px;
+        font-size: 12px;
         letter-spacing: 0;
         line-height: normal;
         text-align: center;
@@ -582,13 +585,10 @@
         position: absolute;
         height: fit-content;
         z-index: 1;
-        font-size: 17px;
-        font-family: 'no';
       }
 
       #capture-eye-tooltip-snackbar.show {
         visibility: visible;
-        z-index: 99999;
         -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
         animation: fadein 0.5s, fadeout 0.5s 2.5s;
       }
@@ -682,7 +682,6 @@
                 <div class="first-column text-wrapper-2">Nid</div>
                 <div class="second-column ID">
                   <div class="second-column text-wrapper-3" id="ui-data-nid">
-                    bafybeidq6jv6oklxehd3vpx275xage37gl2kyygxxkyqsiwt2v4aqb625a
                   </div>
                   <img
                     class="img"
@@ -734,7 +733,7 @@
                   <img
                     class="img"
                     src="https://c.animaapp.com/twFYQx58/img/help-2@2x.png"
-                    onclick="showCaptureEyeTooltip(event)"
+                    onmouseover="showCaptureEyeTooltip(event)"
                   />
                 </div>
               </div>
@@ -779,55 +778,6 @@
         // fetchDataDebug(); // Used for debug mode only
       }
 
-      /**
-       * Toggles a custom tooltip on a target element when triggered by an event.
-       * If the tooltip already exists, it will be removed; otherwise, a new one will be created.
-       * The tooltip provides information about a source type of asset.
-       *
-       * @param {Event} event - The event that triggered the tooltip display.
-       */
-      function captureEyeToggleTooltipText(event) {
-        console.log(event);
-        // Check if a tooltip already exists
-        var existingTooltip = document.getElementById('custom-tooltip');
-
-        if (existingTooltip) {
-          // If tooltip exists, remove it
-          existingTooltip.remove();
-        } else {
-          // If no tooltip, create a new one
-          var newTooltip = document.createElement('div');
-          newTooltip.id = 'custom-tooltip';
-          newTooltip.textContent =
-            'digitalSourceType is a controlled vocabulary that indicates from which source a digital media was created.';
-          // style tooltip
-          newTooltip.style.position = 'absolute';
-          newTooltip.style.height = 'fit-content';
-          newTooltip.style.width = '220px';
-          newTooltip.style.padding = '8px';
-          newTooltip.style.backgroundColor = 'black';
-          newTooltip.style.color = 'white';
-          newTooltip.style.textAlign = 'center';
-          newTooltip.style.fontFamily = "'Noto Sans', Arial, sans-serif";
-          newTooltip.style.zIndex = 88888;
-          newTooltip.style.borderRadius = '5px';
-
-          // Get the position of the target element
-          var targetElement = event.target;
-          var targetRect = targetElement.getBoundingClientRect();
-
-          // Position the tooltip below the target element
-          newTooltip.style.left = targetRect.left - 150 + 'px';
-          newTooltip.style.top = targetRect.bottom - 150 + 'px';
-
-          // Append the new tooltip to the body
-          document.body.appendChild(newTooltip);
-
-          setTimeout(() => {
-            newTooltip.remove();
-          }, 1300);
-        }
-      }
 
       /**
        * Displays a snackbar notification with the specified text for a short duration.
@@ -847,7 +797,7 @@
         const tooltip = document.getElementById('capture-eye-tooltip-snackbar');
         if (!tooltip) return;
 
-        tooltip.style.position = 'absolute';
+        tooltip.style.position = 'fixed';
         tooltip.style.width = '220px';
         tooltip.style.padding = '8px';
         tooltip.style.backgroundColor = 'black';
@@ -860,9 +810,9 @@
         // Get the position of the target element
         var targetElement = event.target;
         var targetRect = targetElement.getBoundingClientRect();
-        // Position the tooltip below the target element
-        tooltip.style.left = targetRect.left - 150 + 'px';
-        tooltip.style.top = targetRect.bottom - 150 + 'px';
+      	// Position the tooltip below the target element
+        tooltip.style.left = targetRect.left + 'px';
+        tooltip.style.top = targetRect.bottom  + 'px';
 
         tooltip.textContent =
           'digitalSourceType is a controlled vocabulary that indicates from which source a digital media was created.';
