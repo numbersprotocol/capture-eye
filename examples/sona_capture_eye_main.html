@@ -870,7 +870,7 @@
         var targetRect = targetElement.getBoundingClientRect();
         // Position the tooltip below the target element
         tooltip.style.left = targetRect.left - 150 + 'px';
-        tooltip.style.top = targetRect.bottom - 150 + 'px';
+        tooltip.style.top = event.pageY - 150 + 'px';
 
         tooltip.textContent =
           'digitalSourceType is a controlled vocabulary that indicates from which source a digital media was created.';
