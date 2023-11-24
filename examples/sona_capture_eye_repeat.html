@@ -286,6 +286,11 @@
 
       try {
         updateUILoadingState({isLoading: true});
+        // No need to wait for API response we can directly generate image url
+        updateIPFSImagePreview(
+          `https://ipfs-pin.numbersprotocol.io/ipfs/${nid}`
+        );
+        updateImagePreviewDestination(nid);
         const response = await fetch(requestUrl, requestOptions);
         if (response.ok) {
           const data = await response.json();
@@ -419,13 +424,13 @@
      * @param {Object} data - The data object received from the fetch operation.
      */
     function updateUISuccessState(data) {
-      updateIPFSImagePreview(
-        `https://ipfs-pin.numbersprotocol.io/ipfs/${data.nid}`
-      );
+      // updateIPFSImagePreview(
+      //   `https://ipfs-pin.numbersprotocol.io/ipfs/${data.nid}`
+      // );
 
       document.getElementById(
         'ui-data-nid'
-      ).innerHTML = `<a target="_blank" href="https://nftsearch.site/asset-profile?nid=${data.nid}">${data.nid}</a>`;
+      ).innerHTML = `<a target="_blank" href="https://ipfs-pin.numbersprotocol.io/ipfs/${data.nid}">${data.nid}</a>`;
 
       document.getElementById(
         'ui-data-assetCreator'
@@ -506,6 +511,11 @@
       }
     }
 
+    function updateImagePreviewDestination(nid) {
+      // we will use it later
+      document.querySelector('section.preview-container').dataset.nid = nid;
+    }
+
     /**
      * Temporarily hides specific UI elements based on provided CSS selectors.
      *
@@ -570,10 +580,13 @@
       window.open(url, '_blank').focus();
     }
 
-    function captureEyeOpenImageInIpfs() {
-      const element = document.querySelector('#ui-data-nid a');
-      if (!element) return;
-      element.click();
+    function openInNSE() {
+      const nid = document.querySelector('section.preview-container').dataset
+        .nid;
+      if (!nid) return; // Do nothing if for some reason nid is not found
+
+      const url = `https://nftsearch.site/asset-profile?nid=${nid}`;
+      window.open(url, '_blank').focus();
     }
 
     function updateCaptureEyeButton({inStock = -1}) {
