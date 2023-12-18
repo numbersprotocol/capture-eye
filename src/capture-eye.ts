@@ -1,6 +1,38 @@
 import {LitElement, html, css} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 
+
+const NOT_AVAILABLE = 'N/A';
+
+
+interface Asset {
+  nid: string;
+  assetCreator: string;
+  creatorWallet: string;
+  assetTimestampCreated: string;
+  digitalSourceType: string;
+  geolocation: string;
+  mimetype: string;
+  initialCommitter: string;
+  generatedBy: string;
+  initialMinter: string;
+  license: string;
+  miningPreference: string;
+  integrityProof: string;
+  inStock: number;
+}
+
+interface TooltipState {
+  show: boolean;
+  top: number;
+  left: number;
+}
+
+interface TooltipStates {
+  [key: string]: TooltipState;
+}
+
+
 @customElement('capture-eye')
 export class CaptureEye extends LitElement {
   static override styles = css`
@@ -10,11 +42,17 @@ export class CaptureEye extends LitElement {
       src: url('https://anima-uploads.s3.amazonaws.com/5e7abf65eb876cc1084e5bac/.44512.otf') format('opentype');
     }
 
+    .capture-eye-container {
+      position: relative;
+    }
+
     .capture-eye-button {
+      position: absolute;
+      top: 0;
+      left: 0;
       display: flex;
       justify-content: center;
       align-items: center;
-      position: relative;
       z-index: 1;
       width: 2rem;
       height: 2rem;
@@ -213,7 +251,6 @@ export class CaptureEye extends LitElement {
       flex-direction: column;
       width: 100%;
       position: relative;
-      width: fit-content;
       font-family: 'Capture-Eye-Degular-Medium', Helvetica;
       font-weight: 500;
       color: #ffffff;
@@ -509,40 +546,49 @@ export class CaptureEye extends LitElement {
   capture_token = '';
 
   @property({attribute: false})
-  assetCreator = 'Loading...';
+  metadata = [
+    {label: 'Creator', value: NOT_AVAILABLE, link: ''},
+    {label: 'Creation Time', value: NOT_AVAILABLE},
+    {label: 'Geolocation', value: NOT_AVAILABLE},
+    {label: 'File Mimetype', value: NOT_AVAILABLE, helpText: 'The asset\'s type expressed using a MIME format'},
+    {label: 'Source Type', value: NOT_AVAILABLE, helpText: 'digitalSourceType is a controlled vocabulary that indicates from which source a digital media was created.'},
+    {label: 'Initial Committer', value: NOT_AVAILABLE, link: ''},
+    {label: 'Initial Minter', value: NOT_AVAILABLE, link: ''},
+    {label: 'License', value: NOT_AVAILABLE},
+    {label: 'Mining Preference', value: NOT_AVAILABLE},
+    {label: 'Integrity Proof', value: NOT_AVAILABLE, link: ''},
+  ]
+
+  private asset: Asset = {
+    nid: '',
+    assetCreator: '',
+    creatorWallet: '',
+    assetTimestampCreated: '',
+    digitalSourceType: '',
+    geolocation: '',
+    mimetype: '',
+    initialCommitter: '',
+    generatedBy: '',
+    initialMinter: '',
+    license: '',
+    miningPreference: '',
+    integrityProof: '',
+    inStock: -1,
+  };
 
   @property({attribute: false})
-  creatorWallet = 'Loading...';
-
-  @property({attribute: false})
-  assetTimestampCreated = 'Loading...';
-
-  @property({attribute: false})
-  digitalSourceType = 'Loading...';
-
-  @property({attribute: false})
-  inStock = -1;
-
-  @property({attribute: false})
-  geolocation = undefined;
-
-  @property({attribute: false})
-  file_mimetype = undefined;
-
-  @property({attribute: false})
-  initialCommitter = undefined;
-
-  @property({attribute: false})
-  generatedBy = undefined;
-
-  @property({attribute: false})
-  showTooltip = false;
-
-  @property({attribute: false})
-  tooltipTop = 0;
-
-  @property({attribute: false})
-  tooltipLeft = 0;
+  tooltipStates: TooltipStates = {
+    'File Mimetype': {
+      show: false,
+      top: 0,
+      left: 0,
+    },
+    'Source Type': {
+      show: false,
+      top: 0,
+      left: 0,
+    },
+  };
 
   @property({attribute: false})
   assetDataFetched = false;
@@ -553,7 +599,9 @@ export class CaptureEye extends LitElement {
   @property({attribute: false})
   imageError = false;
 
+  private readonly apiBaseUrl = 'https://eognt1jfpe04mq8.m.pipedream.net';
   private readonly ipfsGatewayBaseUrl = 'https://ipfs-pin.numbersprotocol.io/ipfs'
+  private readonly explorerBaseUrl = 'https://mainnet.num.network';
   private readonly profileBaseUrl = 'https://nftsearch.site/asset-profile?nid=';
   private readonly captureEyeIcon = `${this.ipfsGatewayBaseUrl}/bafkreicf4sruldnh4g3bmxnqr6zjgfzfgvbqoa5iy2jncewqqlgg75utd4`;
   private readonly closeIcon = 'https://c.animaapp.com/twFYQx58/img/close@2x.png';
@@ -584,145 +632,113 @@ export class CaptureEye extends LitElement {
     `
   }
 
-  override render() {
-    const fetchedValueClass = !this.assetDataFetched && !this.assetDataNotFound ? 'value-column shimmer' : 'value-column';
-    const tooltipStyle = `left: ${this.tooltipLeft}px; top: ${this.tooltipTop}px;`;
+  tooltipTemplate(label: string, helpText: string) {
+    const tooltipState = this.tooltipStates[label]
+    const tooltipStyle = `left: ${tooltipState.left}px; top: ${tooltipState.top}px;`;
     return html`
-      <slot></slot>
-      ${this.buttonTemplate()}
-      <div id="capture-eye-modal" class="modal" ?hidden=${!this.showPanel}>
-      <div class="modal-container">
-        <div class="modal-header">
-          <div
-            class="keyboard-arrow-left"
-            @click=${this.toggleShowPanel}
-          >
-            <img
-              class="close"
-              src=${this.closeIcon}
-            />
-          </div>
+      <div class="icon-container">
+        <img
+          class="img"
+          src=${this.helpIcon}
+          @mouseover=${(e: Event) => this.showTooltip(e, label)}
+          @mouseleave=${(e: Event) => this.hideTooltip(e, label)}
+        />
+        <div class=${tooltipState.show ? "tooltip show" : "tooltip"} style=${tooltipStyle}>${helpText}</div>
+      </div>
+    `
+  }
+
+  metadataTemplate() {
+    const fetchedValueClass = !this.assetDataFetched && !this.assetDataNotFound ? 'value-column shimmer' : 'value-column';
+    return html`
+      <section class="metadata-container">
+        ${this.assetDataFetched && !this.assetDataNotFound && this.asset.inStock >= 0
+          ? html`
+              <div class="link" @click=${this.collect}>
+                <div class="purchase-license">${this.asset.inStock > 0 ? 'COLLECT' : 'COLLECTED'}</div>
+              </div>`
+          : ''}
+        <div class="heading">
+          <div>Provenance</div>
         </div>
-        <div class="modal-content-error"></div>
-        <div class="modal-content">
-          <section class="preview-container">
-            <a
-            target="_blank"
-            href=${this.assetProfileUrl}
+        <div class="table">
+          <div class="row">
+            <div class="key-column">Nid</div>
+            <div class="value-column">
+              <a target="_blank" href="${this.assetProfileUrl}">${this.nid}</a>
+              <img
+                class="img"
+                src=${this.contentCopyIcon}
+                @click=${this.copyToClipboard}
+              />
+            </div>
+          </div>
+          ${this.metadata.map(item => html`
+            <div class="row">
+              <div class="key-column">${item.label}</div>
+              <div class=${fetchedValueClass}>
+                ${item.link
+                  ? html`<a target="_blank" href="${item.link}">${item.value}</a>`
+                  : item.value}
+                ${item.helpText && this.assetDataFetched
+                  ? this.tooltipTemplate(item.label, item.helpText)
+                  : ''}
+              </div>
+            </div>
+          `)}
+        </div>
+        <div class="metadata-container-bottom-spacer"></div>
+      </section>
+    `
+  }
+
+  override render() {
+    return html`
+      <div class="capture-eye-container">
+        <slot></slot>
+        ${this.buttonTemplate()}
+      </div>
+      <div class="modal" ?hidden=${!this.showPanel}>
+        <div class="modal-container">
+          <div class="modal-header">
+            <div
+              class="keyboard-arrow-left"
+              @click=${this.toggleShowPanel}
             >
               <img
-                class="preview-image"
-                src=${this.previewUrl}
-                @error=${this.handleImageError}
-                ?hidden=${this.imageError}
+                class="close"
+                src=${this.closeIcon}
               />
-            </a>
-            <span id="ipfs-no-preview-available-text" ?hidden=${!this.imageError}>
-              No Preview Available
-            </span>
-          </section>
-          <section class="metadata-container">
-            <div ?hidden=${this.inStock<0} class="link" @click=${this.collect}>
-              <div class="purchase-license">${this.inStock>0 ? 'COLLECT' : 'COLLECTED'}</div>
             </div>
-            <div class="heading">
-              <div>Provenance</div>
-            </div>
-            <div class="table">
-              <div class="row">
-                <div class="key-column">Nid</div>
-                <div class="value-column">
-                  <div class="value-column highlight-color" id="ui-data-nid">
-                  ${this.nid}</div>
-                  <img
-                    class="img"
-                    src=${this.contentCopyIcon}
-                    @click=${this.copyToClipboard}
-                  />
-                </div>
-              </div>
-              <div class="row">
-                <div class="key-column">Creator</div>
-                <div
-                  class=${fetchedValueClass}
-                >
-                <a>
-                  ${this.assetCreator}
-                  </a>
-                </div>
-              </div>
-              <div class="row">
-                <div class="key-column">Creation Time</div>
-                <div
-                  class=${fetchedValueClass}
-                >
-                  ${this.assetTimestampCreated}
-                </div>
-              </div>
-              <div class="row">
-                <div class="key-column">Geolocation</div>
-                <div class="value-column">
-                  ${this.geolocation}
-                </div>
-              </div>
-              <div class="row">
-                <div class="key-column">File Mimetype</div>
-                <div class="value-column">
-                  <div>${this.file_mimetype}</div>
-                  <img
-                    class="img"
-                    src=${this.helpIcon}
-                  />
-                </div>
-              </div>
-              <div class="row">
-                <div class="key-column">Source Type</div>
-                <div class="value-column">
-                  <div>
-                    ${this.digitalSourceType}
-                  </div>
-                  <div class="icon-container">
-                    <img
-                      class="img"
-                      src=${this.helpIcon}
-                      @mouseover=${this.setTooltipOn}
-                      @mouseleave=${this.setTooltipOff}
-                    />
-                    <div class=${this.showTooltip ? "tooltip show" : "tooltip"} style=${tooltipStyle}>digitalSourceType is a controlled vocabulary that indicates from which source a digital media was created.</div>
-                  </div>
-                </div>
-              </div>
-              ${this.initialCommitter
-                ? html`
-                <div class="row">
-                  <div class="key-column">Initial Committer</div>
-                  <div class="value-column">
-                    ${this.initialCommitter}
-                  </div>
-                </div>`
-                : ''
-              }
-              ${this.generatedBy
-                ? html`
-                  <div class="row">
-                  <div class="key-column">Generated By</div>
-                  <a class="value-column">${this.generatedBy}</a>
-                </div>`
-                : ''
-              }
-            </div>
-            <div class="metadata-container-bottom-spacer"></div>
-          </section>
+          </div>
+          <div class="modal-content-error"></div>
+          <div class="modal-content">
+            <section class="preview-container">
+              <a
+              target="_blank"
+              href=${this.assetProfileUrl}
+              >
+                <img
+                  class="preview-image"
+                  src=${this.previewUrl}
+                  @error=${this.handleImageError}
+                  ?hidden=${this.imageError}
+                />
+              </a>
+              <span ?hidden=${!this.imageError}>
+                No Preview Available
+              </span>
+            </section>
+            ${this.metadataTemplate()}
+          </div>
         </div>
       </div>
-    </div>
     `;
   }
 
   override async connectedCallback() {
     super.connectedCallback();
     if (this.prefetch) {
-      console.log('prefetch', this.prefetch)
       await this.fetchAssetData();
     }
   }
@@ -744,23 +760,16 @@ export class CaptureEye extends LitElement {
       headers['Authorization'] = `token ${this.capture_token}`;
     }
     const response = await fetch(
-      `https://eognt1jfpe04mq8.m.pipedream.net?nid=${this.nid}`,
+      `${this.apiBaseUrl}?nid=${this.nid}`,
       {
         method: 'GET',
         headers,
       }
     );
     if (response.ok) {
-      const data = await response.json();
-      console.log('API data', data);
-      this.assetCreator = data.assetCreator;
-      this.creatorWallet = data.creatorWallet;
-      this.assetTimestampCreated = data.assetTimestampCreated;
-      this.digitalSourceType = data.digitalSourceType;
-      this.inStock = data.inStock;
-      this.file_mimetype = data.mimtype;
-      this.geolocation = data.geolocation;
-      this.generatedBy = data.generatedBy;
+      const data: Asset = await response.json();
+      this.asset = data;
+      this.setMetadata(this.asset); 
       this.assetDataFetched = true;
       this.assetDataNotFound = false;
     } else {
@@ -774,16 +783,30 @@ export class CaptureEye extends LitElement {
     }
   }
 
-  private async setTooltipOn(event: { target: HTMLElement; }) {
+  private async showTooltip(event: Event, label: string) {
     const element = event.target as HTMLElement;
     const targetRect = element.getBoundingClientRect();
-    this.tooltipLeft = targetRect.left;
-    this.tooltipTop = targetRect.bottom;
-    this.showTooltip = true;
+    this.tooltipStates = {
+      ...this.tooltipStates,
+      [label]: {
+        show: true,
+        top: targetRect.bottom,
+        left: targetRect.left
+      }
+    };
   }
 
-  private async setTooltipOff() {
-    this.showTooltip = false;
+  private async hideTooltip(event: Event, label: string) {
+    const element = event.target as HTMLElement;
+    const targetRect = element.getBoundingClientRect();
+    this.tooltipStates = {
+      ...this.tooltipStates,
+      [label]: {
+        show: false,
+        top: targetRect.bottom,
+        left: targetRect.left
+      }
+    };
   }
 
   private async copyToClipboard() {
@@ -791,6 +814,7 @@ export class CaptureEye extends LitElement {
   }
 
   private async collect() {
+    if (this.asset.inStock < 0) return;
     const url = `https://captureappiframe.numbersprotocol.io/checkout?from=nse&nid=${this.nid}`;
     window.open(url, '_blank')!.focus();
   }
@@ -799,6 +823,34 @@ export class CaptureEye extends LitElement {
     this.imageError = true;
     console.log('imageError', this.imageError);
     // Additional logic when the image fails to load
+  }
+
+  private setMetadata(asset: Asset) {
+    // metadata must be updated via object assignment to trigger reactive rendering
+    this.metadata = [
+      {label: 'Creator', value: asset.assetCreator || NOT_AVAILABLE, link: this.getExplorerUrl(asset.creatorWallet)},
+      {label: 'Creation Time', value: asset.assetTimestampCreated || NOT_AVAILABLE},
+      {label: 'Geolocation', value: asset.geolocation || NOT_AVAILABLE},
+      {label: 'File Mimetype', value: asset.mimetype || NOT_AVAILABLE, helpText: 'The asset\'s type expressed using a MIME format.'},
+      {label: 'Source Type', value: asset.digitalSourceType || NOT_AVAILABLE, helpText: 'digitalSourceType is a controlled vocabulary that indicates from which source a digital media was created.'},
+      {label: 'Initial Committer', value: asset.initialCommitter || NOT_AVAILABLE, link: this.getExplorerUrl(asset.initialCommitter)},
+      {label: 'Initial Minter', value: asset.initialMinter || NOT_AVAILABLE, link: this.getExplorerUrl(asset.initialMinter)},
+      {label: 'License', value: asset.license || NOT_AVAILABLE},
+      {label: 'Mining Preference', value: asset.miningPreference || NOT_AVAILABLE},
+      {label: 'Integrity Proof', value: asset.integrityProof || NOT_AVAILABLE, link: this.getIpfsUrl(asset.integrityProof)},
+    ];
+  }
+
+  private getExplorerUrl(address: string) {
+    return address
+      ? `${this.explorerBaseUrl}/address/${address}`
+      : '';
+  }
+
+  private getIpfsUrl(cid: string) {
+    return cid
+      ? `${this.ipfsGatewayBaseUrl}/${cid}`
+      : '';
   }
 }
 
