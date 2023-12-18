@@ -36,11 +36,6 @@ interface TooltipStates {
 @customElement('capture-eye')
 export class CaptureEye extends LitElement {
   static override styles = css`
-    @import url('https://fonts.googleapis.com/css?family=Noto+Sans:400');
-    @font-face {
-      font-family: 'Capture-Eye-Degular-Medium';
-      src: url('https://anima-uploads.s3.amazonaws.com/5e7abf65eb876cc1084e5bac/.44512.otf') format('opentype');
-    }
 
     .capture-eye-container {
       position: relative;
@@ -88,7 +83,7 @@ export class CaptureEye extends LitElement {
         /* To make sure it stays on top */
         pointer-events: none;
         /* Ensure it doesn't interfere with other interactions */
-        font-family: 'Noto Sans', Helvetica;
+        font-family: 'Degular-Medium', Helvetica;
       }
     }
 
@@ -165,7 +160,7 @@ export class CaptureEye extends LitElement {
       align-items: center;
       justify-content: center;
       color: white;
-      font-family: 'Noto Sans', Helvetica;
+      font-family: 'Degular-Medium', Helvetica;
       font-weight: 400;
       color: #ffffff;
       font-size: 14px;
@@ -203,7 +198,7 @@ export class CaptureEye extends LitElement {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-family: 'Noto Sans', Helvetica;
+      font-family: 'Degular-Medium', Helvetica;
       font-weight: 400;
       color: #ffffff5a;
       letter-spacing: 0;
@@ -251,7 +246,7 @@ export class CaptureEye extends LitElement {
       flex-direction: column;
       width: 100%;
       position: relative;
-      font-family: 'Capture-Eye-Degular-Medium', Helvetica;
+      font-family: 'Degular-Medium', Helvetica;
       font-weight: 500;
       color: #ffffff;
       font-size: 16px;
@@ -312,7 +307,7 @@ export class CaptureEye extends LitElement {
 
     .link .purchase-license {
       width: fit-content;
-      font-family: 'Capture-Eye-Degular-Medium', Helvetica;
+      font-family: 'Degular-Medium', Helvetica;
       font-weight: 500;
       color: #000000;
       font-size: 15px;
@@ -347,7 +342,7 @@ export class CaptureEye extends LitElement {
       margin-top: -1px;
       opacity: 0.5;
       color: #fff;
-      font-family: 'Noto Sans', Helvetica;
+      font-family: 'Degular-Medium', Helvetica;
       font-weight: 400;
       font-size: 14px;
       letter-spacing: 0;
@@ -374,7 +369,7 @@ export class CaptureEye extends LitElement {
       margin-top: -0.5px;
       color: #fff;
       width: 100%;
-      font-family: 'Noto Sans', Helvetica;
+      font-family: 'Degular-Medium', Helvetica;
       font-weight: 400;
       font-size: 14px;
       letter-spacing: 0;
@@ -462,7 +457,7 @@ export class CaptureEye extends LitElement {
       width: 220px;
       padding: 8px;
       background-color: #000;
-      font-family: 'Noto Sans', Helvetica;
+      font-family: 'Degular-Medium', Helvetica;
       font-weight: 400;
       color: #fff;
       font-size: 12px;
@@ -617,6 +612,17 @@ export class CaptureEye extends LitElement {
     return `${this.profileBaseUrl}${this.nid}`;
   }
 
+  constructor() {
+    super();
+    /*
+     * Inject link stylesheet to DOM directly since it will not work in shadow DOM
+     */
+    const font = document.createElement('link');
+    font.href = 'https://static-cdn.numbersprotocol.io/fonts/degular.css';
+    font.rel = 'stylesheet'
+    document.head.appendChild(font);
+  }
+
   buttonTemplate() {
     return html`
       <div
@@ -629,7 +635,7 @@ export class CaptureEye extends LitElement {
           alt="Capture Eye"
         />
       </div>
-    `
+    `;
   }
 
   tooltipTemplate(label: string, helpText: string) {
@@ -645,7 +651,7 @@ export class CaptureEye extends LitElement {
         />
         <div class=${tooltipState.show ? "tooltip show" : "tooltip"} style=${tooltipStyle}>${helpText}</div>
       </div>
-    `
+    `;
   }
 
   metadataTemplate() {
@@ -689,7 +695,7 @@ export class CaptureEye extends LitElement {
         </div>
         <div class="metadata-container-bottom-spacer"></div>
       </section>
-    `
+    `;
   }
 
   override render() {
