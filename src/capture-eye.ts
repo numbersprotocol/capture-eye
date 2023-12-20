@@ -823,7 +823,7 @@ export class CaptureEye extends LitElement {
   }
 
   private async collect() {
-    if (this.asset.inStock < 0) return;
+    if (this.asset.inStock < 1) return;
     const url = `https://captureappiframe.numbersprotocol.io/checkout?from=nse&nid=${this.nid}`;
     window.open(url, '_blank')!.focus();
   }
