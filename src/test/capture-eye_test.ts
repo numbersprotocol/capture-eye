@@ -12,6 +12,6 @@ suite('capture-eye', () => {
   test('styling applied', async () => {
     const el = (await fixture(html`<capture-eye></capture-eye>`)) as CaptureEye;
     await el.updateComplete;
-    assert.equal(getComputedStyle(el).display, 'inline-block');
+    assert.equal(getComputedStyle(el).fontFamily.includes('Degular-Medium'), true);
   });
 });

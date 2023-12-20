@@ -36,6 +36,9 @@ interface TooltipStates {
 @customElement('capture-eye')
 export class CaptureEye extends LitElement {
   static override styles = css`
+    :host {
+      font-family: 'Degular-Medium', Helvetica;
+    }
 
     .capture-eye-container {
       position: relative;
