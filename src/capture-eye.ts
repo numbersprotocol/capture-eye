@@ -220,6 +220,12 @@ export class CaptureEye extends LitElement {
       object-fit: contain;
     }
 
+    section.preview-container .preview-video {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: contain;
+    }
+
     section.metadata-container {
       border: 1px solid #383838;
       border-top: none;
@@ -597,6 +603,12 @@ export class CaptureEye extends LitElement {
   @property({attribute: false})
   imageError = false;
 
+  @property({attribute: false})
+  isVideo = false;
+
+  @property({attribute: false})
+  preloadMimetype = '';
+
   private readonly apiBaseUrl = 'https://eognt1jfpe04mq8.m.pipedream.net';
   private readonly ipfsGatewayBaseUrl = 'https://ipfs-pin.numbersprotocol.io/ipfs'
   private readonly explorerBaseUrl = 'https://mainnet.num.network';
@@ -727,14 +739,23 @@ export class CaptureEye extends LitElement {
               target="_blank"
               href=${this.assetProfileUrl}
               >
-                <img
-                  class="preview-image"
-                  src=${this.previewUrl}
-                  @error=${this.handleImageError}
-                  ?hidden=${this.imageError}
-                />
+                ${this.isVideo
+                ? html`
+                    <video class="preview-video" controls>
+                      <source src=${this.assetUrl} type="${this.preloadMimetype}">
+                      Your browser does not support the video tag.
+                    </video>
+                  `
+                : html`
+                    <img
+                      class="preview-image"
+                      src=${this.previewUrl}
+                      @error=${this.handleImageError}
+                      ?hidden=${this.imageError}
+                    />
+                  `}
               </a>
-              <span ?hidden=${!this.imageError}>
+              <span ?hidden=${this.isVideo || !this.imageError}>
                 No Preview Available
               </span>
             </section>
@@ -748,6 +769,7 @@ export class CaptureEye extends LitElement {
   override async connectedCallback() {
     super.connectedCallback();
     if (this.prefetch) {
+      this.fetchAssetMimetype();
       await this.fetchAssetData();
     }
   }
@@ -755,6 +777,27 @@ export class CaptureEye extends LitElement {
   private async toggleShowPanel() {
     this.showPanel = !this.showPanel;
     await this.fetchAssetData();
+  }
+
+  private async fetchAssetMimetype() {
+    this.previewUrl = this.assetUrl;
+    try {
+      const response = await fetch(this.assetUrl, { method: 'HEAD' });
+      const contentType = response.headers.get('Content-Type');
+
+      if (contentType) {
+        console.log("MIME type:", contentType);
+        if (contentType.startsWith('video')) {
+          this.isVideo = true;
+          this.preloadMimetype = contentType;
+        }
+      } else {
+        console.error("Content-Type header is missing.");
+      }
+    } catch (error) {
+      console.error("Error fetching asset MIME type:", error);
+    }
+
   }
 
   private async fetchAssetData() {
