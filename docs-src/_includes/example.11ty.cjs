@@ -11,7 +11,7 @@ module.exports = function (data) {
   });
 };
 
-const renderExample = ({name, content, collections, page}) => {
+const renderExample = ({ name, content, collections, page }) => {
   return `
     <h1>Example: ${name}</h1>
     <section class="examples">

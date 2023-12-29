@@ -22,11 +22,15 @@ For this element to work from unpkg.com specifically, you need to include the `?
 ### HTML
 
 ```html
-<script type="module" src="https://unpkg.com/@numbersprotocol/capture-eye?module"></script>
+<script
+  type="module"
+  src="https://unpkg.com/@numbersprotocol/capture-eye?module"
+></script>
 ```
 
 ### JavaScript
 
 ```html
-import {CaptureEye} from 'https://unpkg.com/@numbersprotocol/capture-eye?module';
+import {CaptureEye} from
+'https://unpkg.com/@numbersprotocol/capture-eye?module';
 ```

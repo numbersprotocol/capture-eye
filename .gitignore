@@ -5,6 +5,7 @@
 custom-elements.json
 .npmrc
 .DS_Store
+/dist/
 # top level source
 capture-eye.js
 capture-eye.js.map

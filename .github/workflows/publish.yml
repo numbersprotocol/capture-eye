@@ -42,7 +42,7 @@ jobs:
         if: steps.check.outputs.changed == 'true'
         run: |
           npm ci
-          npm run build
+          npm run build && cp dist/capture-eye.bundled.js .
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

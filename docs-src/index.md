@@ -15,7 +15,9 @@ title: <capture-eye> ⌲ Home
 `<capture-eye>` is just an HTML element. You can it anywhere you can use HTML!
 
 ```html
-<capture-eye nid="bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe"></capture-eye>
+<capture-eye
+  nid="bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe"
+></capture-eye>
 ```
 
   </div>
@@ -34,7 +36,9 @@ title: <capture-eye> ⌲ Home
 `<capture-eye>` can be configured with attributed in plain HTML.
 
 ```html
-<capture-eye nid="bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe"></capture-eye>
+<capture-eye
+  nid="bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe"
+></capture-eye>
 ```
 
   </div>
@@ -53,7 +57,7 @@ title: <capture-eye> ⌲ Home
 `<capture-eye>` can be used with declarative rendering libraries like Angular, React, Vue, and lit-html
 
 ```js
-import {html, render} from 'lit-html';
+import { html, render } from 'lit-html';
 
 const nid = 'bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe';
 
