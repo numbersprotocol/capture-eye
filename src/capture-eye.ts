@@ -760,7 +760,7 @@ export class CaptureEye extends LitElement {
     if (response.ok) {
       const data: Asset = await response.json();
       this.asset = data;
-      this.setMetadata(this.asset); 
+      this.setMetadata(this.asset);
       this.assetDataFetched = true;
       this.assetDataNotFound = false;
     } else {
