@@ -605,7 +605,6 @@ export class CaptureEye extends LitElement {
   private readonly closeIcon = 'https://c.animaapp.com/twFYQx58/img/close@2x.png';
   private readonly contentCopyIcon = 'https://c.animaapp.com/twFYQx58/img/content-copy@2x.png';
   private readonly helpIcon = 'https://c.animaapp.com/twFYQx58/img/help-2@2x.png';
-  private previewUrl = 'https://c.animaapp.com/twFYQx58/img/placeholder-image.png';
 
   get assetUrl() {
     return `${this.ipfsGatewayBaseUrl}/${this.nid}`;
@@ -722,22 +721,6 @@ export class CaptureEye extends LitElement {
           </div>
           <div class="modal-content-error"></div>
           <div class="modal-content">
-            <section class="preview-container">
-              <a
-              target="_blank"
-              href=${this.assetProfileUrl}
-              >
-                <img
-                  class="preview-image"
-                  src=${this.previewUrl}
-                  @error=${this.handleImageError}
-                  ?hidden=${this.imageError}
-                />
-              </a>
-              <span ?hidden=${!this.imageError}>
-                No Preview Available
-              </span>
-            </section>
             ${this.metadataTemplate()}
           </div>
         </div>
@@ -761,7 +744,6 @@ export class CaptureEye extends LitElement {
     if (this.assetDataFetched) {
       return;
     }
-    this.previewUrl = this.assetUrl;
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
     };
@@ -778,7 +760,7 @@ export class CaptureEye extends LitElement {
     if (response.ok) {
       const data: Asset = await response.json();
       this.asset = data;
-      this.setMetadata(this.asset); 
+      this.setMetadata(this.asset);
       this.assetDataFetched = true;
       this.assetDataNotFound = false;
     } else {
@@ -826,12 +808,6 @@ export class CaptureEye extends LitElement {
     if (this.asset.inStock < 1) return;
     const url = `https://captureappiframe.numbersprotocol.io/checkout?from=nse&nid=${this.nid}`;
     window.open(url, '_blank')!.focus();
-  }
-
-  private handleImageError() {
-    this.imageError = true;
-    console.log('imageError', this.imageError);
-    // Additional logic when the image fails to load
   }
 
   private setMetadata(asset: Asset) {
