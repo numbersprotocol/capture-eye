@@ -62,6 +62,10 @@ export class CaptureEye extends LitElement {
       opacity: 1;
     }
 
+    .capture-eye-iframe {
+      border: none;
+    }
+
     @media (min-width: 401px) {
       .capture-eye-button:hover::before {
         max-width: 170px;
@@ -113,6 +117,7 @@ export class CaptureEye extends LitElement {
       border-radius: 1rem;
       margin: 48px auto; /* 15% from the top and centered */
       width: 80%; /* Could be more or less, depending on screen size */
+      height: 80%; /* Could be more or less, depending on screen size */
       background: #111112;
     }
 
@@ -147,13 +152,9 @@ export class CaptureEye extends LitElement {
 
     .modal-content {
       display: flex;
-    }
-
-    @media (max-width: 1200px) {
-      .modal-content {
-        display: flex;
-        flex-direction: column;
-      }
+      width: 100%;
+      height: 100%;
+      justify-content: center;
     }
 
     .modal-content-error {
@@ -170,12 +171,6 @@ export class CaptureEye extends LitElement {
       letter-spacing: 0;
       line-height: normal;
       text-align: center;
-    }
-
-    .modal-content section {
-      flex: 1; /* Each section takes equal width */
-      aspect-ratio: 1; /* Maintain aspect ratio of 1 */
-      color: white;
     }
 
     section.preview-container {
@@ -721,7 +716,14 @@ export class CaptureEye extends LitElement {
           </div>
           <div class="modal-content-error"></div>
           <div class="modal-content">
-            ${this.metadataTemplate()}
+            <iframe
+              src="https://verify.numbersprotocol.io/version-test/asset-profile/?nid=${this.nid}&iframe=yes"
+              width="80%"
+              height="80%"
+              allowfullscreen="true"
+              class="capture-eye-iframe"
+            >
+            </iframe>
           </div>
         </div>
       </div>
