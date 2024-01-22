@@ -1,4 +1,4 @@
-import { CaptureEye } from '../../dist/capture-eye.js';
+import { CaptureEye } from '../capture-eye';
 
 import { fixture, assert } from '@open-wc/testing';
 import { html } from 'lit/static-html.js';

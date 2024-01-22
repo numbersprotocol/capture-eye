@@ -98,14 +98,6 @@ export class CaptureEye extends LitElement {
   @property({ attribute: false })
   imageError = false;
 
-  @property({ attribute: false })
-  isVideo = false;
-
-  @property({ attribute: false })
-  preloadMimetype = '';
-
-  private previewUrl = Constant.url.previewIcon;
-
   get assetUrl() {
     return `${Constant.url.ipfsGateway}/${this.nid}`;
   }
@@ -227,32 +219,15 @@ export class CaptureEye extends LitElement {
           </div>
           <div class="modal-content-error"></div>
           <div class="modal-content">
-            <section class="preview-container">
-              <a target="_blank" href=${this.assetProfileUrl}>
-                ${this.isVideo
-                  ? html`
-                      <video class="preview-video" controls>
-                        <source
-                          src=${this.assetUrl}
-                          type="${this.preloadMimetype}"
-                        />
-                        Your browser does not support the video tag.
-                      </video>
-                    `
-                  : html`
-                      <img
-                        class="preview-image"
-                        src=${this.previewUrl}
-                        @error=${this.handleImageError}
-                        ?hidden=${this.imageError}
-                      />
-                    `}
-              </a>
-              <span ?hidden=${this.isVideo || !this.imageError}>
-                No Preview Available
-              </span>
-            </section>
-            ${this.metadataTemplate()}
+            <iframe
+              src="https://verify.numbersprotocol.io/version-test/asset-profile/?nid=${this
+                .nid}&iframe=yes"
+              width="80%"
+              height="80%"
+              ?allowfullscreen=${true}
+              class="capture-eye-iframe"
+            >
+            </iframe>
           </div>
         </div>
       </div>
@@ -262,7 +237,6 @@ export class CaptureEye extends LitElement {
   override async connectedCallback() {
     super.connectedCallback();
     if (this.prefetch) {
-      this.fetchAssetMimetype();
       await this.fetchAssetData();
     }
   }
@@ -272,31 +246,10 @@ export class CaptureEye extends LitElement {
     await this.fetchAssetData();
   }
 
-  private async fetchAssetMimetype() {
-    this.previewUrl = this.assetUrl;
-    try {
-      const response = await fetch(this.assetUrl, { method: 'HEAD' });
-      const contentType = response.headers.get('Content-Type');
-
-      if (contentType) {
-        console.log('MIME type:', contentType);
-        if (contentType.startsWith('video')) {
-          this.isVideo = true;
-          this.preloadMimetype = contentType;
-        }
-      } else {
-        console.error('Content-Type header is missing.');
-      }
-    } catch (error) {
-      console.error('Error fetching asset MIME type:', error);
-    }
-  }
-
   private async fetchAssetData() {
     if (this.assetDataFetched) {
       return;
     }
-    this.previewUrl = this.assetUrl;
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
     };
@@ -358,12 +311,6 @@ export class CaptureEye extends LitElement {
     if (this.asset.inStock < 1) return;
     const url = `${Constant.url.collect}}?from=nse&nid=${this.nid}`;
     window.open(url, '_blank')!.focus();
-  }
-
-  private handleImageError() {
-    this.imageError = true;
-    console.log('imageError', this.imageError);
-    // Additional logic when the image fails to load
   }
 
   private setMetadata(asset: Asset) {

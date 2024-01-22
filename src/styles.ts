@@ -28,6 +28,10 @@ export function getStyles() {
       opacity: 1;
     }
 
+    .capture-eye-iframe {
+      border: none;
+    }
+
     @media (min-width: 401px) {
       .capture-eye-button:hover::before {
         max-width: 170px;
@@ -79,6 +83,7 @@ export function getStyles() {
       border-radius: 1rem;
       margin: 48px auto; /* 15% from the top and centered */
       width: 80%; /* Could be more or less, depending on screen size */
+      height: 80%; /* Could be more or less, depending on screen size */
       background: #111112;
     }
 
@@ -113,13 +118,9 @@ export function getStyles() {
 
     .modal-content {
       display: flex;
-    }
-
-    @media (max-width: 1200px) {
-      .modal-content {
-        display: flex;
-        flex-direction: column;
-      }
+      width: 100%;
+      height: 100%;
+      justify-content: center;
     }
 
     .modal-content-error {
