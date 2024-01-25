@@ -4,6 +4,8 @@ import { Constant } from './constant';
 import { Asset } from './interfaces/asset';
 import { TooltipStates } from './interfaces/tooltip_states';
 import { getStyles } from './styles';
+import { ModalManager } from './modal/modal_manager';
+import { CaptureEyeModal } from './modal/capture-eye-modal';
 
 @customElement('capture-eye')
 export class CaptureEye extends LitElement {
@@ -119,7 +121,7 @@ export class CaptureEye extends LitElement {
 
   buttonTemplate() {
     return html`
-      <div class="capture-eye-button" @click=${this.toggleShowPanel}>
+      <div class="capture-eye-button" @click=${this.showModal}>
         <img
           src=${Constant.url.captureEyeIcon}
           class="${this.assetDataNotFound ? 'grayed-out' : ''}"
@@ -210,40 +212,20 @@ export class CaptureEye extends LitElement {
         <slot></slot>
         ${this.buttonTemplate()}
       </div>
-      <div class="modal" ?hidden=${!this.showPanel}>
-        <div class="modal-container">
-          <div class="modal-header">
-            <div class="keyboard-arrow-left" @click=${this.toggleShowPanel}>
-              <img class="close" src=${Constant.url.closeIcon} />
-            </div>
-          </div>
-          <div class="modal-content-error"></div>
-          <div class="modal-content">
-            <iframe
-              src="https://verify.numbersprotocol.io/version-test/asset-profile/?nid=${this
-                .nid}&iframe=yes"
-              width="80%"
-              height="80%"
-              ?allowfullscreen=${true}
-              class="capture-eye-iframe"
-            >
-            </iframe>
-          </div>
-        </div>
-      </div>
     `;
   }
 
   override async connectedCallback() {
+    ModalManager.getInstance().initializeModal();
     super.connectedCallback();
     if (this.prefetch) {
       await this.fetchAssetData();
     }
   }
 
-  private async toggleShowPanel() {
-    this.showPanel = !this.showPanel;
-    await this.fetchAssetData();
+  private async showModal() {
+    ModalManager.getInstance().showModal(this.nid);
+    console.log(CaptureEyeModal.name);
   }
 
   private async fetchAssetData() {

@@ -123,22 +123,6 @@ export function getStyles() {
       justify-content: center;
     }
 
-    .modal-content-error {
-      display: none; /* Hidden by default */
-      height: 60vh;
-      width: 100%;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-family: 'Degular-Medium', Helvetica;
-      font-weight: 400;
-      color: #ffffff;
-      font-size: 14px;
-      letter-spacing: 0;
-      line-height: normal;
-      text-align: center;
-    }
-
     .modal-content section {
       flex: 1; /* Each section takes equal width */
       aspect-ratio: 1; /* Maintain aspect ratio of 1 */
