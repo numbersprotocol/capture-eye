@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
   <head>
     <meta charset="utf-8" />
@@ -8,36 +7,97 @@
     <script src="../node_modules/lit/polyfill-support.js"></script>
     <script type="module" src="../dist/capture-eye.js"></script>
     <style>
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f0f0f0;
+        font-family: Arial, sans-serif;
+      }
+
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 16px;
+        padding: 16px;
+        max-width: 1000px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: white;
+        border-radius: 8px;
+      }
+
+      capture-eye {
+        display: block;
+        margin: auto;
+      }
+
+      img {
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+      }
+
       p {
-        border: solid 1px blue;
-        padding: 8px;
+        text-align: center;
+        color: #333;
+        font-size: 18px;
+        margin-bottom: 16px;
       }
     </style>
   </head>
   <body>
-    <div style="transform: translate(50%, 50%)">
-      <p>Transform CSS style test</p>
-
-      <p>Example: Capture Eye</p>
+    <div class="grid-container">
       <capture-eye
         nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
-        prefetch="true"
+        prefetch
       >
         <img
-          width="600px"
           src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
         />
       </capture-eye>
-    </div>
 
-    <p>Example: asset data not found</p>
-    <capture-eye
-      nid="bafybeigv4t4nji5b6hbgzj3wllmnfc324c57no6chy66cp24lpcjt7ny4i"
-    >
-      <img
-        width="600px"
-        src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeigv4t4nji5b6hbgzj3wllmnfc324c57no6chy66cp24lpcjt7ny4i"
-      />
-    </capture-eye>
+      <capture-eye
+        nid="bafybeihbtixc4lmhbnlrfbjsnyyodwlv72m7othhhrdffbfpvjgyef4agy"
+      >
+        <img
+          src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeihbtixc4lmhbnlrfbjsnyyodwlv72m7othhhrdffbfpvjgyef4agy"
+        />
+      </capture-eye>
+
+      <capture-eye
+        nid="bafybeiczbpnkpedpilrqwjxkr5yigj25k6eojucpf3y6dwk2bxu3p3dfve"
+      >
+        <img
+          src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeiczbpnkpedpilrqwjxkr5yigj25k6eojucpf3y6dwk2bxu3p3dfve"
+        />
+      </capture-eye>
+
+      <capture-eye
+        nid="bafybeiazfs6okpg3nynwci6j3ydwec5efopzxvfje3fwqefmogvoddlevu"
+      >
+        <img
+          src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeiazfs6okpg3nynwci6j3ydwec5efopzxvfje3fwqefmogvoddlevu"
+        />
+      </capture-eye>
+
+      <capture-eye
+        nid="bafybeiht3bkcat6b6ytgo23wyckef6ohrgedwxrujewm6w2qvrjrstg24q"
+      >
+        <img
+          src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeiht3bkcat6b6ytgo23wyckef6ohrgedwxrujewm6w2qvrjrstg24q"
+        />
+      </capture-eye>
+
+      <capture-eye
+        nid="bafybeihdm3ibjk5j3rj2lrrbdw2bc7cx7qpvcgxkn4dkxm5uygep7kh5jq"
+      >
+        <img
+          src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeihdm3ibjk5j3rj2lrrbdw2bc7cx7qpvcgxkn4dkxm5uygep7kh5jq"
+        />
+      </capture-eye>
+    </div>
   </body>
 </html>
