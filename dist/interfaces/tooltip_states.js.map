@@ -1,0 +1,1 @@
+{"version":3,"file":"tooltip_states.js","sourceRoot":"","sources":["../../src/interfaces/tooltip_states.ts"],"names":[],"mappings":"","sourcesContent":["import { TooltipState } from './tooltip_state';\n\nexport interface TooltipStates {\n  [key: string]: TooltipState;\n}\n"]}

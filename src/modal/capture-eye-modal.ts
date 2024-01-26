@@ -1,7 +1,7 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { Constant } from '../constant';
-import { getStyles } from '../styles';
+import { Constant } from '../constant.js';
+import { getStyles } from '../styles.js';
 
 @customElement('capture-eye-modal')
 export class CaptureEyeModal extends LitElement {

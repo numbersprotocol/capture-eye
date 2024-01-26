@@ -1,9 +1,9 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { Constant } from './constant';
-import { getStyles } from './styles';
-import { ModalManager } from './modal/modal_manager';
-import { CaptureEyeModal } from './modal/capture-eye-modal';
+import { Constant } from './constant.js';
+import { getStyles } from './styles.js';
+import { ModalManager } from './modal/modal_manager.js';
+import { CaptureEyeModal } from './modal/capture-eye-modal.js';
 
 @customElement('capture-eye')
 export class CaptureEye extends LitElement {
@@ -43,7 +43,11 @@ export class CaptureEye extends LitElement {
 
   buttonTemplate() {
     return html`
-      <div class="capture-eye-button" @click=${this.showModal}>
+      <div
+        class="capture-eye-button"
+        @click=${this.showModal}
+        @mouseover=${this.handleMouseOver}
+      >
         <img src=${Constant.url.captureEyeIcon} alt="Capture Eye" />
       </div>
     `;
@@ -59,15 +63,24 @@ export class CaptureEye extends LitElement {
   }
 
   override async connectedCallback() {
-    ModalManager.getInstance().initializeModal();
     super.connectedCallback();
+    ModalManager.getInstance().initializeModal();
     if (this.prefetch) {
-      //
+      customElements.whenDefined('capture-eye-modal').then(() => {
+        ModalManager.getInstance().updateModal(this.nid, false);
+      });
+    }
+  }
+
+  handleMouseOver() {
+    const modalManager = ModalManager.getInstance();
+    if (modalManager.isHidden) {
+      modalManager.updateModal(this.nid, false);
     }
   }
 
   private async showModal() {
-    ModalManager.getInstance().showModal(this.nid);
+    ModalManager.getInstance().updateModal(this.nid);
     console.debug(CaptureEyeModal.name); // The line ensures CaptureEyeModal is included in compilation.
   }
 }

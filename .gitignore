@@ -5,11 +5,3 @@
 custom-elements.json
 .npmrc
 .DS_Store
-/dist/
-# top level source
-capture-eye.js
-capture-eye.js.map
-capture-eye.d.ts
-capture-eye.d.ts.map
-# only generated for size check
-capture-eye.bundled.js

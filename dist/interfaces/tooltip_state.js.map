@@ -1,0 +1,1 @@
+{"version":3,"file":"tooltip_state.js","sourceRoot":"","sources":["../../src/interfaces/tooltip_state.ts"],"names":[],"mappings":"","sourcesContent":["export interface TooltipState {\n  show: boolean;\n  top: number;\n  left: number;\n}\n"]}

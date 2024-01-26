@@ -1,10 +1,16 @@
-import { CaptureEyeModal } from './capture-eye-modal';
+import { CaptureEyeModal } from './capture-eye-modal.js';
 
 export class ModalManager {
   private static instance: ModalManager;
   private modalElement: CaptureEyeModal | null = null;
+  private renderedOnce = false;
 
   private constructor() {}
+
+  get isHidden() {
+    if (this.modalElement) return this.modalElement.modalHidden;
+    return true;
+  }
 
   public static getInstance(): ModalManager {
     if (!ModalManager.instance) {
@@ -20,9 +26,12 @@ export class ModalManager {
     }
   }
 
-  public showModal(nid: string): void {
+  public updateModal(nid: string, show = true): void {
+    console.log('update modal', show);
     if (this.modalElement) {
-      if (this.modalElement.nid !== nid) {
+      console.log('found modalElement', this.modalElement);
+      // If nid changed or has not yet rendered for first time, create iframe
+      if (this.modalElement.nid !== nid || !this.renderedOnce) {
         // Remove existing iframe if it exists
         const existingIframe = this.modalElement.shadowRoot?.querySelector(
           '.capture-eye-iframe'
@@ -34,8 +43,10 @@ export class ModalManager {
         // Set new nid and create a new iframe
         this.modalElement.nid = nid;
         this.createIframe(nid);
+        this.renderedOnce = true;
+        console.log('render nid', nid);
       }
-      this.modalElement.modalHidden = false;
+      if (show) this.modalElement.modalHidden = false;
     }
   }
 
@@ -57,8 +68,10 @@ export class ModalManager {
       // Find the modal-content div and append the iframe to it
       const modalContentDiv =
         this.modalElement.shadowRoot.querySelector('.modal-content');
+      console.log('modalContentDiv', modalContentDiv);
       if (modalContentDiv) {
         modalContentDiv.appendChild(iframe);
+        console.log('append iframe');
       }
     }
   }
