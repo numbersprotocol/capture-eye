@@ -59,12 +59,14 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Get changelog
+        if: steps.check.outputs.changed == 'true'
         id: changelog
         run: |
           echo "::set-output name=changes::$(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:'%h %s')"
 
       - name: Create Release
         id: create_release
+        if: steps.check.outputs.changed == 'true'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
