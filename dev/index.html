@@ -3,9 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>&lt;capture-eye> Demo</title>
-    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="../node_modules/lit/polyfill-support.js"></script>
-    <script type="module" src="../dist/capture-eye.js"></script>
+    <script type="module" src="../dist/capture-eye.bundled.js"></script>
     <style>
       body {
         margin: 0;
@@ -19,6 +17,7 @@
       }
 
       .grid-container {
+        position: relative;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 16px;
@@ -27,6 +26,10 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         background-color: white;
         border-radius: 8px;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        position: absolute;
       }
 
       capture-eye {
