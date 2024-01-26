@@ -26,21 +26,7 @@ export class CaptureEyeModal extends LitElement {
               <img class="close" src=${Constant.url.closeIcon} />
             </div>
           </div>
-          <div class="modal-content">
-            ${this.nid
-              ? html`
-                  <iframe
-                    src="https://verify.numbersprotocol.io/version-test/asset-profile/?nid=${this
-                      .nid}&iframe=yes"
-                    width="80%"
-                    height="80%"
-                    ?allowfullscreen=${true}
-                    class="capture-eye-iframe"
-                  >
-                  </iframe>
-                `
-              : ''}
-          </div>
+          <div class="modal-content"></div>
         </div>
       </div>
     `;
