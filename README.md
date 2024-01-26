@@ -13,11 +13,20 @@
 
 ```html
 <head>
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@numbersprotocol/capture-eye/capture-eye.bundled.js"></script>
+  <script
+    type="module"
+    src="https://cdn.jsdelivr.net/npm/@numbersprotocol/capture-eye/dist/capture-eye.bundled.js"
+  ></script>
 </head>
 <body>
-  <capture-eye nid="bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou" prefetch="true">
-    <img width=600px src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou" />
+  <capture-eye
+    nid="bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou"
+    prefetch="true"
+  >
+    <img
+      width="600px"
+      src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou"
+    />
   </capture-eye>
 </body>
 ```
@@ -26,11 +35,11 @@ Visit the [interactive playground](https://playcode.io/capture_eye_demo) for the
 
 ## Component attributes
 
-| Attribute Name  | Required | Description                                                                                                   | Example                                              |
-|-----------------|----------|---------------------------------------------------------------------------------------------------------------|------------------------------------------------------|
-| `nid`           | true     | The unique [Nid](https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/numbers-id-nid) of the asset.                                                                   | `bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe`  |
-| `prefetch`      | false    | If set to `true`, the component will start fetching asset data when added to the DOM. Default is `false`.  | `false`                                              |
-| `capture_token` | false    | The authentication token required to access private assets.                                                 | `false`                                              |
+| Attribute Name  | Required | Description                                                                                                                       | Example                                                       |
+| --------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `nid`           | true     | The unique [Nid](https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/numbers-id-nid) of the asset. | `<capture-eye nid="bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe"></capture-eye>` |
+| `prefetch`      | false    | If it is present, the component will start fetching asset data when added to the DOM. Only use when you have only 1 Capture Eye component on the webpage because prefetching multiple Capture Eyes is not supported.                          | `<capture-eye nid="..." prefetch></capture-eye>`                                               |
+
 
 ## Integration with Frontend Frameworks
 
@@ -50,11 +59,20 @@ The most simple way of adding Capture Eye to a webpage is by importing via CDN a
 
 ```html
 <head>
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@numbersprotocol/capture-eye/capture-eye.bundled.js"></script>
+  <script
+    type="module"
+    src="https://cdn.jsdelivr.net/npm/@numbersprotocol/capture-eye/dist/capture-eye.bundled.js"
+  ></script>
 </head>
 <body>
-  <capture-eye nid="bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou" prefetch="true">
-    <img width=600px src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou" />
+  <capture-eye
+    nid="bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou"
+    prefetch="true"
+  >
+    <img
+      width="600px"
+      src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou"
+    />
   </capture-eye>
 </body>
 ```
@@ -83,13 +101,13 @@ import { createComponent } from '@lit/react';
 import { CaptureEye } from '@numbersprotocol/capture-eye';
 
 const CaptureEyeComponent = createComponent({
-    tagName: 'capture-eye',
-    elementClass: CaptureEye,
-    react: React,
-    events: {
-     onactivate: 'activate',
-     onchange: 'change',
-    },
+  tagName: 'capture-eye',
+  elementClass: CaptureEye,
+  react: React,
+  events: {
+    onactivate: 'activate',
+    onchange: 'change',
+  },
 });
 ```
 
@@ -97,7 +115,7 @@ Use the CaptureEyeComponent in JSX:
 
 ```jsx
 <CaptureEyeComponent nid="bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe">
-    <img src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe" />
+  <img src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe" />
 </CaptureEyeComponent>
 ```
 
@@ -136,8 +154,14 @@ import '@numbersprotocol/capture-eye';
 ```
 
 ```html
-<capture-eye nid="bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou" prefetch="true">
-  <img width=600px src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou" />
+<capture-eye
+  nid="bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou"
+  prefetch="true"
+>
+  <img
+    width="600px"
+    src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou"
+  />
 </capture-eye>
 ```
 
@@ -149,14 +173,61 @@ To add Capture Eye to a SFC, simply import the Capture Eye package in the script
 
 ```vue
 <script setup>
-import '@numbersprotocol/capture-eye'
+import '@numbersprotocol/capture-eye';
 </script>
 
 <template>
   <main>
-    <capture-eye nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy" prefetch="true">
-    <img width=600 src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou" />
+    <capture-eye
+      nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
+      prefetch="true"
+    >
+      <img
+        width="600"
+        src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou"
+      />
     </capture-eye>
   </main>
 </template>
+```
+
+## Style customization
+
+Capture Eye utilizes shadow DOM for encapsulation as a web component. However, if needed, the encapsulated styles could still be modified for any specific customization need. The section uses vanilla HTML/JavaScript to demonstrate how it is done. For different frontend frameworks it could also be done easily following the same logic.
+
+To customize the Capture Eye button, access and modify the shadow DOM of Capture Eye after it is loaded.
+
+Example of changing the icon and width/height:
+
+```html
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const captureEyeElements = document.querySelectorAll('capture-eye');
+
+    captureEyeElements.forEach((element) => {
+      const img = element.shadowRoot.querySelector(
+        '.capture-eye-button img'
+      );
+      img.src =
+        'https://ipfs-pin.numbersprotocol.io/ipfs/bafkreifqdodt35fu3ok62wurery47vgtdxw6ahcqdtsbi77gwiuzyvcsu4';
+      img.style.width = '30px';
+      img.style.height = '30px';
+    });
+  });
+</script>
+```
+
+In contrast to Capture Eye button, the Capture Eye modal is not a child element of it, instead it is injected to document root to act as a singleton and ensure it is not affected by parent element's inheritable styles, such as CSS transform.
+
+Example of changing the modal background color:
+
+```html
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const captureEyeModal = document.querySelector('capture-eye-modal');
+    const modalContentDiv =
+      captureEyeModal.shadowRoot.querySelector('.modal-container');
+    modalContentDiv.style.background = 'midnightblue';
+  });
+</script>
 ```

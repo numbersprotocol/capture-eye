@@ -1,12 +1,12 @@
 import summary from 'rollup-plugin-summary';
-import {terser} from 'rollup-plugin-terser';
+import { terser } from 'rollup-plugin-terser';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 
 export default {
-  input: 'capture-eye.js',
+  input: 'dist/capture-eye.js',
   output: {
-    file: 'capture-eye.bundled.js',
+    file: 'dist/capture-eye.bundled.js',
     format: 'esm',
     name: 'CaptureEye',
   },
@@ -16,7 +16,7 @@ export default {
     }
   },
   plugins: [
-    replace({'Reflect.decorate': 'undefined'}),
+    replace({ 'Reflect.decorate': 'undefined' }),
     resolve(),
     /**
      * This minification setup serves the static site generation.
