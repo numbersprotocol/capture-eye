@@ -32,17 +32,47 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          registry-url: https://registry.npmjs.org/
+          registry-url: https://npm.pkg.github.com/
+          scope: '@numbersprotocol'
 
       - name: Check version changes
         uses: EndBug/version-check@v2
         id: check
 
-      - name: Version update detected
+      - name: Build
         if: steps.check.outputs.changed == 'true'
         run: |
           npm ci
           npm run build && cp dist/capture-eye.bundled.js .
+
+      - name: Publish to GitHub Registry
+        if: steps.check.outputs.changed == 'true'
+        run: |
           npm publish
         env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to NPM Registry
+        if: steps.check.outputs.changed == 'true'
+        run: npm publish --registry https://registry.npmjs.org/
+        env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Get changelog
+        id: changelog
+        run: |
+          echo "::set-output name=changes::$(git log $(git describe --tags --abbrev=0)..HEAD --pretty=format:'%h %s')"
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.check.outputs.version }}
+          release_name: ${{ steps.check.outputs.version }}
+          body: |
+            Changes:
+            ${{ steps.changelog.outputs.changes }}
+          draft: false
+          prerelease: false
