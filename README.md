@@ -21,7 +21,6 @@
 <body>
   <capture-eye
     nid="bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou"
-    prefetch="true"
   >
     <img
       width="600px"
@@ -67,7 +66,6 @@ The most simple way of adding Capture Eye to a webpage is by importing via CDN a
 <body>
   <capture-eye
     nid="bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou"
-    prefetch="true"
   >
     <img
       width="600px"
@@ -156,7 +154,6 @@ import '@numbersprotocol/capture-eye';
 ```html
 <capture-eye
   nid="bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou"
-  prefetch="true"
 >
   <img
     width="600px"
@@ -180,7 +177,6 @@ import '@numbersprotocol/capture-eye';
   <main>
     <capture-eye
       nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
-      prefetch="true"
     >
       <img
         width="600"
