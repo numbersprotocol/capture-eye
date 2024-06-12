@@ -20,11 +20,11 @@
 </head>
 <body>
   <capture-eye
-    nid="bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou"
+    nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
   >
     <img
       width="600px"
-      src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou"
+      src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
     />
   </capture-eye>
 </body>
@@ -36,7 +36,7 @@ Visit the [interactive playground](https://playcode.io/capture_eye_demo) for the
 
 | Attribute Name  | Required | Description                                                                                                                       | Example                                                       |
 | --------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| `nid`           | true     | The unique [Nid](https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/numbers-id-nid) of the asset. | `<capture-eye nid="bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe"></capture-eye>` |
+| `nid`           | true     | The unique [Nid](https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/numbers-id-nid) of the asset. | `<capture-eye nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"></capture-eye>` |
 | `prefetch`      | false    | If it is present, the component will start fetching asset data when added to the DOM. Only use when you have only 1 Capture Eye component on the webpage because prefetching multiple Capture Eyes is not supported.                          | `<capture-eye nid="..." prefetch></capture-eye>`                                               |
 
 
@@ -65,11 +65,11 @@ The most simple way of adding Capture Eye to a webpage is by importing via CDN a
 </head>
 <body>
   <capture-eye
-    nid="bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou"
+    nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
   >
     <img
       width="600px"
-      src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou"
+      src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
     />
   </capture-eye>
 </body>
@@ -112,8 +112,8 @@ const CaptureEyeComponent = createComponent({
 Use the CaptureEyeComponent in JSX:
 
 ```jsx
-<CaptureEyeComponent nid="bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe">
-  <img src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeigppahabe4x6r52jyvh2k7u7udpxm2vciqcamzzuung7rhfe6pkbe" />
+<CaptureEyeComponent nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy">
+  <img src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy" />
 </CaptureEyeComponent>
 ```
 
@@ -153,11 +153,11 @@ import '@numbersprotocol/capture-eye';
 
 ```html
 <capture-eye
-  nid="bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou"
+  nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
 >
   <img
     width="600px"
-    src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou"
+    src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
   />
 </capture-eye>
 ```
@@ -180,7 +180,7 @@ import '@numbersprotocol/capture-eye';
     >
       <img
         width="600"
-        src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeic3lj3rxypkmlgznch54fuvr563z6wugewkqm5eo2okqnagaq6oou"
+        src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
       />
     </capture-eye>
   </main>
@@ -205,7 +205,7 @@ Example of changing the icon and width/height:
         '.capture-eye-button img'
       );
       img.src =
-        'https://ipfs-pin.numbersprotocol.io/ipfs/bafkreifqdodt35fu3ok62wurery47vgtdxw6ahcqdtsbi77gwiuzyvcsu4';
+        'https://ipfs-pin.numbersprotocol.io/ipfs/bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy';
       img.style.width = '30px';
       img.style.height = '30px';
     });
