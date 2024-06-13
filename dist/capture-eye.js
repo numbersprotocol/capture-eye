@@ -7,8 +7,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Constant } from './constant.js';
-import { getStyles } from './styles.js';
-import { ModalManager } from './modal/modal_manager.js';
+import { getCaptureEyeStyles } from './capture-eye-styles.js';
+import { ModalManager } from './modal/modal-manager.js';
 import { CaptureEyeModal } from './modal/capture-eye-modal.js';
 let CaptureEye = class CaptureEye extends LitElement {
     get assetUrl() {
@@ -28,6 +28,10 @@ let CaptureEye = class CaptureEye extends LitElement {
          * Nid of the asset.
          */
         this.nid = '';
+        /**
+         * layout name of the asset. Options: original, curated
+         */
+        this.layout = Constant.layout.original;
         /*
          * Inject link stylesheet to DOM directly since it will not work in shadow DOM
          */
@@ -38,11 +42,7 @@ let CaptureEye = class CaptureEye extends LitElement {
     }
     buttonTemplate() {
         return html `
-      <div
-        class="capture-eye-button"
-        @click=${this.showModal}
-        @mouseover=${this.handleMouseOver}
-      >
+      <div class="capture-eye-button" @click=${this.showModal}>
         <img src=${Constant.url.captureEyeIcon} alt="Capture Eye" />
       </div>
     `;
@@ -50,7 +50,10 @@ let CaptureEye = class CaptureEye extends LitElement {
     render() {
         return html `
       <div class="capture-eye-container">
-        <slot></slot>
+        <slot
+          @mouseenter=${this.handleMouseEnter}
+          @mouseleave=${this.handleMouseLeave}
+        ></slot>
         ${this.buttonTemplate()}
       </div>
     `;
@@ -60,28 +63,52 @@ let CaptureEye = class CaptureEye extends LitElement {
         ModalManager.getInstance().initializeModal();
         if (this.prefetch) {
             customElements.whenDefined('capture-eye-modal').then(() => {
-                ModalManager.getInstance().updateModal(this.nid, false);
+                ModalManager.getInstance().updateModal(this.nid, this.layout, this.getButtonElement(), false);
             });
         }
     }
-    handleMouseOver() {
-        const modalManager = ModalManager.getInstance();
-        if (modalManager.isHidden) {
-            modalManager.updateModal(this.nid, false);
-        }
-    }
     async showModal() {
-        ModalManager.getInstance().updateModal(this.nid);
+        const modalManager = ModalManager.getInstance();
+        const buttonElement = this.getButtonElement();
+        modalManager.updateModal(this.nid, this.layout, buttonElement);
+        this.setButtonActive(true);
         console.debug(CaptureEyeModal.name); // The line ensures CaptureEyeModal is included in compilation.
     }
+    getButtonElement() {
+        return this.shadowRoot?.querySelector('.capture-eye-button');
+    }
+    handleMouseEnter() {
+        this.setButtonActive(true);
+    }
+    handleMouseLeave() {
+        const modalManager = ModalManager.getInstance();
+        if (!modalManager.isHidden && modalManager.nid === this.nid) {
+            return; // Do not hide the button if the modal is shown
+        }
+        this.setButtonActive(false);
+    }
+    setButtonActive(active) {
+        const button = this.getButtonElement();
+        if (button) {
+            if (active) {
+                button.classList.add('active');
+            }
+            else {
+                button.classList.remove('active');
+            }
+        }
+    }
 };
-CaptureEye.styles = getStyles();
+CaptureEye.styles = getCaptureEyeStyles();
 __decorate([
     property({ type: Boolean })
 ], CaptureEye.prototype, "prefetch", void 0);
 __decorate([
-    property()
+    property({ type: String })
 ], CaptureEye.prototype, "nid", void 0);
+__decorate([
+    property({ type: String })
+], CaptureEye.prototype, "layout", void 0);
 CaptureEye = __decorate([
     customElement('capture-eye')
 ], CaptureEye);

@@ -12,10 +12,16 @@ interface Url {
 }
 interface Text {
     not_available: string;
+    loading: string;
 }
 interface ConstantType {
     url: Url;
     text: Text;
+    layout: Layout;
+}
+export interface Layout {
+    original: string;
+    curated: string;
 }
 export declare const Constant: ConstantType;
 export {};

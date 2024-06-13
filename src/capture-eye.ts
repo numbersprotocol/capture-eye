@@ -1,13 +1,13 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { Constant } from './constant.js';
-import { getStyles } from './styles.js';
-import { ModalManager } from './modal/modal_manager.js';
+import { getCaptureEyeStyles } from './capture-eye-styles.js';
+import { ModalManager } from './modal/modal-manager.js';
 import { CaptureEyeModal } from './modal/capture-eye-modal.js';
 
 @customElement('capture-eye')
 export class CaptureEye extends LitElement {
-  static override styles = getStyles();
+  static override styles = getCaptureEyeStyles();
 
   /**
    * If yes, start fetching asset data when the Capture Eye is loaded.
@@ -19,8 +19,14 @@ export class CaptureEye extends LitElement {
   /**
    * Nid of the asset.
    */
-  @property()
+  @property({ type: String })
   nid = '';
+
+  /**
+   * layout name of the asset. Options: original, curated
+   */
+  @property({ type: String })
+  layout = Constant.layout.original;
 
   get assetUrl() {
     return `${Constant.url.ipfsGateway}/${this.nid}`;
@@ -43,11 +49,7 @@ export class CaptureEye extends LitElement {
 
   buttonTemplate() {
     return html`
-      <div
-        class="capture-eye-button"
-        @click=${this.showModal}
-        @mouseover=${this.handleMouseOver}
-      >
+      <div class="capture-eye-button" @click=${this.showModal}>
         <img src=${Constant.url.captureEyeIcon} alt="Capture Eye" />
       </div>
     `;
@@ -56,7 +58,10 @@ export class CaptureEye extends LitElement {
   override render() {
     return html`
       <div class="capture-eye-container">
-        <slot></slot>
+        <slot
+          @mouseenter=${this.handleMouseEnter}
+          @mouseleave=${this.handleMouseLeave}
+        ></slot>
         ${this.buttonTemplate()}
       </div>
     `;
@@ -67,21 +72,49 @@ export class CaptureEye extends LitElement {
     ModalManager.getInstance().initializeModal();
     if (this.prefetch) {
       customElements.whenDefined('capture-eye-modal').then(() => {
-        ModalManager.getInstance().updateModal(this.nid, false);
+        ModalManager.getInstance().updateModal(
+          this.nid,
+          this.layout,
+          this.getButtonElement(),
+          false
+        );
       });
     }
   }
 
-  handleMouseOver() {
+  private async showModal() {
     const modalManager = ModalManager.getInstance();
-    if (modalManager.isHidden) {
-      modalManager.updateModal(this.nid, false);
-    }
+    const buttonElement = this.getButtonElement();
+    modalManager.updateModal(this.nid, this.layout, buttonElement);
+    this.setButtonActive(true);
+    console.debug(CaptureEyeModal.name); // The line ensures CaptureEyeModal is included in compilation.
   }
 
-  private async showModal() {
-    ModalManager.getInstance().updateModal(this.nid);
-    console.debug(CaptureEyeModal.name); // The line ensures CaptureEyeModal is included in compilation.
+  private getButtonElement(): HTMLElement {
+    return this.shadowRoot?.querySelector('.capture-eye-button') as HTMLElement;
+  }
+
+  private handleMouseEnter() {
+    this.setButtonActive(true);
+  }
+
+  private handleMouseLeave() {
+    const modalManager = ModalManager.getInstance();
+    if (!modalManager.isHidden && modalManager.nid === this.nid) {
+      return; // Do not hide the button if the modal is shown
+    }
+    this.setButtonActive(false);
+  }
+
+  private setButtonActive(active: boolean) {
+    const button = this.getButtonElement();
+    if (button) {
+      if (active) {
+        button.classList.add('active');
+      } else {
+        button.classList.remove('active');
+      }
+    }
   }
 }
 
