@@ -7,8 +7,8 @@
   "types": "dist/capture-eye.d.ts",
   "type": "module",
   "scripts": {
-    "build": "tsc && rollup -c",
-    "build:watch": "tsc --watch && rollup -c",
+    "build": "rollup -c",
+    "build:watch": "rollup -c -w",
     "clean": "rimraf dist",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
     "lint:eslint": "eslint 'src/**/*.ts'",
@@ -50,6 +50,7 @@
     "@open-wc/testing": "^3.1.5",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-replace": "^5.0.2",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "@typescript-eslint/parser": "^5.25.0",
     "@web/dev-server": "^0.1.31",
