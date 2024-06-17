@@ -9,6 +9,7 @@ interface Url {
     contentCopyIcon: string;
     helpIcon: string;
     previewIcon: string;
+    fontFaceCssUrl: string;
 }
 interface Text {
     not_available: string;

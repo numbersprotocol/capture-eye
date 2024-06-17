@@ -1,5 +1,5 @@
 import { Constant } from '../constant.js';
-import { CaptureEyeModal } from './capture-eye-modal.js';
+import { CaptureEyeModal } from './modal.js';
 
 export class ModalManager {
   private static instance: ModalManager;

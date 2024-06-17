@@ -3,7 +3,17 @@ import { customElement, property } from 'lit/decorators.js';
 import { Constant } from './constant.js';
 import { getCaptureEyeStyles } from './capture-eye-styles.js';
 import { ModalManager } from './modal/modal-manager.js';
-import { CaptureEyeModal } from './modal/capture-eye-modal.js';
+import { CaptureEyeModal } from './modal/modal.js';
+
+function loadFontFace() {
+  /*
+   * Inject link stylesheet to DOM directly since it will not work in shadow DOM
+   */
+  const font = document.createElement('link');
+  font.href = Constant.url.fontFaceCssUrl;
+  font.rel = 'stylesheet';
+  document.head.appendChild(font);
+}
 
 @customElement('capture-eye')
 export class CaptureEye extends LitElement {
@@ -26,18 +36,12 @@ export class CaptureEye extends LitElement {
   }
 
   get assetProfileUrl() {
-    return `${Constant.url.profile}${this.nid}`;
+    return `${Constant.url.profile}/${this.nid}`;
   }
 
   constructor() {
     super();
-    /*
-     * Inject link stylesheet to DOM directly since it will not work in shadow DOM
-     */
-    const font = document.createElement('link');
-    font.href = 'https://static-cdn.numbersprotocol.io/fonts/degular.css';
-    font.rel = 'stylesheet';
-    document.head.appendChild(font);
+    loadFontFace();
   }
 
   buttonTemplate() {

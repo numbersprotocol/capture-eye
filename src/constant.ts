@@ -9,6 +9,7 @@ interface Url {
   contentCopyIcon: string;
   helpIcon: string;
   previewIcon: string;
+  fontFaceCssUrl: string;
 }
 
 interface Text {
@@ -39,6 +40,7 @@ export const Constant: ConstantType = {
     contentCopyIcon: 'https://c.animaapp.com/twFYQx58/img/content-copy@2x.png',
     helpIcon: 'https://c.animaapp.com/twFYQx58/img/help-2@2x.png',
     previewIcon: 'https://c.animaapp.com/twFYQx58/img/placeholder-image.png',
+    fontFaceCssUrl: 'https://static-cdn.numbersprotocol.io/fonts/degular.css',
   },
   text: {
     not_available: 'N/A',
