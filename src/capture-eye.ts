@@ -10,13 +10,6 @@ export class CaptureEye extends LitElement {
   static override styles = getCaptureEyeStyles();
 
   /**
-   * If yes, start fetching asset data when the Capture Eye is loaded.
-   * Otherwise the data will only be fetched when the panel is opened.
-   */
-  @property({ type: Boolean })
-  prefetch = false;
-
-  /**
    * Nid of the asset.
    */
   @property({ type: String })
@@ -70,16 +63,6 @@ export class CaptureEye extends LitElement {
   override async connectedCallback() {
     super.connectedCallback();
     ModalManager.getInstance().initializeModal();
-    if (this.prefetch) {
-      customElements.whenDefined('capture-eye-modal').then(() => {
-        ModalManager.getInstance().updateModal(
-          this.nid,
-          this.layout,
-          this.getButtonElement(),
-          false
-        );
-      });
-    }
   }
 
   private async showModal() {

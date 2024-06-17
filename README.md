@@ -37,7 +37,7 @@ Visit the [interactive playground](https://playcode.io/capture_eye_demo) for the
 | Attribute Name  | Required | Description                                                                                                                       | Example                                                       |
 | --------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
 | `nid`           | true     | The unique [Nid](https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/numbers-id-nid) of the asset. | `<capture-eye nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"></capture-eye>` |
-| `prefetch`      | false    | If it is present, the component will start fetching asset data when added to the DOM. Only use when you have only 1 Capture Eye component on the webpage because prefetching multiple Capture Eyes is not supported.                          | `<capture-eye nid="..." prefetch></capture-eye>`                                               |
+| `layout`      | false    | Decides which layout to display. Default value is `original`. Additional option includes `curated`.                          | `<capture-eye nid="..." layout="curated"></capture-eye>`                                               |
 
 
 ## Integration with Frontend Frameworks
