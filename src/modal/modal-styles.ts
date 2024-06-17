@@ -10,7 +10,7 @@ export function getModalStyles() {
       --secondary-text-color: #888;
       --border-radius: 1rem;
       --box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
-      --font-family: 'Degular-Medium', Helvetica;
+      --font-family: 'Degular-Thin', Helvetica;
       --font-size: 1rem;
       --font-size-small: 0.875rem;
       --padding: 1rem;
@@ -48,6 +48,12 @@ export function getModalStyles() {
     .modal-content {
       margin-top: var(--padding);
       padding: var(--padding);
+    }
+
+    hr.thin-hr {
+      border: none;
+      border-top: 1px solid #ccc;
+      margin: 20px 0;
     }
 
     .section-title {

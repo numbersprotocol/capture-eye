@@ -103,7 +103,7 @@ let CaptureEyeModal = class CaptureEyeModal extends LitElement {
             ? this.abstract
             : html `<div class="shimmer-text"></div>`}
       </div>
-      <hr />
+      <hr class="thin-hr" />
     `;
     }
     renderMiddle() {
@@ -133,7 +133,7 @@ let CaptureEyeModal = class CaptureEyeModal extends LitElement {
                 ? this.backendOwnerName
                 : html `<div class="shimmer-text"></div>`}
           </p>`}
-      <hr />
+      <hr class="thin-hr" />
     `;
     }
     renderBottom() {
