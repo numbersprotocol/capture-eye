@@ -111,6 +111,11 @@ export function getModalStyles() {
 
     .top-date {
       color: var(--secondary-text-color);
+      white-space: nowrap;
+      overflow: hidden;
+      display: inline-block;
+      max-width: 100%;
+      font-size: var(--font-size-small);
     }
 
     .headline {
@@ -118,6 +123,7 @@ export function getModalStyles() {
       margin-bottom: 1rem;
       font-family: 'Degular-Regular', Helvetica;
       font-weight: 400;
+      font-size: var(--font-size-small);
     }
 
     .origins p {
