@@ -27,7 +27,7 @@ export class CaptureEyeModal extends LitElement {
 
   @state() creatorName = Constant.text.loading;
   @state() date = Constant.text.loading;
-  @state() abstract = Constant.text.loading;
+  @state() headline = Constant.text.loading;
   @state() blockchain = Constant.text.loading;
   @state() transaction = Constant.text.loading;
   @state() thumbnailUrl = '';
@@ -49,7 +49,7 @@ export class CaptureEyeModal extends LitElement {
   resetModalProps() {
     this.creatorName = Constant.text.loading;
     this.date = Constant.text.loading;
-    this.abstract = Constant.text.loading;
+    this.headline = Constant.text.loading;
     this.blockchain = Constant.text.loading;
     this.transaction = Constant.text.loading;
     this.thumbnailUrl = '';
@@ -111,9 +111,9 @@ export class CaptureEyeModal extends LitElement {
           </div>
         </div>
       </div>
-      <div class="abstract">
-        ${this.abstract !== Constant.text.loading
-          ? this.abstract
+      <div class="headline">
+        ${this.headline !== Constant.text.loading
+          ? this.headline
           : html`<div class="shimmer-text"></div>`}
       </div>
       <hr class="thin-hr" />

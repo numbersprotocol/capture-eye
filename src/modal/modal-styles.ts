@@ -113,7 +113,7 @@ export function getModalStyles() {
       color: var(--secondary-text-color);
     }
 
-    .abstract {
+    .headline {
       color: var(--secondary-text-color);
       margin-bottom: 1rem;
       font-family: 'Degular-Regular', Helvetica;

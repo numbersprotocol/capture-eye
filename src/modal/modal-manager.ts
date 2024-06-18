@@ -94,7 +94,6 @@ export class ModalManager {
       const {
         '_api_c2_assetTree.assetCreator': assetCreator = '',
         '_api_c2_assetTree.assetTimestampCreatedReadable': assetTimestamp = '',
-        '_api_c2_assetTree.abstract': assetAbstract = '',
         '_api_c2_assetTree.assetSourceType': assetSourceType = '',
         '_api_c2_assetTree.usedBy': assetUsedBy = '',
       } = fullAssetTree;
@@ -102,7 +101,7 @@ export class ModalManager {
       const assetData: AssetData = {
         assetCreator,
         assetTimestamp,
-        assetAbstract,
+        assetHeadline: data.headline ?? '',
         assetInitialTransaction: data.initial_transaction ?? '',
         assetThumbnailUrl: data.thumnail_url ?? '', // [sic]
         explorerUrl: data.initial_transaction
@@ -126,7 +125,7 @@ export class ModalManager {
     if (!this.modalElement || !assetData) return;
     this.modalElement.creatorName = assetData.assetCreator;
     this.modalElement.date = assetData.assetTimestamp;
-    this.modalElement.abstract = assetData.assetAbstract;
+    this.modalElement.headline = assetData.assetHeadline;
     this.modalElement.blockchain = 'Numbers Mainnet';
     this.modalElement.transaction = assetData.assetInitialTransaction;
     this.modalElement.thumbnailUrl = assetData.assetThumbnailUrl;
@@ -144,7 +143,7 @@ export class ModalManager {
 interface AssetData {
   assetCreator: string;
   assetTimestamp: string;
-  assetAbstract: string;
+  assetHeadline: string;
   assetInitialTransaction: string;
   assetThumbnailUrl: string;
   explorerUrl: string;

@@ -6,7 +6,7 @@ export declare class CaptureEyeModal extends LitElement {
     modalHidden: boolean;
     creatorName: string;
     date: string;
-    abstract: string;
+    headline: string;
     blockchain: string;
     transaction: string;
     thumbnailUrl: string;
