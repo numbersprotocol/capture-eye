@@ -53,6 +53,21 @@ export function getModalStyles() {
       padding: var(--padding);
     }
 
+    .capture-eye-button-modal {
+      position: absolute;
+      top: var(--button-top, 0); /* Use CSS variables to set the position */
+      left: var(--button-left, 0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10001; /* Ensure it is above the modal */
+      width: 2rem;
+      height: 2rem;
+      cursor: pointer;
+      border-radius: 100vw;
+      opacity: 14;
+    }
+
     hr.thin-hr {
       border: none;
       border-top: 1px solid #ccc;

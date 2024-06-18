@@ -194,9 +194,16 @@ export class CaptureEyeModal extends LitElement {
                   : ''}
               </a>`
             : html`<div class="shimmer full-width-img"></div>`}
+          <div class="capture-eye-button-modal" @click=${this.hideModal}>
+            <img src=${Constant.url.closeIcon} alt="Close" />
+          </div>
         </div>
       </div>
     `;
+  }
+
+  private hideModal() {
+    this.modalHidden = true;
   }
 }
 

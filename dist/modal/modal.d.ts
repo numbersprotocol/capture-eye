@@ -30,6 +30,7 @@ export declare class CaptureEyeModal extends LitElement {
     private renderBottom;
     private handleImageLoad;
     render(): import("lit-html").TemplateResult<1>;
+    private hideModal;
 }
 declare global {
     interface HTMLElementTagNameMap {

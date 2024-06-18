@@ -72,7 +72,11 @@ export class CaptureEye extends LitElement {
   private async showModal() {
     const modalManager = ModalManager.getInstance();
     const buttonElement = this.getButtonElement();
-    modalManager.updateModal(this.nid, this.layout, buttonElement);
+    const buttonRect = buttonElement.getBoundingClientRect();
+    modalManager.updateModal(this.nid, this.layout, {
+      top: buttonRect.top + window.scrollY,
+      left: buttonRect.left + window.scrollX,
+    });
     this.setButtonActive(true);
     console.debug(CaptureEyeModal.name); // The line ensures CaptureEyeModal is included in compilation.
   }

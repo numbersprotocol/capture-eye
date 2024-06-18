@@ -4,7 +4,6 @@ import { CaptureEyeModal } from './modal.js';
 export class ModalManager {
   private static instance: ModalManager;
   private modalElement: CaptureEyeModal | null = null;
-  private currentButtonElement: HTMLElement | null = null;
 
   private constructor() {}
 
@@ -34,32 +33,11 @@ export class ModalManager {
   public updateModal(
     nid: string,
     layout: string,
-    buttonElement: HTMLElement,
-    show = true
+    position: { top: number; left: number }
   ): void {
     if (this.modalElement) {
-      // If the current button is clicked again, hide the modal
-      if (this.currentButtonElement === buttonElement) {
-        this.hideModal();
-        return;
-      }
-
-      if (
-        this.currentButtonElement &&
-        this.currentButtonElement !== buttonElement
-      ) {
-        // Unfocus the currently focused button and remove the modal
-        this.unfocusCurrentButton();
-        this.removeModal();
-      }
-
-      this.currentButtonElement = buttonElement;
-
-      if (show) {
-        this.positionModal();
-        this.modalElement.modalHidden = false;
-        this.setFocus(true);
-      }
+      this.positionModal(position);
+      this.modalElement.modalHidden = false;
 
       if (this.modalElement.nid !== nid) {
         this.modalElement.nid = nid;
@@ -72,58 +50,19 @@ export class ModalManager {
     }
   }
 
-  public hideModal(): void {
+  private positionModal(position: { top: number; left: number }): void {
     if (this.modalElement) {
-      this.modalElement.modalHidden = true;
-      this.setFocus(false);
-      this.currentButtonElement = null;
-    }
-  }
-
-  private positionModal(): void {
-    console.log('its only outer');
-    if (this.modalElement && this.currentButtonElement) {
-      console.log('run!');
-      const buttonRect = this.currentButtonElement.getBoundingClientRect();
-
-      // Append the modal element to the document body if not already appended
-      if (!document.body.contains(this.modalElement)) {
-        document.body.appendChild(this.modalElement);
-      }
-
-      // Now calculate the correct position
-      const topPosition = buttonRect.top + window.scrollY;
-      const leftPosition = buttonRect.left + window.scrollX;
-
       // Update modal position styles
       this.modalElement.style.position = 'absolute';
-      this.modalElement.style.top = `${topPosition}px`;
-      this.modalElement.style.left = `${leftPosition}px`;
+      this.modalElement.style.top = `${position.top}px`;
+      this.modalElement.style.left = `${position.left}px`;
       this.modalElement.style.transform = 'none'; // Ensure no additional translation
     }
   }
 
-  private setFocus(focused: boolean): void {
-    if (this.modalElement && this.currentButtonElement) {
-      if (focused) {
-        this.currentButtonElement.style.zIndex = '10001';
-        this.modalElement.style.zIndex = '10000';
-      } else {
-        this.currentButtonElement.style.zIndex = '1000';
-        this.modalElement.style.zIndex = '1000';
-      }
-    }
-  }
-
-  private unfocusCurrentButton(): void {
-    if (this.currentButtonElement) {
-      this.currentButtonElement.style.zIndex = '1000';
-    }
-  }
-
-  private removeModal(): void {
-    if (this.modalElement && document.body.contains(this.modalElement)) {
-      document.body.removeChild(this.modalElement);
+  public hideModal(): void {
+    if (this.modalElement) {
+      this.modalElement.modalHidden = true;
     }
   }
 
