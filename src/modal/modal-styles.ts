@@ -10,7 +10,7 @@ export function getModalStyles() {
       --secondary-text-color: #888;
       --border-radius: 1rem;
       --box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
-      --font-family: 'Degular-Thin', Helvetica;
+      --font-family: 'Degular-Semibold', Helvetica;
       --font-size: 1rem;
       --font-size-small: 0.875rem;
       --padding: 1rem;
@@ -18,6 +18,9 @@ export function getModalStyles() {
 
     :host {
       font-family: var(--font-family);
+      font-size: var(--font-size);
+      color: var(--text-color);
+      letter-spacing: 0.05em;
     }
 
     .modal {
@@ -27,6 +30,7 @@ export function getModalStyles() {
       align-items: flex-start;
       opacity: 0;
       transition: opacity 1s ease-in-out;
+      position: absolute;
     }
 
     .modal-visible {
@@ -38,7 +42,6 @@ export function getModalStyles() {
       border-radius: var(--border-radius);
       width: 20rem;
       box-shadow: var(--box-shadow);
-      position: relative;
     }
 
     .modal-hidden {
@@ -57,10 +60,15 @@ export function getModalStyles() {
     }
 
     .section-title {
-      text-transform: uppercase;
       color: var(--secondary-text-color);
-      margin-bottom: 0.5rem;
-      font-weight: bold;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding-top: 10px;
+      padding-bottom: 5px;
+      font-size: 0.75rem;
+      font-weight: 400;
+      line-height: 2;
+      display: block;
     }
 
     .profile-container {
@@ -82,7 +90,7 @@ export function getModalStyles() {
     }
 
     .top-name {
-      font-weight: bold;
+      font-weight: 600;
       margin-bottom: 0.25rem;
     }
 
@@ -93,6 +101,8 @@ export function getModalStyles() {
     .abstract {
       color: var(--secondary-text-color);
       margin-bottom: 1rem;
+      font-family: 'Degular-Regular', Helvetica;
+      font-weight: 400;
     }
 
     .origins p {

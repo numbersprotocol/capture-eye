@@ -81,27 +81,25 @@ export class ModalManager {
   }
 
   private positionModal(): void {
+    console.log('its only outer');
     if (this.modalElement && this.currentButtonElement) {
+      console.log('run!');
       const buttonRect = this.currentButtonElement.getBoundingClientRect();
 
-      // Remove the modal from its previous parent if it has one
-      if (this.modalElement.parentElement) {
-        this.modalElement.parentElement.removeChild(this.modalElement);
+      // Append the modal element to the document body if not already appended
+      if (!document.body.contains(this.modalElement)) {
+        document.body.appendChild(this.modalElement);
       }
 
-      // Append the modal element to the same parent as the button element
-      this.currentButtonElement.parentElement?.appendChild(this.modalElement);
-
       // Now calculate the correct position
-      const parentRect =
-        this.currentButtonElement.parentElement?.getBoundingClientRect() || {
-          top: 0,
-          left: 0,
-        };
+      const topPosition = buttonRect.top + window.scrollY;
+      const leftPosition = buttonRect.left + window.scrollX;
 
+      // Update modal position styles
       this.modalElement.style.position = 'absolute';
-      this.modalElement.style.top = `${buttonRect.top - parentRect.top}px`;
-      this.modalElement.style.left = `${buttonRect.left - parentRect.left}px`;
+      this.modalElement.style.top = `${topPosition}px`;
+      this.modalElement.style.left = `${leftPosition}px`;
+      this.modalElement.style.transform = 'none'; // Ensure no additional translation
     }
   }
 
@@ -124,8 +122,8 @@ export class ModalManager {
   }
 
   private removeModal(): void {
-    if (this.modalElement && this.modalElement.parentElement) {
-      this.modalElement.parentElement.removeChild(this.modalElement);
+    if (this.modalElement && document.body.contains(this.modalElement)) {
+      document.body.removeChild(this.modalElement);
     }
   }
 
