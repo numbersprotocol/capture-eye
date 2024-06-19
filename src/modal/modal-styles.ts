@@ -6,11 +6,13 @@ export function getModalStyles() {
       --background-color: #fff;
       --primary-color: #486cd9;
       --hover-color: #6ebff2;
-      --text-color: #333;
+      --text-color: #000;
       --secondary-text-color: #888;
       --border-radius: 1rem;
       --box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
-      --font-family: 'Degular-Semibold', Helvetica;
+      --font-semibold: 'Degular-Semibold', Helvetica;
+      --font-regular: 'Degular-Regular', Helvetica;
+      --font-light: 'Degular-Light', Helvetica;
       --font-size: 1rem;
       --font-size-small: 0.875rem;
       --font-size-very-small: 0.7rem;
@@ -21,7 +23,6 @@ export function getModalStyles() {
       font-family: var(--font-family);
       font-size: var(--font-size);
       color: var(--text-color);
-      letter-spacing: 0.05em;
     }
 
     .modal {
@@ -59,12 +60,12 @@ export function getModalStyles() {
 
     .capture-eye-button-modal {
       position: absolute;
-      top: -1rem; /* Use CSS variables to set the position */
+      top: -1rem;
       left: -1rem;
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 10001; /* Ensure it is above the modal */
+      z-index: 10001;
       width: 2rem;
       height: 2rem;
       cursor: pointer;
@@ -80,8 +81,6 @@ export function getModalStyles() {
       border-bottom: 1px solid #e2e2e2;
       padding-top: 0.4rem;
       padding-bottom: 0.4rem;
-      margin-left: 1rem;
-      margin-right: 1rem;
     }
 
     .section:last-child {
@@ -89,7 +88,8 @@ export function getModalStyles() {
     }
 
     .section-title {
-      color: var(--secondary-text-color);
+      font-family: var(--font-light);
+      color: var(--text-color);
       letter-spacing: 0.05em;
       text-transform: uppercase;
       padding-top: 10px;
@@ -125,30 +125,36 @@ export function getModalStyles() {
 
     .top-date {
       color: var(--secondary-text-color);
+      font-family: var(--font-light);
       font-size: var(--font-size-very-small);
     }
 
     .headline {
+      font-family: var(--font-light);
       color: var(--secondary-text-color);
       margin-bottom: 1rem;
-      font-family: 'Degular-Regular', Helvetica;
-      font-weight: 400;
       font-size: var(--font-size-small);
     }
 
-    .origins p {
-      margin: 0;
-      font-size: var(--font-size-small);
-      color: var(--secondary-text-color);
+    .middle-row {
+      flex-flow: wrap;
+      align-items: center;
+      padding-top: 0.4rem;
+      padding-bottom: 0.4rem;
+      display: flex;
+    }
+
+    .middle-text {
+      margin-left: 10px;
     }
 
     .view-more-btn {
+      font-family: var(--font-light);
+      font-size: var(--font-size-small);
+      color: var(--background-color);
       display: inline-block;
       background-color: var(--primary-color);
       width: 100%;
-      color: var(--background-color);
-      font-size: var(--font-size-small);
-      font-weight: 600;
       text-transform: uppercase;
       padding: 0.5rem 2rem;
       border-radius: 100vw;

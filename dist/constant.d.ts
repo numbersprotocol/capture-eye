@@ -10,6 +10,9 @@ interface Url {
     helpIcon: string;
     previewIcon: string;
     fontFaceCssUrl: string;
+    blockchainIcon: string;
+    txIcon: string;
+    curatorIcon: string;
 }
 interface Text {
     not_available: string;

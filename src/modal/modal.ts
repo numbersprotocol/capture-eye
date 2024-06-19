@@ -144,26 +144,53 @@ export class CaptureEyeModal extends LitElement {
           ${this.isOriginal() ? 'Origins' : 'Curated By'}
         </div>
         ${this.isOriginal()
-          ? html`<p>
+          ? html`<div class="middle-row">
+                <img
+                  src=${Constant.url.blockchainIcon}
+                  loading="lazy"
+                  width="20"
+                  height="Auto"
+                  alt=""
+                />
                 ${this.blockchain !== Constant.text.loading
-                  ? `Blockchain: ${this.blockchain}`
-                  : html`<div class="shimmer-text"></div>`}
-              </p>
-              <span>Transaction:</span>
-              ${formattedTransaction
-                ? html`<a href=${this.explorerUrl} target="_blank"
-                    >${formatTxHash(this.transaction)}</a
-                  >`
-                : html`<span
-                    >${this.transaction !== Constant.text.loading
-                      ? 'N/A'
-                      : html`<div class="shimmer-text"></div>`}</span
-                  >`}`
-          : html`<p>
+                  ? html`<span class="middle-text"
+                      >Blockchain: ${this.blockchain}</span
+                    >`
+                  : html`<span class="shimmer-text"></span>`}
+              </div>
+              <div class="middle-row">
+                <img
+                  src=${Constant.url.txIcon}
+                  loading="lazy"
+                  width="20"
+                  height="Auto"
+                  alt=""
+                />
+                <span class="middle-text">Transaction: </span>
+                ${formattedTransaction
+                  ? html`<a href=${this.explorerUrl} target="_blank"
+                      >${formatTxHash(this.transaction)}</a
+                    >`
+                  : html`<span
+                      >${this.transaction !== Constant.text.loading
+                        ? 'N/A'
+                        : html`<div class="shimmer-text"></div>`}</span
+                    >`}
+              </div>`
+          : html`<div class="middle-row">
+              <img
+                src=${Constant.url.curatorIcon}
+                loading="lazy"
+                width="20"
+                height="Auto"
+                alt=""
+              />
               ${this.backendOwnerName !== Constant.text.loading
-                ? this.backendOwnerName
+                ? html`<span class="middle-text"
+                    >${this.backendOwnerName}</span
+                  >`
                 : html`<div class="shimmer-text"></div>`}
-            </p>`}
+            </div>`}
       </div>
     `;
   }

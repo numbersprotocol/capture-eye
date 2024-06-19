@@ -28,7 +28,7 @@ function t(t,e,i,s){for(var o,r=arguments.length,n=r<3?e:null===s?s=Object.getOw
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const S=globalThis,k=S.trustedTypes,C=k?k.createPolicy("lit-html",{createHTML:t=>t}):void 0,z="$lit$",E=`lit$${(Math.random()+"").slice(9)}$`,M="?"+E,A=`<${M}>`,T=document,_=()=>T.createComment(""),U=t=>null===t||"object"!=typeof t&&"function"!=typeof t,P=Array.isArray,j="[ \t\n\f\r]",O=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,N=/-->/g,I=/>/g,B=RegExp(`>|${j}(?:([^\\s"'>=/]+)(${j}*=${j}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),H=/'/g,D=/"/g,R=/^(?:script|style|textarea|title)$/i,L=(t=>(e,...i)=>({_$litType$:t,strings:e,values:i}))(1),F=Symbol.for("lit-noChange"),W=Symbol.for("lit-nothing"),Q=new WeakMap,V=T.createTreeWalker(T,129);function Y(t,e){if(!Array.isArray(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==C?C.createHTML(e):e}const G=(t,e)=>{const i=t.length-1,s=[];let o,r=2===e?"<svg>":"",n=O;for(let e=0;e<i;e++){const i=t[e];let a,h,l=-1,c=0;for(;c<i.length&&(n.lastIndex=c,h=n.exec(i),null!==h);)c=n.lastIndex,n===O?"!--"===h[1]?n=N:void 0!==h[1]?n=I:void 0!==h[2]?(R.test(h[2])&&(o=RegExp("</"+h[2],"g")),n=B):void 0!==h[3]&&(n=B):n===B?">"===h[0]?(n=o??O,l=-1):void 0===h[1]?l=-2:(l=n.lastIndex-h[2].length,a=h[1],n=void 0===h[3]?B:'"'===h[3]?D:H):n===D||n===H?n=B:n===N||n===I?n=O:(n=B,o=void 0);const d=n===B&&t[e+1].startsWith("/>")?" ":"";r+=n===O?i+A:l>=0?(s.push(a),i.slice(0,l)+z+i.slice(l)+E+d):i+E+(-2===l?e:d)}return[Y(t,r+(t[i]||"<?>")+(2===e?"</svg>":"")),s]};class J{constructor({strings:t,_$litType$:e},i){let s;this.parts=[];let o=0,r=0;const n=t.length-1,a=this.parts,[h,l]=G(t,e);if(this.el=J.createElement(h,i),V.currentNode=this.el.content,2===e){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(s=V.nextNode())&&a.length<n;){if(1===s.nodeType){if(s.hasAttributes())for(const t of s.getAttributeNames())if(t.endsWith(z)){const e=l[r++],i=s.getAttribute(t).split(E),n=/([.?@])?(.*)/.exec(e);a.push({type:1,index:o,name:n[2],strings:i,ctor:"."===n[1]?tt:"?"===n[1]?et:"@"===n[1]?it:X}),s.removeAttribute(t)}else t.startsWith(E)&&(a.push({type:6,index:o}),s.removeAttribute(t));if(R.test(s.tagName)){const t=s.textContent.split(E),e=t.length-1;if(e>0){s.textContent=k?k.emptyScript:"";for(let i=0;i<e;i++)s.append(t[i],_()),V.nextNode(),a.push({type:2,index:++o});s.append(t[e],_())}}}else if(8===s.nodeType)if(s.data===M)a.push({type:2,index:o});else{let t=-1;for(;-1!==(t=s.data.indexOf(E,t+1));)a.push({type:7,index:o}),t+=E.length-1}o++}}static createElement(t,e){const i=T.createElement("template");return i.innerHTML=t,i}}function Z(t,e,i=t,s){if(e===F)return e;let o=void 0!==s?i._$Co?.[s]:i._$Cl;const r=U(e)?void 0:e._$litDirective$;return o?.constructor!==r&&(o?._$AO?.(!1),void 0===r?o=void 0:(o=new r(t),o._$AT(t,i,s)),void 0!==s?(i._$Co??=[])[s]=o:i._$Cl=o),void 0!==o&&(e=Z(t,o._$AS(t,e.values),o,s)),e}class q{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:e},parts:i}=this._$AD,s=(t?.creationScope??T).importNode(e,!0);V.currentNode=s;let o=V.nextNode(),r=0,n=0,a=i[0];for(;void 0!==a;){if(r===a.index){let e;2===a.type?e=new K(o,o.nextSibling,this,t):1===a.type?e=new a.ctor(o,a.name,a.strings,this,t):6===a.type&&(e=new st(o,this,t)),this._$AV.push(e),a=i[++n]}r!==a?.index&&(o=V.nextNode(),r++)}return V.currentNode=T,s}p(t){let e=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(t,i,e),e+=i.strings.length-2):i._$AI(t[e])),e++}}class K{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,e,i,s){this.type=2,this._$AH=W,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=i,this.options=s,this._$Cv=s?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t?.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=Z(this,t,e),U(t)?t===W||null==t||""===t?(this._$AH!==W&&this._$AR(),this._$AH=W):t!==this._$AH&&t!==F&&this._(t):void 0!==t._$litType$?this.g(t):void 0!==t.nodeType?this.$(t):(t=>P(t)||"function"==typeof t?.[Symbol.iterator])(t)?this.T(t):this._(t)}k(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}$(t){this._$AH!==t&&(this._$AR(),this._$AH=this.k(t))}_(t){this._$AH!==W&&U(this._$AH)?this._$AA.nextSibling.data=t:this.$(T.createTextNode(t)),this._$AH=t}g(t){const{values:e,_$litType$:i}=t,s="number"==typeof i?this._$AC(t):(void 0===i.el&&(i.el=J.createElement(Y(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===s)this._$AH.p(e);else{const t=new q(s,this),i=t.u(this.options);t.p(e),this.$(i),this._$AH=t}}_$AC(t){let e=Q.get(t.strings);return void 0===e&&Q.set(t.strings,e=new J(t)),e}T(t){P(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let i,s=0;for(const o of t)s===e.length?e.push(i=new K(this.k(_()),this.k(_()),this,this.options)):i=e[s],i._$AI(o),s++;s<e.length&&(this._$AR(i&&i._$AB.nextSibling,s),e.length=s)}_$AR(t=this._$AA.nextSibling,e){for(this._$AP?.(!1,!0,e);t&&t!==this._$AB;){const e=t.nextSibling;t.remove(),t=e}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class X{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,e,i,s,o){this.type=1,this._$AH=W,this._$AN=void 0,this.element=t,this.name=e,this._$AM=s,this.options=o,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=W}_$AI(t,e=this,i,s){const o=this.strings;let r=!1;if(void 0===o)t=Z(this,t,e,0),r=!U(t)||t!==this._$AH&&t!==F,r&&(this._$AH=t);else{const s=t;let n,a;for(t=o[0],n=0;n<o.length-1;n++)a=Z(this,s[i+n],e,n),a===F&&(a=this._$AH[n]),r||=!U(a)||a!==this._$AH[n],a===W?t=W:t!==W&&(t+=(a??"")+o[n+1]),this._$AH[n]=a}r&&!s&&this.j(t)}j(t){t===W?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class tt extends X{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===W?void 0:t}}class et extends X{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==W)}}class it extends X{constructor(t,e,i,s,o){super(t,e,i,s,o),this.type=5}_$AI(t,e=this){if((t=Z(this,t,e,0)??W)===F)return;const i=this._$AH,s=t===W&&i!==W||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,o=t!==W&&(i===W||s);s&&this.element.removeEventListener(this.name,this,i),o&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class st{constructor(t,e,i){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(t){Z(this,t)}}const ot=S.litHtmlPolyfillSupport;ot?.(J,K),(S.litHtmlVersions??=[]).push("3.0.1");
+const k=globalThis,S=k.trustedTypes,A=S?S.createPolicy("lit-html",{createHTML:t=>t}):void 0,C="$lit$",z=`lit$${(Math.random()+"").slice(9)}$`,M="?"+z,E=`<${M}>`,T=document,_=()=>T.createComment(""),U=t=>null===t||"object"!=typeof t&&"function"!=typeof t,P=Array.isArray,j="[ \t\n\f\r]",O=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,I=/-->/g,N=/>/g,B=RegExp(`>|${j}(?:([^\\s"'>=/]+)(${j}*=${j}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),H=/'/g,D=/"/g,L=/^(?:script|style|textarea|title)$/i,R=(t=>(e,...i)=>({_$litType$:t,strings:e,values:i}))(1),F=Symbol.for("lit-noChange"),W=Symbol.for("lit-nothing"),Q=new WeakMap,V=T.createTreeWalker(T,129);function Y(t,e){if(!Array.isArray(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==A?A.createHTML(e):e}const G=(t,e)=>{const i=t.length-1,s=[];let o,r=2===e?"<svg>":"",n=O;for(let e=0;e<i;e++){const i=t[e];let a,h,l=-1,c=0;for(;c<i.length&&(n.lastIndex=c,h=n.exec(i),null!==h);)c=n.lastIndex,n===O?"!--"===h[1]?n=I:void 0!==h[1]?n=N:void 0!==h[2]?(L.test(h[2])&&(o=RegExp("</"+h[2],"g")),n=B):void 0!==h[3]&&(n=B):n===B?">"===h[0]?(n=o??O,l=-1):void 0===h[1]?l=-2:(l=n.lastIndex-h[2].length,a=h[1],n=void 0===h[3]?B:'"'===h[3]?D:H):n===D||n===H?n=B:n===I||n===N?n=O:(n=B,o=void 0);const d=n===B&&t[e+1].startsWith("/>")?" ":"";r+=n===O?i+E:l>=0?(s.push(a),i.slice(0,l)+C+i.slice(l)+z+d):i+z+(-2===l?e:d)}return[Y(t,r+(t[i]||"<?>")+(2===e?"</svg>":"")),s]};class J{constructor({strings:t,_$litType$:e},i){let s;this.parts=[];let o=0,r=0;const n=t.length-1,a=this.parts,[h,l]=G(t,e);if(this.el=J.createElement(h,i),V.currentNode=this.el.content,2===e){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(s=V.nextNode())&&a.length<n;){if(1===s.nodeType){if(s.hasAttributes())for(const t of s.getAttributeNames())if(t.endsWith(C)){const e=l[r++],i=s.getAttribute(t).split(z),n=/([.?@])?(.*)/.exec(e);a.push({type:1,index:o,name:n[2],strings:i,ctor:"."===n[1]?tt:"?"===n[1]?et:"@"===n[1]?it:X}),s.removeAttribute(t)}else t.startsWith(z)&&(a.push({type:6,index:o}),s.removeAttribute(t));if(L.test(s.tagName)){const t=s.textContent.split(z),e=t.length-1;if(e>0){s.textContent=S?S.emptyScript:"";for(let i=0;i<e;i++)s.append(t[i],_()),V.nextNode(),a.push({type:2,index:++o});s.append(t[e],_())}}}else if(8===s.nodeType)if(s.data===M)a.push({type:2,index:o});else{let t=-1;for(;-1!==(t=s.data.indexOf(z,t+1));)a.push({type:7,index:o}),t+=z.length-1}o++}}static createElement(t,e){const i=T.createElement("template");return i.innerHTML=t,i}}function Z(t,e,i=t,s){if(e===F)return e;let o=void 0!==s?i._$Co?.[s]:i._$Cl;const r=U(e)?void 0:e._$litDirective$;return o?.constructor!==r&&(o?._$AO?.(!1),void 0===r?o=void 0:(o=new r(t),o._$AT(t,i,s)),void 0!==s?(i._$Co??=[])[s]=o:i._$Cl=o),void 0!==o&&(e=Z(t,o._$AS(t,e.values),o,s)),e}class q{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:e},parts:i}=this._$AD,s=(t?.creationScope??T).importNode(e,!0);V.currentNode=s;let o=V.nextNode(),r=0,n=0,a=i[0];for(;void 0!==a;){if(r===a.index){let e;2===a.type?e=new K(o,o.nextSibling,this,t):1===a.type?e=new a.ctor(o,a.name,a.strings,this,t):6===a.type&&(e=new st(o,this,t)),this._$AV.push(e),a=i[++n]}r!==a?.index&&(o=V.nextNode(),r++)}return V.currentNode=T,s}p(t){let e=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(t,i,e),e+=i.strings.length-2):i._$AI(t[e])),e++}}class K{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,e,i,s){this.type=2,this._$AH=W,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=i,this.options=s,this._$Cv=s?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t?.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=Z(this,t,e),U(t)?t===W||null==t||""===t?(this._$AH!==W&&this._$AR(),this._$AH=W):t!==this._$AH&&t!==F&&this._(t):void 0!==t._$litType$?this.g(t):void 0!==t.nodeType?this.$(t):(t=>P(t)||"function"==typeof t?.[Symbol.iterator])(t)?this.T(t):this._(t)}k(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}$(t){this._$AH!==t&&(this._$AR(),this._$AH=this.k(t))}_(t){this._$AH!==W&&U(this._$AH)?this._$AA.nextSibling.data=t:this.$(T.createTextNode(t)),this._$AH=t}g(t){const{values:e,_$litType$:i}=t,s="number"==typeof i?this._$AC(t):(void 0===i.el&&(i.el=J.createElement(Y(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===s)this._$AH.p(e);else{const t=new q(s,this),i=t.u(this.options);t.p(e),this.$(i),this._$AH=t}}_$AC(t){let e=Q.get(t.strings);return void 0===e&&Q.set(t.strings,e=new J(t)),e}T(t){P(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let i,s=0;for(const o of t)s===e.length?e.push(i=new K(this.k(_()),this.k(_()),this,this.options)):i=e[s],i._$AI(o),s++;s<e.length&&(this._$AR(i&&i._$AB.nextSibling,s),e.length=s)}_$AR(t=this._$AA.nextSibling,e){for(this._$AP?.(!1,!0,e);t&&t!==this._$AB;){const e=t.nextSibling;t.remove(),t=e}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class X{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,e,i,s,o){this.type=1,this._$AH=W,this._$AN=void 0,this.element=t,this.name=e,this._$AM=s,this.options=o,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=W}_$AI(t,e=this,i,s){const o=this.strings;let r=!1;if(void 0===o)t=Z(this,t,e,0),r=!U(t)||t!==this._$AH&&t!==F,r&&(this._$AH=t);else{const s=t;let n,a;for(t=o[0],n=0;n<o.length-1;n++)a=Z(this,s[i+n],e,n),a===F&&(a=this._$AH[n]),r||=!U(a)||a!==this._$AH[n],a===W?t=W:t!==W&&(t+=(a??"")+o[n+1]),this._$AH[n]=a}r&&!s&&this.j(t)}j(t){t===W?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class tt extends X{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===W?void 0:t}}class et extends X{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==W)}}class it extends X{constructor(t,e,i,s,o){super(t,e,i,s,o),this.type=5}_$AI(t,e=this){if((t=Z(this,t,e,0)??W)===F)return;const i=this._$AH,s=t===W&&i!==W||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,o=t!==W&&(i===W||s);s&&this.element.removeEventListener(this.name,this,i),o&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class st{constructor(t,e,i){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(t){Z(this,t)}}const ot=k.litHtmlPolyfillSupport;ot?.(J,K),(k.litHtmlVersions??=[]).push("3.0.1");
 /**
  * @license
  * Copyright 2017 Google LLC
@@ -60,51 +60,78 @@ const at=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */;const pt={dataApi:"https://verify.numbersprotocol.io/api/1.1/wf/captureEyeData",ipfsGateway:"https://ipfs-pin.numbersprotocol.io/ipfs",explorer:"https://mainnet.num.network",profile:"https://verify.numbersprotocol.io/asset-profile",collect:"https://captureappiframe.numbersprotocol.io/checkout",captureEyeIcon:"https://static-cdn.numbersprotocol.io/capture-eye-blue-32x32.png",closeIcon:"https://static-cdn.numbersprotocol.io/capture-eye-close-icon.png",contentCopyIcon:"https://c.animaapp.com/twFYQx58/img/content-copy@2x.png",helpIcon:"https://c.animaapp.com/twFYQx58/img/help-2@2x.png",previewIcon:"https://c.animaapp.com/twFYQx58/img/placeholder-image.png",fontFaceCssUrl:"https://static-cdn.numbersprotocol.io/fonts/degular.css"},mt={not_available:"N/A",loading:"Loading..."},ft={original:"original",curated:"curated"};class vt{constructor(){this.modalElement=null}get isHidden(){return!this.modalElement||this.modalElement.modalHidden}get nid(){return this?.modalElement?.nid??""}static getInstance(){return vt.instance||(vt.instance=new vt),vt.instance}initializeModal(){this.modalElement||(this.modalElement=document.createElement("capture-eye-modal"),document.body.appendChild(this.modalElement))}updateModal(t,e,i){this.modalElement&&(this.positionModal(i),this.modalElement.modalHidden=!1,this.modalElement.nid!==t&&(this.modalElement.nid=t,this.modalElement.layout=e,this.modalElement.resetModalProps(),this.fetchAssetData(t).then((t=>this.updateModalProperties(t)))))}updateModalWithDelay(t,e,i){this.modalElement&&(this.modalElement.modalHidden=!0,setTimeout((()=>this.updateModal(t,e,i)),150))}remToPixels(t){return t*parseFloat(getComputedStyle(document.documentElement).fontSize)}positionModal(t){if(this.modalElement){const e=this.remToPixels(1);this.modalElement.style.position="absolute",this.modalElement.style.top=`${t.top+e}px`,this.modalElement.style.left=`${t.left+e}px`}}hideModal(){this.modalElement&&(this.modalElement.modalHidden=!0)}async fetchAssetData(t){const e={"Content-Type":"application/json"};try{const i=await fetch(`${pt.dataApi}?nid=${t}`,{method:"GET",headers:e});if(!i.ok){const t=await i.json();return void console.error(`Error ${i.status}: ${t.message}`)}const{response:{data:s}}=await i.json();if(console.debug(s),!s)return;const o={assetCreator:s.assetCreator??"",assetTimestamp:s.assetTimestampCreated??"",assetHeadline:s.headline??"",assetInitialTransaction:s.initial_transaction??"",assetThumbnailUrl:s.thumnail_url??"",explorerUrl:s.initial_transaction?`${pt.explorer}/tx/${s.initial_transaction}`:"",assetSourceType:s.assetSourceType??"",assetCaptureTime:s.integrity_capture_time??"",assetBackendOwnerName:s.backend_owner_name??"",assetUsedBy:s.usedBy??""};return console.debug(o),o}catch(t){return void console.error("Fetch error:",t)}}updateModalProperties(t){this.modalElement&&t&&(this.modalElement.creatorName=t.assetCreator,this.modalElement.date=t.assetTimestamp,this.modalElement.headline=t.assetHeadline,this.modalElement.blockchain="Numbers Mainnet",this.modalElement.transaction=t.assetInitialTransaction,this.modalElement.thumbnailUrl=t.assetThumbnailUrl,this.modalElement.explorerUrl=t.explorerUrl,this.modalElement.assetSourceType=t.assetSourceType,this.modalElement.captureTime=t.assetCaptureTime,this.modalElement.backendOwnerName=t.assetBackendOwnerName,this.modalElement.usedBy=t.assetUsedBy,this.modalElement.bannerImageSrc="https://static-cdn.numbersprotocol.io/collab/defiance_media_banner.webp",this.modalElement.bannerLink="https://defiance.media/")}}function gt(t){if(t.length<8)return"";return`${t.slice(0,4)}...${t.slice(-4)}`}let bt=class extends rt{constructor(){super(),this.nid="",this.layout=ft.original,this.modalHidden=!0,this.creatorName=mt.loading,this.date=mt.loading,this.headline=mt.loading,this.blockchain=mt.loading,this.transaction=mt.loading,this.thumbnailUrl="",this.explorerUrl="",this.assetSourceType=mt.loading,this.captureTime=mt.loading,this.backendOwnerName=mt.loading,this.usedBy=mt.loading,this.bannerImageSrc="",this.bannerLink="",this.imageLoaded=!1}resetModalProps(){this.creatorName=mt.loading,this.date=mt.loading,this.headline=mt.loading,this.blockchain=mt.loading,this.transaction=mt.loading,this.thumbnailUrl="",this.explorerUrl="",this.bannerImageSrc="",this.bannerLink="",this.imageLoaded=!1}firstUpdated(){this.updateModalVisibility()}updated(t){t.has("modalHidden")&&this.updateModalVisibility()}updateModalVisibility(){const t=this.shadowRoot?.querySelector(".modal");t&&(this.modalHidden?(t.classList.add("modal-hidden"),t.classList.remove("modal-visible"),t.addEventListener("transitionend",(()=>{this.modalHidden&&(t.style.top="-9999px",t.style.left="-9999px")}),{once:!0})):(t.style.top="",t.style.left="",t.classList.remove("modal-hidden"),t.classList.add("modal-visible")))}isOriginal(){return this.layout==ft.original}renderTop(){const t=this.thumbnailUrl?this.thumbnailUrl:"https://via.placeholder.com/100",e=this.isOriginal()?this.creatorName:this.assetSourceType,i=this.captureTime;return L`
+ */;const pt={dataApi:"https://verify.numbersprotocol.io/api/1.1/wf/captureEyeData",ipfsGateway:"https://ipfs-pin.numbersprotocol.io/ipfs",explorer:"https://mainnet.num.network",profile:"https://verify.numbersprotocol.io/asset-profile",collect:"https://captureappiframe.numbersprotocol.io/checkout",captureEyeIcon:"https://static-cdn.numbersprotocol.io/capture-eye-blue-32x32.png",closeIcon:"https://static-cdn.numbersprotocol.io/capture-eye/capture-eye-close-icon.png",contentCopyIcon:"https://c.animaapp.com/twFYQx58/img/content-copy@2x.png",helpIcon:"https://c.animaapp.com/twFYQx58/img/help-2@2x.png",previewIcon:"https://c.animaapp.com/twFYQx58/img/placeholder-image.png",fontFaceCssUrl:"https://static-cdn.numbersprotocol.io/fonts/degular.css",blockchainIcon:"https://static-cdn.numbersprotocol.io/capture-eye/capture-eye-blockchain-icon.png",txIcon:"https://static-cdn.numbersprotocol.io/capture-eye/capture-eye-tx-icon.png",curatorIcon:"https://static-cdn.numbersprotocol.io/capture-eye/capture-eye-curator-icon.png"},mt={not_available:"N/A",loading:"Loading..."},ft={original:"original",curated:"curated"};class vt{constructor(){this.modalElement=null}get isHidden(){return!this.modalElement||this.modalElement.modalHidden}get nid(){return this?.modalElement?.nid??""}static getInstance(){return vt.instance||(vt.instance=new vt),vt.instance}initializeModal(){this.modalElement||(this.modalElement=document.createElement("capture-eye-modal"),document.body.appendChild(this.modalElement))}updateModal(t,e,i){this.modalElement&&(this.positionModal(i),this.modalElement.modalHidden=!1,this.modalElement.nid!==t&&(this.modalElement.nid=t,this.modalElement.layout=e,this.modalElement.resetModalProps(),this.fetchAssetData(t).then((t=>this.updateModalProperties(t)))))}updateModalWithDelay(t,e,i){this.modalElement&&(this.modalElement.modalHidden=!0,setTimeout((()=>this.updateModal(t,e,i)),150))}remToPixels(t){return t*parseFloat(getComputedStyle(document.documentElement).fontSize)}positionModal(t){if(this.modalElement){const e=this.remToPixels(1);this.modalElement.style.position="absolute",this.modalElement.style.top=`${t.top+e}px`,this.modalElement.style.left=`${t.left+e}px`}}hideModal(){this.modalElement&&(this.modalElement.modalHidden=!0)}async fetchAssetData(t){const e={"Content-Type":"application/json"};try{const i=await fetch(`${pt.dataApi}?nid=${t}`,{method:"GET",headers:e});if(!i.ok){const t=await i.json();return void console.error(`Error ${i.status}: ${t.message}`)}const{response:{data:s}}=await i.json();if(console.debug(s),!s)return;const o={assetCreator:s.assetCreator??"",assetTimestamp:s.assetTimestampCreated??"",assetHeadline:s.headline??"",assetInitialTransaction:s.initial_transaction??"",assetThumbnailUrl:s.thumnail_url??"",explorerUrl:s.initial_transaction?`${pt.explorer}/tx/${s.initial_transaction}`:"",assetSourceType:s.assetSourceType??"",assetCaptureTime:s.integrity_capture_time??"",assetBackendOwnerName:s.backend_owner_name??"",assetUsedBy:s.usedBy??""};return console.debug(o),o}catch(t){return void console.error("Fetch error:",t)}}updateModalProperties(t){this.modalElement&&t&&(this.modalElement.creatorName=t.assetCreator,this.modalElement.date=t.assetTimestamp,this.modalElement.headline=t.assetHeadline,this.modalElement.blockchain="Numbers Mainnet",this.modalElement.transaction=t.assetInitialTransaction,this.modalElement.thumbnailUrl=t.assetThumbnailUrl,this.modalElement.explorerUrl=t.explorerUrl,this.modalElement.assetSourceType=t.assetSourceType,this.modalElement.captureTime=t.assetCaptureTime,this.modalElement.backendOwnerName=t.assetBackendOwnerName,this.modalElement.usedBy=t.assetUsedBy,this.modalElement.bannerImageSrc="https://static-cdn.numbersprotocol.io/collab/defiance_media_banner.webp",this.modalElement.bannerLink="https://defiance.media/")}}function gt(t){if(t.length<8)return"";return`${t.slice(0,4)}...${t.slice(-4)}`}let bt=class extends rt{constructor(){super(),this.nid="",this.layout=ft.original,this.modalHidden=!0,this.creatorName=mt.loading,this.date=mt.loading,this.headline=mt.loading,this.blockchain=mt.loading,this.transaction=mt.loading,this.thumbnailUrl="",this.explorerUrl="",this.assetSourceType=mt.loading,this.captureTime=mt.loading,this.backendOwnerName=mt.loading,this.usedBy=mt.loading,this.bannerImageSrc="",this.bannerLink="",this.imageLoaded=!1}resetModalProps(){this.creatorName=mt.loading,this.date=mt.loading,this.headline=mt.loading,this.blockchain=mt.loading,this.transaction=mt.loading,this.thumbnailUrl="",this.explorerUrl="",this.bannerImageSrc="",this.bannerLink="",this.imageLoaded=!1}firstUpdated(){this.updateModalVisibility()}updated(t){t.has("modalHidden")&&this.updateModalVisibility()}updateModalVisibility(){const t=this.shadowRoot?.querySelector(".modal");t&&(this.modalHidden?(t.classList.add("modal-hidden"),t.classList.remove("modal-visible"),t.addEventListener("transitionend",(()=>{this.modalHidden&&(t.style.top="-9999px",t.style.left="-9999px")}),{once:!0})):(t.style.top="",t.style.left="",t.classList.remove("modal-hidden"),t.classList.add("modal-visible")))}isOriginal(){return this.layout==ft.original}renderTop(){const t=this.thumbnailUrl?this.thumbnailUrl:"https://via.placeholder.com/100",e=this.isOriginal()?this.creatorName:this.assetSourceType,i=this.captureTime;return R`
       <div class="section">
         <div class="section-title">Produced by</div>
         <div class="profile-container">
-          ${this.thumbnailUrl?L`<img src=${t} alt="Profile" class="profile-img" />`:L`<div class="shimmer-profile-img"></div>`}
+          ${this.thumbnailUrl?R`<img src=${t} alt="Profile" class="profile-img" />`:R`<div class="shimmer-profile-img"></div>`}
           <div class="profile-text">
             <div class="top-name">
-              ${e!==mt.loading?e:L`<div class="shimmer-text"></div>`}
+              ${e!==mt.loading?e:R`<div class="shimmer-text"></div>`}
             </div>
             <div class="top-date">
-              ${i!==mt.loading?i:L`<div class="shimmer-text"></div>`}
+              ${i!==mt.loading?i:R`<div class="shimmer-text"></div>`}
             </div>
           </div>
         </div>
         <div class="headline">
-          ${this.headline!==mt.loading?this.headline:L`<div class="shimmer-text"></div>`}
+          ${this.headline!==mt.loading?this.headline:R`<div class="shimmer-text"></div>`}
         </div>
       </div>
-    `}renderMiddle(){const t=gt(this.transaction);return L`
+    `}renderMiddle(){const t=gt(this.transaction);return R`
       <div class="section">
         <div class="section-title">
           ${this.isOriginal()?"Origins":"Curated By"}
         </div>
-        ${this.isOriginal()?L`<p>
-                ${this.blockchain!==mt.loading?`Blockchain: ${this.blockchain}`:L`<div class="shimmer-text"></div>`}
-              </p>
-              <span>Transaction:</span>
-              ${t?L`<a href=${this.explorerUrl} target="_blank"
-                    >${gt(this.transaction)}</a
-                  >`:L`<span
-                    >${this.transaction!==mt.loading?"N/A":L`<div class="shimmer-text"></div>`}</span
-                  >`}`:L`<p>
-              ${this.backendOwnerName!==mt.loading?this.backendOwnerName:L`<div class="shimmer-text"></div>`}
-            </p>`}
+        ${this.isOriginal()?R`<div class="middle-row">
+                <img
+                  src=${pt.blockchainIcon}
+                  loading="lazy"
+                  width="20"
+                  height="Auto"
+                  alt=""
+                />
+                ${this.blockchain!==mt.loading?R`<span class="middle-text"
+                      >Blockchain: ${this.blockchain}</span
+                    >`:R`<span class="shimmer-text"></span>`}
+              </div>
+              <div class="middle-row">
+                <img
+                  src=${pt.txIcon}
+                  loading="lazy"
+                  width="20"
+                  height="Auto"
+                  alt=""
+                />
+                <span class="middle-text">Transaction: </span>
+                ${t?R`<a href=${this.explorerUrl} target="_blank"
+                      >${gt(this.transaction)}</a
+                    >`:R`<span
+                      >${this.transaction!==mt.loading?"N/A":R`<div class="shimmer-text"></div>`}</span
+                    >`}
+              </div>`:R`<div class="middle-row">
+              <img
+                src=${pt.curatorIcon}
+                loading="lazy"
+                width="20"
+                height="Auto"
+                alt=""
+              />
+              ${this.backendOwnerName!==mt.loading?R`<span class="middle-text"
+                    >${this.backendOwnerName}</span
+                  >`:R`<div class="shimmer-text"></div>`}
+            </div>`}
       </div>
-    `}renderBottom(){const t=this.isOriginal()?`${pt.profile}/${this.nid}`:this.usedBy;return L`
+    `}renderBottom(){const t=this.isOriginal()?`${pt.profile}/${this.nid}`:this.usedBy;return R`
       <div class="section">
         <a href=${t} target="_blank"
           ><button class="view-more-btn">View More</button></a
         >
         <div class="powered-by">
-          ${this.usedBy!==mt.loading?"Powered by Numbers Protocol":L`<div class="shimmer-text"></div>`}
+          ${this.usedBy!==mt.loading?"Powered by Numbers Protocol":R`<div class="shimmer-text"></div>`}
         </div>
       </div>
-    `}handleImageLoad(){this.imageLoaded=!0}render(){return L`
+    `}handleImageLoad(){this.imageLoaded=!0}render(){return R`
       <div class="modal ${this.modalHidden?"modal-hidden":"modal-visible"}">
         <div class="modal-container">
           <div class="modal-content">
@@ -112,7 +139,7 @@ const at=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
               ${this.renderTop()} ${this.renderMiddle()} ${this.renderBottom()}
             </div>
           </div>
-          ${this.bannerLink&&this.bannerImageSrc?L`<a href=${this.bannerLink} target="_blank">
+          ${this.bannerLink&&this.bannerImageSrc?R`<a href=${this.bannerLink} target="_blank">
                 <img
                   src=${this.bannerImageSrc}
                   alt="Full width"
@@ -120,8 +147,8 @@ const at=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
                   @load=${this.handleImageLoad}
                   style="display: ${this.imageLoaded?"block":"none"}"
                 />
-                ${this.imageLoaded?"":L`<div class="shimmer full-width-img"></div>`}
-              </a>`:L`<div class="shimmer full-width-img"></div>`}
+                ${this.imageLoaded?"":R`<div class="shimmer full-width-img"></div>`}
+              </a>`:R`<div class="shimmer full-width-img"></div>`}
           <div class="capture-eye-button-modal" @click=${this.hideModal}>
             <img src=${pt.closeIcon} alt="Close" />
           </div>
@@ -132,11 +159,13 @@ const at=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
       --background-color: #fff;
       --primary-color: #486cd9;
       --hover-color: #6ebff2;
-      --text-color: #333;
+      --text-color: #000;
       --secondary-text-color: #888;
       --border-radius: 1rem;
       --box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
-      --font-family: 'Degular-Semibold', Helvetica;
+      --font-semibold: 'Degular-Semibold', Helvetica;
+      --font-regular: 'Degular-Regular', Helvetica;
+      --font-light: 'Degular-Light', Helvetica;
       --font-size: 1rem;
       --font-size-small: 0.875rem;
       --font-size-very-small: 0.7rem;
@@ -147,7 +176,6 @@ const at=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
       font-family: var(--font-family);
       font-size: var(--font-size);
       color: var(--text-color);
-      letter-spacing: 0.05em;
     }
 
     .modal {
@@ -185,12 +213,12 @@ const at=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
 
     .capture-eye-button-modal {
       position: absolute;
-      top: -1rem; /* Use CSS variables to set the position */
+      top: -1rem;
       left: -1rem;
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 10001; /* Ensure it is above the modal */
+      z-index: 10001;
       width: 2rem;
       height: 2rem;
       cursor: pointer;
@@ -206,8 +234,6 @@ const at=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
       border-bottom: 1px solid #e2e2e2;
       padding-top: 0.4rem;
       padding-bottom: 0.4rem;
-      margin-left: 1rem;
-      margin-right: 1rem;
     }
 
     .section:last-child {
@@ -215,7 +241,8 @@ const at=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
     }
 
     .section-title {
-      color: var(--secondary-text-color);
+      font-family: var(--font-light);
+      color: var(--text-color);
       letter-spacing: 0.05em;
       text-transform: uppercase;
       padding-top: 10px;
@@ -251,30 +278,36 @@ const at=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
 
     .top-date {
       color: var(--secondary-text-color);
+      font-family: var(--font-light);
       font-size: var(--font-size-very-small);
     }
 
     .headline {
+      font-family: var(--font-light);
       color: var(--secondary-text-color);
       margin-bottom: 1rem;
-      font-family: 'Degular-Regular', Helvetica;
-      font-weight: 400;
       font-size: var(--font-size-small);
     }
 
-    .origins p {
-      margin: 0;
-      font-size: var(--font-size-small);
-      color: var(--secondary-text-color);
+    .middle-row {
+      flex-flow: wrap;
+      align-items: center;
+      padding-top: 0.4rem;
+      padding-bottom: 0.4rem;
+      display: flex;
+    }
+
+    .middle-text {
+      margin-left: 10px;
     }
 
     .view-more-btn {
+      font-family: var(--font-light);
+      font-size: var(--font-size-small);
+      color: var(--background-color);
       display: inline-block;
       background-color: var(--primary-color);
       width: 100%;
-      color: var(--background-color);
-      font-size: var(--font-size-small);
-      font-weight: 600;
       text-transform: uppercase;
       padding: 0.5rem 2rem;
       border-radius: 100vw;
@@ -359,11 +392,11 @@ const at=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
         background-position: -200% 0;
       }
     }
-  `,t([ct({type:String})],bt.prototype,"nid",void 0),t([ct({type:String})],bt.prototype,"layout",void 0),t([ct({type:Boolean})],bt.prototype,"modalHidden",void 0),t([dt()],bt.prototype,"creatorName",void 0),t([dt()],bt.prototype,"date",void 0),t([dt()],bt.prototype,"headline",void 0),t([dt()],bt.prototype,"blockchain",void 0),t([dt()],bt.prototype,"transaction",void 0),t([dt()],bt.prototype,"thumbnailUrl",void 0),t([dt()],bt.prototype,"explorerUrl",void 0),t([dt()],bt.prototype,"assetSourceType",void 0),t([dt()],bt.prototype,"captureTime",void 0),t([dt()],bt.prototype,"backendOwnerName",void 0),t([dt()],bt.prototype,"usedBy",void 0),t([dt()],bt.prototype,"bannerImageSrc",void 0),t([dt()],bt.prototype,"bannerLink",void 0),t([dt()],bt.prototype,"imageLoaded",void 0),t([function(t,e){return(i,s,o)=>{const r=e=>e.renderRoot?.querySelector(t)??null;if(e){const{get:t,set:n}="object"==typeof s?i:o??(()=>{const t=Symbol();return{get(){return this[t]},set(e){this[t]=e}}})();return ut(0,0,{get(){if(e){let e=t.call(this);return void 0===e&&(e=r(this),n.call(this,e)),e}return r(this)}})}return ut(0,0,{get(){return r(this)}})}}(".modal")],bt.prototype,"modalElement",void 0),bt=t([at("capture-eye-modal")],bt);let yt=class extends rt{get assetUrl(){return`${pt.ipfsGateway}/${this.nid}`}get assetProfileUrl(){return`${pt.profile}/${this.nid}`}constructor(){super(),this.nid="",this.layout=ft.original,function(){const t=document.createElement("link");t.href=pt.fontFaceCssUrl,t.rel="stylesheet",document.head.appendChild(t)}()}buttonTemplate(){return L`
+  `,t([ct({type:String})],bt.prototype,"nid",void 0),t([ct({type:String})],bt.prototype,"layout",void 0),t([ct({type:Boolean})],bt.prototype,"modalHidden",void 0),t([dt()],bt.prototype,"creatorName",void 0),t([dt()],bt.prototype,"date",void 0),t([dt()],bt.prototype,"headline",void 0),t([dt()],bt.prototype,"blockchain",void 0),t([dt()],bt.prototype,"transaction",void 0),t([dt()],bt.prototype,"thumbnailUrl",void 0),t([dt()],bt.prototype,"explorerUrl",void 0),t([dt()],bt.prototype,"assetSourceType",void 0),t([dt()],bt.prototype,"captureTime",void 0),t([dt()],bt.prototype,"backendOwnerName",void 0),t([dt()],bt.prototype,"usedBy",void 0),t([dt()],bt.prototype,"bannerImageSrc",void 0),t([dt()],bt.prototype,"bannerLink",void 0),t([dt()],bt.prototype,"imageLoaded",void 0),t([function(t,e){return(i,s,o)=>{const r=e=>e.renderRoot?.querySelector(t)??null;if(e){const{get:t,set:n}="object"==typeof s?i:o??(()=>{const t=Symbol();return{get(){return this[t]},set(e){this[t]=e}}})();return ut(0,0,{get(){if(e){let e=t.call(this);return void 0===e&&(e=r(this),n.call(this,e)),e}return r(this)}})}return ut(0,0,{get(){return r(this)}})}}(".modal")],bt.prototype,"modalElement",void 0),bt=t([at("capture-eye-modal")],bt);let yt=class extends rt{get assetUrl(){return`${pt.ipfsGateway}/${this.nid}`}get assetProfileUrl(){return`${pt.profile}/${this.nid}`}constructor(){super(),this.nid="",this.layout=ft.original,function(){const t=document.createElement("link");t.href=pt.fontFaceCssUrl,t.rel="stylesheet",document.head.appendChild(t)}()}buttonTemplate(){return R`
       <div class="capture-eye-button" @click=${this.showModal}>
         <img src=${pt.captureEyeIcon} alt="Capture Eye" />
       </div>
-    `}render(){return L`
+    `}render(){return R`
       <div class="capture-eye-container">
         <slot
           @mouseenter=${this.handleMouseEnter}
