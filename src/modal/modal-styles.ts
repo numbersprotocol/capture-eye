@@ -13,6 +13,7 @@ export function getModalStyles() {
       --font-family: 'Degular-Semibold', Helvetica;
       --font-size: 1rem;
       --font-size-small: 0.875rem;
+      --font-size-very-small: 0.7rem;
       --padding: 1rem;
     }
 
@@ -29,15 +30,15 @@ export function getModalStyles() {
       justify-content: flex-start;
       align-items: flex-start;
       opacity: 0;
-      transform: scale(0.5) translate(0, 0); /* Start small and slightly off */
-      transform-origin: top left; /* Anchor the transform at the top-left */
-      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+      transform: scale(0.5);
+      transform-origin: top left;
+      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in;
       position: absolute;
     }
 
     .modal-visible {
       opacity: 1;
-      transform: scale(1) translate(0, 0);
+      transform: scale(1);
     }
 
     .modal-container {
@@ -49,20 +50,17 @@ export function getModalStyles() {
 
     .modal-hidden {
       opacity: 0;
-      transform: scale(0.5) translate(0, 0);
-      top: -9999px; /* Place it off-screen */
-      left: -9999px; /* Place it off-screen */
+      transform: scale(0.5);
     }
 
     .modal-content {
-      margin-top: var(--padding);
-      padding: var(--padding);
+      padding: 12px 24px 12px 24px;
     }
 
     .capture-eye-button-modal {
       position: absolute;
-      top: var(--button-top, 0); /* Use CSS variables to set the position */
-      left: var(--button-left, 0);
+      top: -1rem; /* Use CSS variables to set the position */
+      left: -1rem;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -71,13 +69,23 @@ export function getModalStyles() {
       height: 2rem;
       cursor: pointer;
       border-radius: 100vw;
-      opacity: 14;
+      opacity: 1;
     }
 
-    hr.thin-hr {
-      border: none;
-      border-top: 1px solid #ccc;
-      margin: 20px 0;
+    .capture-eye-button-modal img {
+      width: 100%;
+    }
+
+    .section {
+      border-bottom: 1px solid #e2e2e2;
+      padding-top: 0.4rem;
+      padding-bottom: 0.4rem;
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+
+    .section:last-child {
+      border-bottom: none;
     }
 
     .section-title {
@@ -117,11 +125,7 @@ export function getModalStyles() {
 
     .top-date {
       color: var(--secondary-text-color);
-      white-space: nowrap;
-      overflow: hidden;
-      display: inline-block;
-      max-width: 100%;
-      font-size: var(--font-size-small);
+      font-size: var(--font-size-very-small);
     }
 
     .headline {

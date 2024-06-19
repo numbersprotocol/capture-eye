@@ -60,12 +60,20 @@ export class ModalManager {
     setTimeout(() => this.updateModal(nid, layout, position), 150);
   }
 
+  private remToPixels(rem: number): number {
+    return (
+      rem * parseFloat(getComputedStyle(document.documentElement).fontSize)
+    );
+  }
+
   private positionModal(position: { top: number; left: number }): void {
     if (this.modalElement) {
-      // Update modal position styles
+      const remOffset = this.remToPixels(1); // Convert 1rem to pixels
+
+      // Update modal position styles with 1rem offset
       this.modalElement.style.position = 'absolute';
-      this.modalElement.style.top = `${position.top}px`;
-      this.modalElement.style.left = `${position.left}px`;
+      this.modalElement.style.top = `${position.top + remOffset}px`;
+      this.modalElement.style.left = `${position.left + remOffset}px`;
     }
   }
 

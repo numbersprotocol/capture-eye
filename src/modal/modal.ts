@@ -75,7 +75,22 @@ export class CaptureEyeModal extends LitElement {
       if (this.modalHidden) {
         modalElement.classList.add('modal-hidden');
         modalElement.classList.remove('modal-visible');
+
+        // Add a transitionend event listener to move the modal off-screen after the animation
+        modalElement.addEventListener(
+          'transitionend',
+          () => {
+            if (this.modalHidden) {
+              modalElement.style.top = '-9999px';
+              modalElement.style.left = '-9999px';
+            }
+          },
+          { once: true }
+        );
       } else {
+        // Reset the position before making it visible
+        modalElement.style.top = '';
+        modalElement.style.left = '';
         modalElement.classList.remove('modal-hidden');
         modalElement.classList.add('modal-visible');
       }
@@ -93,61 +108,63 @@ export class CaptureEyeModal extends LitElement {
     const name = this.isOriginal() ? this.creatorName : this.assetSourceType;
     const date = this.captureTime;
     return html`
-      <div class="section-title">Produced by</div>
-      <div class="profile-container">
-        ${this.thumbnailUrl
-          ? html`<img src=${imgSrc} alt="Profile" class="profile-img" />`
-          : html`<div class="shimmer-profile-img"></div>`}
-        <div class="profile-text">
-          <div class="top-name">
-            ${name !== Constant.text.loading
-              ? name
-              : html`<div class="shimmer-text"></div>`}
-          </div>
-          <div class="top-date">
-            ${date !== Constant.text.loading
-              ? date
-              : html`<div class="shimmer-text"></div>`}
+      <div class="section">
+        <div class="section-title">Produced by</div>
+        <div class="profile-container">
+          ${this.thumbnailUrl
+            ? html`<img src=${imgSrc} alt="Profile" class="profile-img" />`
+            : html`<div class="shimmer-profile-img"></div>`}
+          <div class="profile-text">
+            <div class="top-name">
+              ${name !== Constant.text.loading
+                ? name
+                : html`<div class="shimmer-text"></div>`}
+            </div>
+            <div class="top-date">
+              ${date !== Constant.text.loading
+                ? date
+                : html`<div class="shimmer-text"></div>`}
+            </div>
           </div>
         </div>
+        <div class="headline">
+          ${this.headline !== Constant.text.loading
+            ? this.headline
+            : html`<div class="shimmer-text"></div>`}
+        </div>
       </div>
-      <div class="headline">
-        ${this.headline !== Constant.text.loading
-          ? this.headline
-          : html`<div class="shimmer-text"></div>`}
-      </div>
-      <hr class="thin-hr" />
     `;
   }
 
   private renderMiddle() {
     const formattedTransaction = formatTxHash(this.transaction);
     return html`
-      <div class="section-title">
-        ${this.isOriginal() ? 'Origins' : 'Curated By'}
-      </div>
-      ${this.isOriginal()
-        ? html`<p>
-              ${this.blockchain !== Constant.text.loading
-                ? `Blockchain: ${this.blockchain}`
+      <div class="section">
+        <div class="section-title">
+          ${this.isOriginal() ? 'Origins' : 'Curated By'}
+        </div>
+        ${this.isOriginal()
+          ? html`<p>
+                ${this.blockchain !== Constant.text.loading
+                  ? `Blockchain: ${this.blockchain}`
+                  : html`<div class="shimmer-text"></div>`}
+              </p>
+              <span>Transaction:</span>
+              ${formattedTransaction
+                ? html`<a href=${this.explorerUrl} target="_blank"
+                    >${formatTxHash(this.transaction)}</a
+                  >`
+                : html`<span
+                    >${this.transaction !== Constant.text.loading
+                      ? 'N/A'
+                      : html`<div class="shimmer-text"></div>`}</span
+                  >`}`
+          : html`<p>
+              ${this.backendOwnerName !== Constant.text.loading
+                ? this.backendOwnerName
                 : html`<div class="shimmer-text"></div>`}
-            </p>
-            <span>Transaction:</span>
-            ${formattedTransaction
-              ? html`<a href=${this.explorerUrl} target="_blank"
-                  >${formatTxHash(this.transaction)}</a
-                >`
-              : html`<span
-                  >${this.transaction !== Constant.text.loading
-                    ? 'N/A'
-                    : html`<div class="shimmer-text"></div>`}</span
-                >`}`
-        : html`<p>
-            ${this.backendOwnerName !== Constant.text.loading
-              ? this.backendOwnerName
-              : html`<div class="shimmer-text"></div>`}
-          </p>`}
-      <hr class="thin-hr" />
+            </p>`}
+      </div>
     `;
   }
 
@@ -156,13 +173,15 @@ export class CaptureEyeModal extends LitElement {
       ? `${Constant.url.profile}/${this.nid}`
       : this.usedBy;
     return html`
-      <a href=${viewMoreUrl} target="_blank"
-        ><button class="view-more-btn">View More</button></a
-      >
-      <div class="powered-by">
-        ${this.usedBy !== Constant.text.loading
-          ? 'Powered by Numbers Protocol'
-          : html`<div class="shimmer-text"></div>`}
+      <div class="section">
+        <a href=${viewMoreUrl} target="_blank"
+          ><button class="view-more-btn">View More</button></a
+        >
+        <div class="powered-by">
+          ${this.usedBy !== Constant.text.loading
+            ? 'Powered by Numbers Protocol'
+            : html`<div class="shimmer-text"></div>`}
+        </div>
       </div>
     `;
   }

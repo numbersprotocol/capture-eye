@@ -14,6 +14,7 @@ export declare class ModalManager {
         top: number;
         left: number;
     }): void;
+    private remToPixels;
     private positionModal;
     hideModal(): void;
     private fetchAssetData;
