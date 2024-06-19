@@ -90,10 +90,6 @@ export class CaptureEye extends LitElement {
   }
 
   private handleMouseLeave() {
-    const modalManager = ModalManager.getInstance();
-    if (!modalManager.isHidden && modalManager.nid === this.nid) {
-      return; // Do not hide the button if the modal is shown
-    }
     this.setButtonActive(false);
   }
 

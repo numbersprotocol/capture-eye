@@ -31,6 +31,7 @@ export function getModalStyles() {
       opacity: 0;
       transition: opacity 1s ease-in-out;
       position: absolute;
+      pointer-events: none;
     }
 
     .modal-visible {

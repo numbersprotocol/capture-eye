@@ -90,27 +90,19 @@ export class ModalManager {
 
       if (!data) return;
 
-      const fullAssetTree = data.fullAssetTree || {};
-      const {
-        '_api_c2_assetTree.assetCreator': assetCreator = '',
-        '_api_c2_assetTree.assetTimestampCreatedReadable': assetTimestamp = '',
-        '_api_c2_assetTree.assetSourceType': assetSourceType = '',
-        '_api_c2_assetTree.usedBy': assetUsedBy = '',
-      } = fullAssetTree;
-
       const assetData: AssetData = {
-        assetCreator,
-        assetTimestamp,
+        assetCreator: data.assetCreator ?? '',
+        assetTimestamp: data.assetTimestampCreated ?? '',
         assetHeadline: data.headline ?? '',
         assetInitialTransaction: data.initial_transaction ?? '',
         assetThumbnailUrl: data.thumnail_url ?? '', // [sic]
         explorerUrl: data.initial_transaction
           ? `${Constant.url.explorer}/tx/${data.initial_transaction}`
           : '',
-        assetSourceType,
+        assetSourceType: data.assetSourceType ?? '',
         assetCaptureTime: data.integrity_capture_time ?? '',
         assetBackendOwnerName: data.backend_owner_name ?? '',
-        assetUsedBy,
+        assetUsedBy: data.usedBy ?? '',
       };
 
       console.debug(assetData);
