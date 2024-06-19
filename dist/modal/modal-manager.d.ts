@@ -10,6 +10,10 @@ export declare class ModalManager {
         top: number;
         left: number;
     }): void;
+    updateModalWithDelay(nid: string, layout: string, position: {
+        top: number;
+        left: number;
+    }): void;
     private positionModal;
     hideModal(): void;
     private fetchAssetData;

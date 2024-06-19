@@ -29,12 +29,15 @@ export function getModalStyles() {
       justify-content: flex-start;
       align-items: flex-start;
       opacity: 0;
-      transition: opacity 1s ease-in-out;
+      transform: scale(0.5) translate(0, 0); /* Start small and slightly off */
+      transform-origin: top left; /* Anchor the transform at the top-left */
+      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
       position: absolute;
     }
 
     .modal-visible {
       opacity: 1;
+      transform: scale(1) translate(0, 0);
     }
 
     .modal-container {
@@ -45,7 +48,10 @@ export function getModalStyles() {
     }
 
     .modal-hidden {
-      display: none;
+      opacity: 0;
+      transform: scale(0.5) translate(0, 0);
+      top: -9999px; /* Place it off-screen */
+      left: -9999px; /* Place it off-screen */
     }
 
     .modal-content {

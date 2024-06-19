@@ -50,13 +50,22 @@ export class ModalManager {
     }
   }
 
+  public updateModalWithDelay(
+    nid: string,
+    layout: string,
+    position: { top: number; left: number }
+  ): void {
+    if (!this.modalElement) return;
+    this.modalElement.modalHidden = true;
+    setTimeout(() => this.updateModal(nid, layout, position), 150);
+  }
+
   private positionModal(position: { top: number; left: number }): void {
     if (this.modalElement) {
       // Update modal position styles
       this.modalElement.style.position = 'absolute';
       this.modalElement.style.top = `${position.top}px`;
       this.modalElement.style.left = `${position.left}px`;
-      this.modalElement.style.transform = 'none'; // Ensure no additional translation
     }
   }
 
