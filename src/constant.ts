@@ -48,9 +48,9 @@ export const Constant: ConstantType = {
     previewIcon: 'https://c.animaapp.com/twFYQx58/img/placeholder-image.png',
     fontFaceCssUrl: 'https://static-cdn.numbersprotocol.io/fonts/degular.css',
     blockchainIcon:
-      'https://static-cdn.numbersprotocol.io/capture-eye/capture-eye-blockchain-icon.png',
+      'https://static-cdn.numbersprotocol.io/capture-eye/capture-eye-blockchain-icon.svg',
     txIcon:
-      'https://static-cdn.numbersprotocol.io/capture-eye/capture-eye-tx-icon.png',
+      'https://static-cdn.numbersprotocol.io/capture-eye/capture-eye-tx-icon.svg',
     curatorIcon:
       'https://static-cdn.numbersprotocol.io/capture-eye/capture-eye-curator-icon.png',
   },
