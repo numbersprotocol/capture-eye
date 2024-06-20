@@ -45,11 +45,13 @@ export class CaptureEye extends LitElement {
   }
 
   buttonTemplate() {
-    return html`
-      <div class="capture-eye-button" @click=${this.showModal}>
-        <img src=${Constant.url.captureEyeIcon} alt="Capture Eye" />
-      </div>
-    `;
+    return this.nid
+      ? html`
+          <div class="capture-eye-button" @click=${this.showModal}>
+            <img src=${Constant.url.captureEyeIcon} alt="Capture Eye" />
+          </div>
+        `
+      : null;
   }
 
   override render() {

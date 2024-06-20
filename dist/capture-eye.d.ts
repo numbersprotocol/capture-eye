@@ -12,7 +12,7 @@ export declare class CaptureEye extends LitElement {
     get assetUrl(): string;
     get assetProfileUrl(): string;
     constructor();
-    buttonTemplate(): import("lit-html").TemplateResult<1>;
+    buttonTemplate(): import("lit-html").TemplateResult<1> | null;
     render(): import("lit-html").TemplateResult<1>;
     connectedCallback(): Promise<void>;
     private showModal;
