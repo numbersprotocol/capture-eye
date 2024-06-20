@@ -4,7 +4,7 @@ import { getModalStyles } from './modal-styles.js';
 import { Constant } from '../constant.js';
 
 function formatTxHash(txHash: string): string {
-  if (txHash.length < 8) {
+  if (txHash.length < 60) {
     return '';
   }
   const firstPart = txHash.slice(0, 4);
@@ -54,6 +54,10 @@ export class CaptureEyeModal extends LitElement {
     this.transaction = Constant.text.loading;
     this.thumbnailUrl = '';
     this.explorerUrl = '';
+    this.assetSourceType = Constant.text.loading;
+    this.captureTime = Constant.text.loading;
+    this.backendOwnerName = Constant.text.loading;
+    this.usedBy = Constant.text.loading;
     this.bannerImageSrc = '';
     this.bannerLink = '';
     this.imageLoaded = false;
@@ -145,50 +149,53 @@ export class CaptureEyeModal extends LitElement {
         </div>
         ${this.isOriginal()
           ? html`<div class="middle-row">
-                <img
-                  src=${Constant.url.blockchainIcon}
-                  loading="lazy"
-                  width="20"
-                  height="Auto"
-                  alt=""
-                />
                 ${this.blockchain !== Constant.text.loading
-                  ? html`<span class="middle-text"
-                      >Blockchain: ${this.blockchain}</span
-                    >`
+                  ? html`<img
+                        src=${Constant.url.blockchainIcon}
+                        loading="lazy"
+                        width="20"
+                        height="Auto"
+                        alt=""
+                      /><span class="middle-text"
+                        >Blockchain: ${this.blockchain}</span
+                      >`
                   : html`<span class="shimmer-text"></span>`}
               </div>
               <div class="middle-row">
-                <img
-                  src=${Constant.url.txIcon}
-                  loading="lazy"
-                  width="20"
-                  height="Auto"
-                  alt=""
-                />
-                <span class="middle-text">Transaction: </span>
                 ${formattedTransaction
-                  ? html`<a href=${this.explorerUrl} target="_blank"
-                      >${formatTxHash(this.transaction)}</a
-                    >`
+                  ? html`<img
+                        src=${Constant.url.txIcon}
+                        loading="lazy"
+                        width="20"
+                        height="Auto"
+                        alt=""
+                      />
+                      <span class="middle-text">Transaction: </span
+                      ><a href=${this.explorerUrl} target="_blank"
+                        >${formatTxHash(this.transaction)}</a
+                      >`
                   : html`<span
                       >${this.transaction !== Constant.text.loading
-                        ? 'N/A'
+                        ? html`<img
+                              src=${Constant.url.txIcon}
+                              loading="lazy"
+                              width="20"
+                              height="Auto"
+                              alt=""
+                            />
+                            <span class="middle-text">Transaction: N/A</span>`
                         : html`<div class="shimmer-text"></div>`}</span
                     >`}
               </div>`
           : html`<div class="middle-row">
-              <img
-                src=${Constant.url.curatorIcon}
-                loading="lazy"
-                width="20"
-                height="Auto"
-                alt=""
-              />
               ${this.backendOwnerName !== Constant.text.loading
-                ? html`<span class="middle-text"
-                    >${this.backendOwnerName}</span
-                  >`
+                ? html`<img
+                      src=${Constant.url.curatorIcon}
+                      loading="lazy"
+                      width="20"
+                      height="Auto"
+                      alt=""
+                    /><span class="middle-text">${this.backendOwnerName}</span>`
                 : html`<div class="shimmer-text"></div>`}
             </div>`}
       </div>
