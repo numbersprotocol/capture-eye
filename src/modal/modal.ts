@@ -7,8 +7,8 @@ function formatTxHash(txHash: string): string {
   if (txHash.length < 60) {
     return '';
   }
-  const firstPart = txHash.slice(0, 4);
-  const lastPart = txHash.slice(-4);
+  const firstPart = txHash.slice(0, 6);
+  const lastPart = txHash.slice(-6);
   return `${firstPart}...${lastPart}`;
 }
 
@@ -74,29 +74,28 @@ export class CaptureEyeModal extends LitElement {
   }
 
   private updateModalVisibility() {
-    const modalElement = this.shadowRoot?.querySelector('.modal');
-    if (modalElement) {
+    if (this.modalElement) {
       if (this.modalHidden) {
-        modalElement.classList.add('modal-hidden');
-        modalElement.classList.remove('modal-visible');
+        this.modalElement.classList.add('modal-hidden');
+        this.modalElement.classList.remove('modal-visible');
 
         // Add a transitionend event listener to move the modal off-screen after the animation
-        modalElement.addEventListener(
+        this.modalElement.addEventListener(
           'transitionend',
           () => {
             if (this.modalHidden) {
-              modalElement.style.top = '-9999px';
-              modalElement.style.left = '-9999px';
+              this.modalElement.style.top = '-9999px';
+              this.modalElement.style.left = '-9999px';
             }
           },
           { once: true }
         );
       } else {
         // Reset the position before making it visible
-        modalElement.style.top = '';
-        modalElement.style.left = '';
-        modalElement.classList.remove('modal-hidden');
-        modalElement.classList.add('modal-visible');
+        this.modalElement.style.top = '';
+        this.modalElement.style.left = '';
+        this.modalElement.classList.remove('modal-hidden');
+        this.modalElement.classList.add('modal-visible');
       }
     }
   }
@@ -157,7 +156,13 @@ export class CaptureEyeModal extends LitElement {
                         height="Auto"
                         alt=""
                       /><span class="middle-text"
-                        >Blockchain: ${this.blockchain}</span
+                        >Blockchain:
+                        <a
+                          class="link-text"
+                          href=${Constant.url.explorer}
+                          target="_blank"
+                          >${this.blockchain}</a
+                        ></span
                       >`
                   : html`<span class="shimmer-text"></span>`}
               </div>
@@ -170,9 +175,14 @@ export class CaptureEyeModal extends LitElement {
                         height="Auto"
                         alt=""
                       />
-                      <span class="middle-text">Transaction: </span
-                      ><a href=${this.explorerUrl} target="_blank"
-                        >${formatTxHash(this.transaction)}</a
+                      <span class="middle-text"
+                        >Transaction:
+                        <a
+                          class="link-text"
+                          href=${this.explorerUrl}
+                          target="_blank"
+                          >${formatTxHash(this.transaction)}</a
+                        ></span
                       >`
                   : html`<span
                       >${this.transaction !== Constant.text.loading
@@ -213,7 +223,9 @@ export class CaptureEyeModal extends LitElement {
         >
         <div class="powered-by">
           ${this.usedBy !== Constant.text.loading
-            ? 'Powered by Numbers Protocol'
+            ? html`<a href=${Constant.url.numbersWebsite} target="_blank"
+                >Powered by Numbers Protocol</a
+              >`
             : html`<div class="shimmer-text"></div>`}
         </div>
       </div>

@@ -1,4 +1,5 @@
 interface Url {
+    numbersWebsite: string;
     dataApi: string;
     ipfsGateway: string;
     explorer: string;

@@ -20,7 +20,7 @@ export function getModalStyles() {
     }
 
     :host {
-      font-family: var(--font-family);
+      font-family: var(--font-light);
       font-size: var(--font-size);
       color: var(--text-color);
     }
@@ -148,6 +148,18 @@ export function getModalStyles() {
       margin-left: 10px;
     }
 
+    a.link-text,
+    a.link-text:link,
+    a.link-text:visited {
+      color: var(--primary-color);
+      text-decoration: none;
+      margin-left: 0.4rem;
+    }
+
+    a.link-text:hover {
+      color: var(--hover-color);
+    }
+
     .view-more-btn {
       font-family: var(--font-light);
       font-size: var(--font-size-small);
@@ -174,6 +186,12 @@ export function getModalStyles() {
       color: var(--secondary-text-color);
       font-size: var(--font-size-small);
       margin-top: 0.5rem;
+    }
+
+    .powered-by a,
+    .powered-by a:visited {
+      text-decoration: none;
+      color: var(--secondary-text-color);
     }
 
     .full-width-img {

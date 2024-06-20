@@ -1,4 +1,5 @@
 interface Url {
+  numbersWebsite: string;
   dataApi: string;
   ipfsGateway: string;
   explorer: string;
@@ -33,6 +34,7 @@ export interface Layout {
 
 export const Constant: ConstantType = {
   url: {
+    numbersWebsite: 'https://www.numbersprotocol.io',
     dataApi: 'https://verify.numbersprotocol.io/api/1.1/wf/captureEyeData',
     ipfsGateway: 'https://ipfs-pin.numbersprotocol.io/ipfs',
     explorer: 'https://mainnet.num.network',
