@@ -79,7 +79,7 @@ export class CaptureEye extends LitElement {
       top: buttonRect.top + window.scrollY,
       left: buttonRect.left + window.scrollX,
     });
-    this.setButtonActive(true);
+    this.setButtonActive(false);
     console.debug(CaptureEyeModal.name); // The line ensures CaptureEyeModal is included in compilation.
   }
 

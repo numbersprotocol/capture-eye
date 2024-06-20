@@ -438,7 +438,7 @@ const at=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
         ></slot>
         ${this.buttonTemplate()}
       </div>
-    `}async connectedCallback(){super.connectedCallback(),vt.getInstance().initializeModal()}async showModal(){const t=vt.getInstance(),e=this.getButtonElement().getBoundingClientRect();t.updateModalWithDelay(this.nid,this.layout,{top:e.top+window.scrollY,left:e.left+window.scrollX}),this.setButtonActive(!0),console.debug(bt.name)}getButtonElement(){return this.shadowRoot?.querySelector(".capture-eye-button")}handleMouseEnter(){this.setButtonActive(!0)}handleMouseLeave(){this.setButtonActive(!1)}setButtonActive(t){const e=this.getButtonElement();e&&(t?e.classList.add("active"):e.classList.remove("active"))}};yt.styles=n`
+    `}async connectedCallback(){super.connectedCallback(),vt.getInstance().initializeModal()}async showModal(){const t=vt.getInstance(),e=this.getButtonElement().getBoundingClientRect();t.updateModalWithDelay(this.nid,this.layout,{top:e.top+window.scrollY,left:e.left+window.scrollX}),this.setButtonActive(!1),console.debug(bt.name)}getButtonElement(){return this.shadowRoot?.querySelector(".capture-eye-button")}handleMouseEnter(){this.setButtonActive(!0)}handleMouseLeave(){this.setButtonActive(!1)}setButtonActive(t){const e=this.getButtonElement();e&&(t?e.classList.add("active"):e.classList.remove("active"))}};yt.styles=n`
     :host {
       font-family: 'Degular-Medium', Helvetica;
     }
