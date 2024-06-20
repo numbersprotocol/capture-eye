@@ -58,7 +58,7 @@ export function getModalStyles() {
       padding: 12px 24px 12px 24px;
     }
 
-    .capture-eye-button-modal {
+    .close-button {
       position: absolute;
       top: -1rem;
       left: -1rem;
@@ -70,10 +70,22 @@ export function getModalStyles() {
       height: 2rem;
       cursor: pointer;
       border-radius: 100vw;
-      opacity: 1;
+      opacity: 0;
+      transform: scale(0.5) rotate(0deg);
+      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
     }
 
-    .capture-eye-button-modal img {
+    .close-button-visible {
+      opacity: 1;
+      transform: scale(1) rotate(90deg);
+    }
+
+    .close-button-hidden {
+      opacity: 0;
+      transform: scale(0.5) rotate(-90deg);
+    }
+
+    .close-button img {
       width: 100%;
     }
 

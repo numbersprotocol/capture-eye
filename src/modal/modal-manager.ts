@@ -7,11 +7,6 @@ export class ModalManager {
 
   private constructor() {}
 
-  get isHidden() {
-    if (this.modalElement) return this.modalElement.modalHidden;
-    return true;
-  }
-
   get nid() {
     return this?.modalElement?.nid ?? '';
   }

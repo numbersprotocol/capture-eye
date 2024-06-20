@@ -2,7 +2,6 @@ export declare class ModalManager {
     private static instance;
     private modalElement;
     private constructor();
-    get isHidden(): boolean;
     get nid(): string;
     static getInstance(): ModalManager;
     initializeModal(): void;
