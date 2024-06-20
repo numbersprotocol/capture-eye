@@ -176,7 +176,7 @@ const at=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
       --primary-color: #486cd9;
       --hover-color: #6ebff2;
       --text-color: #000;
-      --secondary-text-color: #888;
+      --secondary-text-color: #333;
       --border-radius: 1rem;
       --box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
       --font-semibold: 'Degular-Semibold', Helvetica;
