@@ -32,12 +32,23 @@
 
 Visit the [interactive playground](https://playcode.io/capture_eye_demo) for the live demo.
 
+### UI v2 (240625)
+
+```html
+<script
+  type="module"
+  src="https://static-cdn.numbersprotocol.io/staging/capture-eye-240625.bundled.js"
+></script>
+```
+
 ## Component attributes
 
 | Attribute Name  | Required | Description                                                                                                                       | Example                                                       |
 | --------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
 | `nid`           | true     | The unique [Nid](https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/numbers-id-nid) of the asset. | `<capture-eye nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"></capture-eye>` |
 | `layout`      | false    | Decides which layout to display. Default value is `original`. Additional option includes `curated`.                          | `<capture-eye nid="..." layout="curated"></capture-eye>`                                               |
+| `bannerImage`      | false    | Display banner image                         | `<capture-eye nid="..." bannerImage="https://my.image.url/image.png"></capture-eye>`                                               |.
+| `bannerLink`      | false    | Display banner link                          | `<capture-eye nid="..." bannerLink="https://my.website.url"></capture-eye>`                                               |
 
 
 ## Integration with Frontend Frameworks

@@ -5,11 +5,11 @@ export declare class ModalManager {
     get nid(): string;
     static getInstance(): ModalManager;
     initializeModal(): void;
-    updateModal(nid: string, layout: string, position: {
+    updateModal(nid: string, layout: string, bannerImage: string, bannerLink: string, position: {
         top: number;
         left: number;
     }): void;
-    updateModalWithDelay(nid: string, layout: string, position: {
+    updateModalWithDelay(nid: string, layout: string, bannerImage: string, bannerLink: string, position: {
         top: number;
         left: number;
     }): void;

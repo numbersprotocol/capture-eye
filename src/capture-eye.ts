@@ -31,6 +31,18 @@ export class CaptureEye extends LitElement {
   @property({ type: String })
   layout = Constant.layout.original;
 
+  /**
+   * Url of the banner image.
+   */
+  @property({ type: String })
+  bannerImage = '';
+
+  /**
+   * Url of the banner link.
+   */
+  @property({ type: String })
+  bannerLink = '';
+
   get assetUrl() {
     return `${Constant.url.ipfsGateway}/${this.nid}`;
   }
@@ -75,10 +87,16 @@ export class CaptureEye extends LitElement {
     const modalManager = ModalManager.getInstance();
     const buttonElement = this.getButtonElement();
     const buttonRect = buttonElement.getBoundingClientRect();
-    modalManager.updateModalWithDelay(this.nid, this.layout, {
-      top: buttonRect.top + window.scrollY,
-      left: buttonRect.left + window.scrollX,
-    });
+    modalManager.updateModalWithDelay(
+      this.nid,
+      this.layout,
+      this.bannerImage,
+      this.bannerLink,
+      {
+        top: buttonRect.top + window.scrollY,
+        left: buttonRect.left + window.scrollX,
+      }
+    );
     this.setButtonActive(false);
     console.debug(CaptureEyeModal.name); // The line ensures CaptureEyeModal is included in compilation.
   }

@@ -9,6 +9,14 @@ export declare class CaptureEye extends LitElement {
      * layout name of the asset. Options: original, curated
      */
     layout: string;
+    /**
+     * Url of the banner image.
+     */
+    bannerImage: string;
+    /**
+     * Url of the banner link.
+     */
+    bannerLink: string;
     get assetUrl(): string;
     get assetProfileUrl(): string;
     constructor();

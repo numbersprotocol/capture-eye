@@ -36,7 +36,7 @@ export class CaptureEyeModal extends LitElement {
   @state() captureTime = Constant.text.loading;
   @state() backendOwnerName = Constant.text.loading;
   @state() usedBy = Constant.text.loading;
-  @state() bannerImageSrc = '';
+  @state() bannerImage = '';
   @state() bannerLink = '';
   @state() imageLoaded = false;
 
@@ -58,8 +58,6 @@ export class CaptureEyeModal extends LitElement {
     this.captureTime = Constant.text.loading;
     this.backendOwnerName = Constant.text.loading;
     this.usedBy = Constant.text.loading;
-    this.bannerImageSrc = '';
-    this.bannerLink = '';
     this.imageLoaded = false;
   }
 
@@ -250,10 +248,10 @@ export class CaptureEyeModal extends LitElement {
               ${this.renderTop()} ${this.renderMiddle()} ${this.renderBottom()}
             </div>
           </div>
-          ${this.bannerLink && this.bannerImageSrc
+          ${this.bannerLink && this.bannerImage
             ? html`<a href=${this.bannerLink} target="_blank">
                 <img
-                  src=${this.bannerImageSrc}
+                  src=${this.bannerImage}
                   alt="Full width"
                   class="full-width-img"
                   @load=${this.handleImageLoad}
@@ -263,7 +261,7 @@ export class CaptureEyeModal extends LitElement {
                   ? html`<div class="shimmer full-width-img"></div>`
                   : ''}
               </a>`
-            : html`<div class="shimmer full-width-img"></div>`}
+            : html`<div class="full-width-img"></div>`}
           <div class="close-button" @click=${this.hideModal}>
             <img src=${Constant.url.closeIcon} alt="Close" />
           </div>

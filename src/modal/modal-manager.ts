@@ -28,6 +28,8 @@ export class ModalManager {
   public updateModal(
     nid: string,
     layout: string,
+    bannerImage: string,
+    bannerLink: string,
     position: { top: number; left: number }
   ): void {
     if (this.modalElement) {
@@ -37,6 +39,8 @@ export class ModalManager {
       if (this.modalElement.nid !== nid) {
         this.modalElement.nid = nid;
         this.modalElement.layout = layout;
+        this.modalElement.bannerImage = bannerImage;
+        this.modalElement.bannerLink = bannerLink;
         this.modalElement.resetModalProps();
         this.fetchAssetData(nid).then((assetData) =>
           this.updateModalProperties(assetData)
@@ -48,11 +52,16 @@ export class ModalManager {
   public updateModalWithDelay(
     nid: string,
     layout: string,
+    bannerImage: string,
+    bannerLink: string,
     position: { top: number; left: number }
   ): void {
     if (!this.modalElement) return;
     this.modalElement.modalHidden = true;
-    setTimeout(() => this.updateModal(nid, layout, position), 150);
+    setTimeout(
+      () => this.updateModal(nid, layout, bannerImage, bannerLink, position),
+      150
+    );
   }
 
   private remToPixels(rem: number): number {
@@ -138,9 +147,6 @@ export class ModalManager {
     this.modalElement.captureTime = assetData.assetCaptureTime;
     this.modalElement.backendOwnerName = assetData.assetBackendOwnerName;
     this.modalElement.usedBy = assetData.assetUsedBy;
-    this.modalElement.bannerImageSrc =
-      'https://static-cdn.numbersprotocol.io/collab/defiance_media_banner.webp';
-    this.modalElement.bannerLink = 'https://defiance.media/';
   }
 }
 
