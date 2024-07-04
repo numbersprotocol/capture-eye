@@ -173,7 +173,7 @@ const at=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
     `}hideModal(){this.modalHidden=!0}};yt.styles=n`
     :host {
       --background-color: #fff;
-      --primary-color: #486cd9;
+      --primary-color: #027fe5;
       --hover-color: #6ebff2;
       --text-color: #000;
       --secondary-text-color: #333;

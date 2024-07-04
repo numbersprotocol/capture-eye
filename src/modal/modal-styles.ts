@@ -4,7 +4,7 @@ export function getModalStyles() {
   return css`
     :host {
       --background-color: #fff;
-      --primary-color: #486cd9;
+      --primary-color: #027fe5;
       --hover-color: #6ebff2;
       --text-color: #000;
       --secondary-text-color: #333;
