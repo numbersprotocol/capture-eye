@@ -58,7 +58,6 @@ export class CaptureEyeModal extends LitElement {
     this.captureTime = Constant.text.loading;
     this.backendOwnerName = Constant.text.loading;
     this.usedBy = Constant.text.loading;
-    this.imageLoaded = false;
   }
 
   override firstUpdated() {
