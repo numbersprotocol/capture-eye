@@ -19,6 +19,8 @@ export function getCaptureEyeStyles() {
       position: absolute;
       top: 0;
       left: 0;
+      margin-top: 5px;
+      margin-left: 5px;
       display: flex;
       justify-content: center;
       align-items: center;

@@ -502,6 +502,8 @@ const at=t=>(e,i)=>{void 0!==i?i.addInitializer((()=>{customElements.define(t,e)
       position: absolute;
       top: 0;
       left: 0;
+      margin-top: 5px;
+      margin-left: 5px;
       display: flex;
       justify-content: center;
       align-items: center;
