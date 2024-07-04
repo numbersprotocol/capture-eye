@@ -55,14 +55,16 @@ The new Capture Eye UI comes with a helper component `media-viewer` that could a
 </body>
 ```
 
+It is not necessary to use `<media-viewer>` component. If you wish to use your own component to display the asset, you may use `<img>`, `<video>` or any other custom component as the child element of `<capture-eye>`.
+
 ## Component attributes
 
 | Attribute Name  | Required | Description                                                                                                                       | Example                                                       |
 | --------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
 | `nid`           | true     | The unique [Nid](https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/numbers-id-nid) of the asset. | `<capture-eye nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"></capture-eye>` |
 | `layout`      | false    | Decides which layout to display. Default value is `original`. Additional option includes `curated`.                          | `<capture-eye nid="..." layout="curated"></capture-eye>`                                               |
-| `bannerImage`      | false    | Display banner image                         | `<capture-eye nid="..." bannerImage="https://my.image.url/image.png"></capture-eye>`                                               |.
-| `bannerLink`      | false    | Display banner link                          | `<capture-eye nid="..." bannerLink="https://my.website.url"></capture-eye>`                                               |
+| `bannerImage`      | false    | Display engagement zone banner image. Recommended size is 400x200 px but any image with width >= 320px should work.                         | `<capture-eye nid="..." bannerImage="https://my.image.url/image.png"></capture-eye>`                                               |.
+| `bannerLink`      | false    | Display engagement zone banner link. The engagement zone banner will not show if link is not provided.                          | `<capture-eye nid="..." bannerLink="https://my.website.url"></capture-eye>`                                               |
 
 
 ## Integration with Frontend Frameworks
