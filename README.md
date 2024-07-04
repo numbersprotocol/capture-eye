@@ -22,7 +22,7 @@
   <capture-eye
     nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
   >
-    <img
+    <media-veiwer
       width="600px"
       src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
     />
@@ -34,11 +34,25 @@ Visit the [interactive playground](https://playcode.io/capture_eye_demo) for the
 
 ### UI v2 (240625)
 
+The new Capture Eye UI comes with a helper component `media-viewer` that could automatically detect the source url file type and display image or video respectively.
+
 ```html
+<head>
 <script
   type="module"
   src="https://static-cdn.numbersprotocol.io/staging/capture-eye-240625.bundled.js"
 ></script>
+</head>
+<body>
+  <capture-eye
+    nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
+  >
+    <media-veiwer
+      width="600px"
+      src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
+    />
+  </capture-eye>
+</body>
 ```
 
 ## Component attributes

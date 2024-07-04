@@ -3,11 +3,16 @@ import { css } from 'lit';
 export function getCaptureEyeStyles() {
   return css`
     :host {
+      display: block;
       font-family: 'Degular-Medium', Helvetica;
+      --capture-eye-container-flex: 0 1 auto;
+      --capture-eye-container-display: flex;
     }
 
     .capture-eye-container {
       position: relative;
+      display: var(--capture-eye-container-display);
+      flex: var(--capture-eye-container-flex);
     }
 
     .capture-eye-button {

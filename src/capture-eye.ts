@@ -4,6 +4,7 @@ import { Constant } from './constant.js';
 import { getCaptureEyeStyles } from './capture-eye-styles.js';
 import { ModalManager } from './modal/modal-manager.js';
 import { CaptureEyeModal } from './modal/modal.js';
+import { MediaViewer } from './media-viewer/media-viewer.js';
 
 function loadFontFace() {
   /*
@@ -54,6 +55,8 @@ export class CaptureEye extends LitElement {
   constructor() {
     super();
     loadFontFace();
+    console.debug(MediaViewer.name); // The line ensures MediaViewer is included in compilation.
+    console.debug(CaptureEyeModal.name); // The line ensures CaptureEyeModal is included in compilation.
   }
 
   buttonTemplate() {
@@ -98,7 +101,6 @@ export class CaptureEye extends LitElement {
       }
     );
     this.setButtonActive(false);
-    console.debug(CaptureEyeModal.name); // The line ensures CaptureEyeModal is included in compilation.
   }
 
   private getButtonElement(): HTMLElement {
