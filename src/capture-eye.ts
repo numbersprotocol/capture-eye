@@ -87,12 +87,14 @@ export class CaptureEye extends LitElement {
     return this.shadowRoot?.querySelector('.capture-eye-button') as HTMLElement;
   }
 
-  private handleMouseEnter() {
+  private handleMouseEnter(event: MouseEvent) {
     this.setButtonActive(true);
+    event.stopPropagation();
   }
 
-  private handleMouseLeave() {
+  private handleMouseLeave(event: MouseEvent) {
     this.setButtonActive(false);
+    event.stopPropagation();
   }
 
   private setButtonActive(active: boolean) {
