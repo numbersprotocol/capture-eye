@@ -36,8 +36,8 @@ export class CaptureEyeModal extends LitElement {
   @state() captureTime = Constant.text.loading;
   @state() backendOwnerName = Constant.text.loading;
   @state() usedBy = Constant.text.loading;
-  @state() bannerImage = '';
-  @state() bannerLink = '';
+  @state() bannerImage = Constant.url.defaultEngagementImage;
+  @state() bannerLink = Constant.url.defaultEngagementLink;
   @state() imageLoaded = false;
 
   @query('.modal') modalElement!: HTMLDivElement;
@@ -58,6 +58,8 @@ export class CaptureEyeModal extends LitElement {
     this.captureTime = Constant.text.loading;
     this.backendOwnerName = Constant.text.loading;
     this.usedBy = Constant.text.loading;
+    this.bannerImage = Constant.url.defaultEngagementImage;
+    this.bannerLink = Constant.url.defaultEngagementLink;
   }
 
   override firstUpdated() {

@@ -36,13 +36,13 @@ export class CaptureEye extends LitElement {
    * Url of the banner image.
    */
   @property({ type: String })
-  bannerImage = '';
+  bannerImage = Constant.url.defaultEngagementImage;
 
   /**
    * Url of the banner link.
    */
   @property({ type: String })
-  bannerLink = '';
+  bannerLink = Constant.url.defaultEngagementLink;
 
   get assetUrl() {
     return `${Constant.url.ipfsGateway}/${this.nid}`;

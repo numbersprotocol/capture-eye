@@ -14,6 +14,8 @@ interface Url {
     blockchainIcon: string;
     txIcon: string;
     curatorIcon: string;
+    defaultEngagementImage: string;
+    defaultEngagementLink: string;
 }
 interface Text {
     not_available: string;

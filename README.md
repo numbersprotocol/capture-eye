@@ -46,6 +46,8 @@ The new Capture Eye UI comes with a helper component `media-viewer` that could a
 <body>
   <capture-eye
     nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
+    bannerImage="https://static-cdn.numbersprotocol.io/capture-eye/capture-ad.png"
+    bannerLink="https://captureapp.xyz"
   >
     <media-veiwer
       width="600px"
