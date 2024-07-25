@@ -36,8 +36,10 @@ export class CaptureEyeModal extends LitElement {
   @state() captureTime = Constant.text.loading;
   @state() backendOwnerName = Constant.text.loading;
   @state() usedBy = Constant.text.loading;
-  @state() bannerImage = Constant.url.defaultEngagementImage;
-  @state() bannerLink = Constant.url.defaultEngagementLink;
+  @state() engagementImage = '';
+  @state() engagementLink = '';
+  @state() actionButtonText = '';
+  @state() actionButtonLink = '';
   @state() imageLoaded = false;
 
   @query('.modal') modalElement!: HTMLDivElement;
@@ -58,8 +60,10 @@ export class CaptureEyeModal extends LitElement {
     this.captureTime = Constant.text.loading;
     this.backendOwnerName = Constant.text.loading;
     this.usedBy = Constant.text.loading;
-    this.bannerImage = Constant.url.defaultEngagementImage;
-    this.bannerLink = Constant.url.defaultEngagementLink;
+    this.engagementImage = Constant.url.defaultEngagementImage;
+    this.engagementLink = Constant.url.defaultEngagementLink;
+    this.actionButtonText = '';
+    this.actionButtonLink = '';
   }
 
   override firstUpdated() {
@@ -220,10 +224,13 @@ export class CaptureEyeModal extends LitElement {
     const viewMoreUrl = this.isOriginal()
       ? `${Constant.url.profile}/${this.nid}`
       : this.usedBy;
+    const actionButtonUrl = this.actionButtonLink
+      ? this.actionButtonLink
+      : viewMoreUrl;
     return html`
       <div class="section">
-        <a href=${viewMoreUrl} target="_blank"
-          ><button class="view-more-btn">View More</button></a
+        <a href=${actionButtonUrl} target="_blank"
+          ><button class="view-more-btn">${this.actionButtonText}</button></a
         >
         <div class="powered-by">
           ${this.usedBy !== Constant.text.loading
@@ -249,10 +256,10 @@ export class CaptureEyeModal extends LitElement {
               ${this.renderTop()} ${this.renderMiddle()} ${this.renderBottom()}
             </div>
           </div>
-          ${this.bannerLink && this.bannerImage
-            ? html`<a href=${this.bannerLink} target="_blank">
+          ${this.engagementImage && this.engagementLink
+            ? html`<a href=${this.engagementLink} target="_blank">
                 <img
-                  src=${this.bannerImage}
+                  src=${this.engagementImage}
                   alt="Full width"
                   class="full-width-img"
                   @load=${this.handleImageLoad}

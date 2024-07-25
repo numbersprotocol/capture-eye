@@ -15,8 +15,10 @@ export declare class CaptureEyeModal extends LitElement {
     captureTime: string;
     backendOwnerName: string;
     usedBy: string;
-    bannerImage: string;
-    bannerLink: string;
+    engagementImage: string;
+    engagementLink: string;
+    actionButtonText: string;
+    actionButtonLink: string;
     imageLoaded: boolean;
     modalElement: HTMLDivElement;
     constructor();

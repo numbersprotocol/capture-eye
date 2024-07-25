@@ -33,16 +33,28 @@ export class CaptureEye extends LitElement {
   layout = Constant.layout.original;
 
   /**
-   * Url of the banner image.
+   * Url of the engagement image.
    */
-  @property({ type: String })
-  bannerImage = Constant.url.defaultEngagementImage;
+  @property({ type: String, attribute: 'eng-img' })
+  engagementImage = Constant.url.defaultEngagementImage;
 
   /**
-   * Url of the banner link.
+   * Url of the engagement link.
    */
-  @property({ type: String })
-  bannerLink = Constant.url.defaultEngagementLink;
+  @property({ type: String, attribute: 'eng-link' })
+  engagementLink = Constant.url.defaultEngagementLink;
+
+  /**
+   * Text of the action button.
+   */
+  @property({ type: String, attribute: 'action-button-text' })
+  actionButtonText = Constant.text.viewMore;
+
+  /**
+   * Url of the action button link.
+   */
+  @property({ type: String, attribute: 'action-button-link' })
+  actionButtonLink = '';
 
   get assetUrl() {
     return `${Constant.url.ipfsGateway}/${this.nid}`;
@@ -93,8 +105,10 @@ export class CaptureEye extends LitElement {
     modalManager.updateModalWithDelay(
       this.nid,
       this.layout,
-      this.bannerImage,
-      this.bannerLink,
+      this.engagementImage,
+      this.engagementLink,
+      this.actionButtonText,
+      this.actionButtonLink,
       {
         top: buttonRect.top + window.scrollY,
         left: buttonRect.left + window.scrollX,

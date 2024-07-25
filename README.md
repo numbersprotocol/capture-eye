@@ -22,42 +22,17 @@
   <capture-eye
     nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
   >
-    <media-veiwer
+    <media-viewer
       width="600px"
       src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
     />
   </capture-eye>
 </body>
 ```
+
+The Capture Eye comes with a helper component `media-viewer` that could automatically detect the source url file type and display image or video respectively. It is NOT necessary to use `<media-viewer>` component. If you wish to use your own component to display the asset, you may use `<img>`, `<video>` or any other custom component as the child element of `<capture-eye>`.
 
 Visit the [interactive playground](https://playcode.io/capture_eye_demo) for the live demo.
-
-### UI v2 (240625)
-
-The new Capture Eye UI comes with a helper component `media-viewer` that could automatically detect the source url file type and display image or video respectively.
-
-```html
-<head>
-<script
-  type="module"
-  src="https://static-cdn.numbersprotocol.io/staging/capture-eye-240625.bundled.js"
-></script>
-</head>
-<body>
-  <capture-eye
-    nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
-    bannerImage="https://static-cdn.numbersprotocol.io/capture-eye/capture-ad.png"
-    bannerLink="https://captureapp.xyz"
-  >
-    <media-veiwer
-      width="600px"
-      src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
-    />
-  </capture-eye>
-</body>
-```
-
-It is not necessary to use `<media-viewer>` component. If you wish to use your own component to display the asset, you may use `<img>`, `<video>` or any other custom component as the child element of `<capture-eye>`.
 
 ## Component attributes
 
@@ -65,8 +40,10 @@ It is not necessary to use `<media-viewer>` component. If you wish to use your o
 | --------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
 | `nid`           | true     | The unique [Nid](https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/numbers-id-nid) of the asset. | `<capture-eye nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"></capture-eye>` |
 | `layout`      | false    | Decides which layout to display. Default value is `original`. Additional option includes `curated`.                          | `<capture-eye nid="..." layout="curated"></capture-eye>`                                               |
-| `bannerImage`      | false    | Display engagement zone banner image. Recommended size is 400x200 px but any image with width >= 320px should work.                         | `<capture-eye nid="..." bannerImage="https://my.image.url/image.png"></capture-eye>`                                               |.
-| `bannerLink`      | false    | Display engagement zone banner link. The engagement zone banner will not show if link is not provided.                          | `<capture-eye nid="..." bannerLink="https://my.website.url"></capture-eye>`                                               |
+| `eng-img`      | false    | Override the engagement zone banner image. Recommended size is 400x200 px but any image with width >= 320px should work.                         | `<capture-eye nid="..." eng-img="https://my.image.url/image.png"></capture-eye>`                                               |
+| `eng-link`      | false    | Override the engagement zone banner link.                          | `<capture-eye nid="..." eng-link="https://my.website.url"></capture-eye>`                                               |
+| `action-button-text`      | false    | Override the default action button text (`View More`).                         | `<capture-eye nid="..." action-button-text="Collect"></capture-eye>`                                               |
+| `action-button-link`      | false    | Override the default action button link to Capture website.                           | `<capture-eye nid="..." action-button-link="https://my.website.url"></capture-eye>`                                               |
 
 
 ## Integration with Frontend Frameworks

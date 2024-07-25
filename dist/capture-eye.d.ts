@@ -10,13 +10,21 @@ export declare class CaptureEye extends LitElement {
      */
     layout: string;
     /**
-     * Url of the banner image.
+     * Url of the engagement image.
      */
-    bannerImage: string;
+    engagementImage: string;
     /**
-     * Url of the banner link.
+     * Url of the engagement link.
      */
-    bannerLink: string;
+    engagementLink: string;
+    /**
+     * Text of the action button.
+     */
+    actionButtonText: string;
+    /**
+     * Url of the action button link.
+     */
+    actionButtonLink: string;
     get assetUrl(): string;
     get assetProfileUrl(): string;
     constructor();

@@ -28,8 +28,10 @@ export class ModalManager {
   public updateModal(
     nid: string,
     layout: string,
-    bannerImage: string,
-    bannerLink: string,
+    engagementImage: string,
+    engagementLink: string,
+    actionButtonText: string,
+    actionButtonLink: string,
     position: { top: number; left: number }
   ): void {
     if (this.modalElement) {
@@ -37,11 +39,13 @@ export class ModalManager {
       this.modalElement.modalHidden = false;
 
       if (this.modalElement.nid !== nid) {
+        this.modalElement.resetModalProps();
         this.modalElement.nid = nid;
         this.modalElement.layout = layout;
-        this.modalElement.bannerImage = bannerImage;
-        this.modalElement.bannerLink = bannerLink;
-        this.modalElement.resetModalProps();
+        this.modalElement.engagementImage = engagementImage;
+        this.modalElement.engagementLink = engagementLink;
+        this.modalElement.actionButtonText = actionButtonText;
+        this.modalElement.actionButtonLink = actionButtonLink;
         this.fetchAssetData(nid).then((assetData) =>
           this.updateModalProperties(assetData)
         );
@@ -52,14 +56,25 @@ export class ModalManager {
   public updateModalWithDelay(
     nid: string,
     layout: string,
-    bannerImage: string,
-    bannerLink: string,
+    engagementImage: string,
+    engagementLink: string,
+    actionButtonText: string,
+    actionButtonLink: string,
     position: { top: number; left: number }
   ): void {
     if (!this.modalElement) return;
     this.modalElement.modalHidden = true;
     setTimeout(
-      () => this.updateModal(nid, layout, bannerImage, bannerLink, position),
+      () =>
+        this.updateModal(
+          nid,
+          layout,
+          engagementImage,
+          engagementLink,
+          actionButtonText,
+          actionButtonLink,
+          position
+        ),
       150
     );
   }

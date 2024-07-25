@@ -20,6 +20,7 @@ interface Url {
 interface Text {
     not_available: string;
     loading: string;
+    viewMore: string;
 }
 interface ConstantType {
     url: Url;

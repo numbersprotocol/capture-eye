@@ -21,6 +21,7 @@ interface Url {
 interface Text {
   not_available: string;
   loading: string;
+  viewMore: string;
 }
 
 interface ConstantType {
@@ -62,6 +63,7 @@ export const Constant: ConstantType = {
   text: {
     not_available: 'N/A',
     loading: 'Loading...',
+    viewMore: 'View More',
   },
   layout: {
     original: 'original',
