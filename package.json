@@ -9,7 +9,8 @@
   "scripts": {
     "build": "rollup -c && cp dist/capture-eye.bundled.js .",
     "build:watch": "rollup -c -w",
-    "clean": "rimraf dist",
+    "build:test": "tsc",
+    "clean": "rimraf dist && rimraf capture-eye.bundled.js",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
     "lint:eslint": "eslint 'src/**/*.ts'",
     "lint:lit-analyzer": "lit-analyzer",
@@ -25,7 +26,7 @@
     "analyze:watch": "cem analyze --litelement --globs \"src/**/*.ts\" --watch",
     "serve": "wds --watch",
     "serve:prod": "MODE=prod npm run serve",
-    "test": "npm run test:dev && npm run test:prod",
+    "test": "npm run build:test && npm run test:dev && npm run test:prod",
     "test:dev": "wtr",
     "test:watch": "wtr --watch",
     "test:prod": "MODE=prod wtr",
