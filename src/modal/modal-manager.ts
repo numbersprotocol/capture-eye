@@ -46,9 +46,13 @@ export class ModalManager {
         this.modalElement.engagementLink = engagementLink;
         this.modalElement.actionButtonText = actionButtonText;
         this.modalElement.actionButtonLink = actionButtonLink;
-        this.fetchAssetData(nid).then((assetData) =>
-          this.updateModalProperties(assetData)
-        );
+        Promise.all([this.fetchAssetData(nid), this.hasNftProduct(nid)])
+          .then(([assetData, hasNftProduct]) => {
+            this.updateModalProperties(assetData, hasNftProduct);
+          })
+          .catch((error) => {
+            console.error('Error fetching data for modal update:', error);
+          });
       }
     }
   }
@@ -102,6 +106,26 @@ export class ModalManager {
     }
   }
 
+  private async hasNftProduct(nid: string): Promise<boolean> {
+    try {
+      const response = await fetch(
+        `${Constant.url.productApi}?nid=${nid}&available=true&limit=1`,
+        { method: 'GET' }
+      );
+
+      if (response.ok) {
+        const { count } = await response.json();
+        return count > 0;
+      }
+
+      const errorResponse = await response.json();
+      console.error(`Error ${response.status}: ${errorResponse.message}`);
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+    return false;
+  }
+
   private async fetchAssetData(nid: string): Promise<AssetData | undefined> {
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
@@ -149,7 +173,10 @@ export class ModalManager {
     }
   }
 
-  private updateModalProperties(assetData: AssetData | undefined) {
+  private updateModalProperties(
+    assetData: AssetData | undefined,
+    hasNftProduct: boolean
+  ) {
     if (!this.modalElement || !assetData) return;
     this.modalElement.creatorName = assetData.assetCreator;
     this.modalElement.date = assetData.assetTimestamp;
@@ -162,6 +189,7 @@ export class ModalManager {
     this.modalElement.captureTime = assetData.assetCaptureTime;
     this.modalElement.backendOwnerName = assetData.assetBackendOwnerName;
     this.modalElement.usedBy = assetData.assetUsedBy;
+    this.modalElement.hasNftProduct = hasNftProduct;
   }
 }
 

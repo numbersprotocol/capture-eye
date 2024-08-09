@@ -41,6 +41,7 @@ export class CaptureEyeModal extends LitElement {
   @state() actionButtonText = '';
   @state() actionButtonLink = '';
   @state() imageLoaded = false;
+  @state() hasNftProduct = false;
 
   @query('.modal') modalElement!: HTMLDivElement;
 
@@ -64,6 +65,7 @@ export class CaptureEyeModal extends LitElement {
     this.engagementLink = Constant.url.defaultEngagementLink;
     this.actionButtonText = '';
     this.actionButtonLink = '';
+    this.hasNftProduct = false;
   }
 
   override firstUpdated() {
@@ -221,16 +223,23 @@ export class CaptureEyeModal extends LitElement {
   }
 
   private renderBottom() {
-    const viewMoreUrl = this.isOriginal()
+    console.log('this.actionButtonLink', this.actionButtonLink);
+    const actionButtonLink = this.actionButtonLink
+      ? this.actionButtonLink
+      : this.hasNftProduct
+      ? `${Constant.url.collect}?nid=${this.nid}&from=capture-eye`
+      : this.isOriginal()
       ? `${Constant.url.profile}/${this.nid}`
       : this.usedBy;
-    const actionButtonUrl = this.actionButtonLink
-      ? this.actionButtonLink
-      : viewMoreUrl;
+    const actionButtonText = this.actionButtonText
+      ? this.actionButtonText
+      : this.hasNftProduct
+      ? Constant.text.collect
+      : Constant.text.viewMore;
     return html`
       <div class="section">
-        <a href=${actionButtonUrl} target="_blank"
-          ><button class="view-more-btn">${this.actionButtonText}</button></a
+        <a href=${actionButtonLink} target="_blank"
+          ><button class="view-more-btn">${actionButtonText}</button></a
         >
         <div class="powered-by">
           ${this.usedBy !== Constant.text.loading
