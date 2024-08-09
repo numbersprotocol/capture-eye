@@ -7,7 +7,7 @@
   "types": "dist/capture-eye.d.ts",
   "type": "module",
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c && cp dist/capture-eye.bundled.js .",
     "build:watch": "rollup -c -w",
     "clean": "rimraf dist",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",

@@ -2,6 +2,8 @@
 /docs/node_modules/
 /lib/
 /test/
+/dist/
 custom-elements.json
 .npmrc
 .DS_Store
+capture-eye.bundled.js
