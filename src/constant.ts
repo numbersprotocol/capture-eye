@@ -1,6 +1,7 @@
 interface Url {
   numbersWebsite: string;
   dataApi: string;
+  productApi: string;
   ipfsGateway: string;
   explorer: string;
   profile: string;
@@ -22,6 +23,7 @@ interface Text {
   not_available: string;
   loading: string;
   viewMore: string;
+  collect: string;
 }
 
 interface ConstantType {
@@ -39,6 +41,7 @@ export const Constant: ConstantType = {
   url: {
     numbersWebsite: 'https://www.numbersprotocol.io',
     dataApi: 'https://verify.numbersprotocol.io/api/1.1/wf/captureEyeData',
+    productApi: 'https://api.numbersprotocol.io/api/v3/store/products/',
     ipfsGateway: 'https://ipfs-pin.numbersprotocol.io/ipfs',
     explorer: 'https://mainnet.num.network',
     profile: 'https://verify.numbersprotocol.io/asset-profile',
@@ -64,6 +67,7 @@ export const Constant: ConstantType = {
     not_available: 'N/A',
     loading: 'Loading...',
     viewMore: 'View More',
+    collect: 'Collect',
   },
   layout: {
     original: 'original',

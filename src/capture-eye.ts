@@ -48,7 +48,7 @@ export class CaptureEye extends LitElement {
    * Text of the action button.
    */
   @property({ type: String, attribute: 'action-button-text' })
-  actionButtonText = Constant.text.viewMore;
+  actionButtonText = '';
 
   /**
    * Url of the action button link.
