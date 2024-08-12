@@ -36,15 +36,14 @@ Visit the [interactive playground](https://playcode.io/capture_eye_demo) for the
 
 ## Component attributes
 
-| Attribute Name  | Required | Description                                                                                                                       | Example                                                       |
-| --------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| `nid`           | true     | The unique [Nid](https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/numbers-id-nid) of the asset. | `<capture-eye nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"></capture-eye>` |
-| `layout`      | false    | Decides which layout to display. Default value is `original`. Additional option includes `curated`.                          | `<capture-eye nid="..." layout="curated"></capture-eye>`                                               |
-| `eng-img`      | false    | Override the engagement zone banner image. Recommended size is 400x200 px but any image with width >= 320px should work.                         | `<capture-eye nid="..." eng-img="https://my.image.url/image.png"></capture-eye>`                                               |
-| `eng-link`      | false    | Override the engagement zone banner link.                          | `<capture-eye nid="..." eng-link="https://my.website.url"></capture-eye>`                                               |
-| `action-button-text`      | false    | Override the default action button text (`View More`).                         | `<capture-eye nid="..." action-button-text="Collect"></capture-eye>`                                               |
-| `action-button-link`      | false    | Override the default action button link to Capture website.                           | `<capture-eye nid="..." action-button-link="https://my.website.url"></capture-eye>`                                               |
-
+| Attribute Name       | Required | Description                                                                                                                       | Example                                                                                         |
+| -------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `nid`                | true     | The unique [Nid](https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/numbers-id-nid) of the asset. | `<capture-eye nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"></capture-eye>` |
+| `layout`             | false    | Decides which layout to display. Default value is `original`. Additional option includes `curated`.                               | `<capture-eye nid="..." layout="curated"></capture-eye>`                                        |
+| `eng-img`            | false    | Override the engagement zone banner image. Recommended size is 400x200 px but any image with width >= 320px should work.          | `<capture-eye nid="..." eng-img="https://my.image.url/image.png"></capture-eye>`                |
+| `eng-link`           | false    | Override the engagement zone banner link.                                                                                         | `<capture-eye nid="..." eng-link="https://my.website.url"></capture-eye>`                       |
+| `action-button-text` | false    | Override the default action button text (`View More`).                                                                            | `<capture-eye nid="..." action-button-text="Collect"></capture-eye>`                            |
+| `action-button-link` | false    | Override the default action button link to Capture website.                                                                       | `<capture-eye nid="..." action-button-link="https://my.website.url"></capture-eye>`             |
 
 ## Integration with Frontend Frameworks
 
@@ -158,9 +157,7 @@ import '@numbersprotocol/capture-eye';
 ```
 
 ```html
-<capture-eye
-  nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
->
+<capture-eye nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy">
   <img
     width="600px"
     src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"
@@ -207,9 +204,7 @@ Example of changing the icon and width/height:
     const captureEyeElements = document.querySelectorAll('capture-eye');
 
     captureEyeElements.forEach((element) => {
-      const img = element.shadowRoot.querySelector(
-        '.capture-eye-button img'
-      );
+      const img = element.shadowRoot.querySelector('.capture-eye-button img');
       img.src =
         'https://ipfs-pin.numbersprotocol.io/ipfs/bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy';
       img.style.width = '30px';

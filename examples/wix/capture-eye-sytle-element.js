@@ -14,9 +14,12 @@ function updateElement(elem) {
     minute: '2-digit',
     second: '2-digit',
     hour12: false,
-    timeZone: 'Asia/Taipei'
+    timeZone: 'Asia/Taipei',
   };
-  const captureUpdatedDate = _captureUpdatedDate.toLocaleString('en-US', options);
+  const captureUpdatedDate = _captureUpdatedDate.toLocaleString(
+    'en-US',
+    options
+  );
   elem.innerHTML = `<capture-eye nid="${_nid}"><div class="container"><img src="${thumbnail}" alt="Image" class="image">
               <div class="text-container">
                 <p class="title">註冊時間</p>
@@ -31,7 +34,7 @@ function updateElement(elem) {
 }
 
 class CaptureEyeStyleElement extends HTMLElement {
-  static observedAttributes = ["creator"];
+  static observedAttributes = ['creator'];
 
   connectedCallback() {
     updateElement(this);
