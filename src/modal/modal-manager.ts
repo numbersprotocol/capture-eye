@@ -119,7 +119,9 @@ export class ModalManager {
       }
 
       const errorResponse = await response.json();
-      console.error(`Error ${response.status}: ${errorResponse.message}`);
+      console.error(
+        `Error ${response.status}: ${errorResponse?.error?.type} ${errorResponse?.error?.message}`
+      );
     } catch (error) {
       console.error('Fetch error:', error);
     }
