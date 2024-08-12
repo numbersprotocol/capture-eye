@@ -223,7 +223,6 @@ export class CaptureEyeModal extends LitElement {
   }
 
   private renderBottom() {
-    console.log('this.actionButtonLink', this.actionButtonLink);
     const actionButtonLink = this.actionButtonLink
       ? this.actionButtonLink
       : this.hasNftProduct
