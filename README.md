@@ -1,5 +1,7 @@
 # Capture Eye
 
+[![](https://data.jsdelivr.com/v1/package/npm/@numbersprotocol/capture-eye/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@numbersprotocol/capture-eye)
+
 [Capture Eye](https://captureapp.xyz/products/eye) widget seamlessly integrates into your website, facilitating secure and transparent provenance display and purchases of digital content directly from the creator.
 
 - Easily integrate with your digital products
