@@ -15,7 +15,7 @@
 <head>
   <script
     type="module"
-    src="https://cdn.jsdelivr.net/npm/@numbersprotocol/capture-eye/dist/capture-eye.bundled.js"
+    src="https://cdn.jsdelivr.net/npm/@numbersprotocol/capture-eye@latest/dist/capture-eye.bundled.js"
   ></script>
 </head>
 <body>
@@ -65,7 +65,7 @@ The most simple way of adding Capture Eye to a webpage is by importing via CDN a
 <head>
   <script
     type="module"
-    src="https://cdn.jsdelivr.net/npm/@numbersprotocol/capture-eye/dist/capture-eye.bundled.js"
+    src="https://cdn.jsdelivr.net/npm/@numbersprotocol/capture-eye@latest/dist/capture-eye.bundled.js"
   ></script>
 </head>
 <body>
