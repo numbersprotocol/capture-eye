@@ -11,3 +11,13 @@ We add further functionality we can leverage JavaScripttoBubble element to add s
 <img width="338" alt="Screenshot 2024-08-16 at 10 00 43 AM" src="https://github.com/user-attachments/assets/19df8f86-dc41-4928-b542-0b26ecbdf9ef">
 
 <img width="340" alt="Screenshot 2024-08-16 at 10 00 26 AM" src="https://github.com/user-attachments/assets/a8b4f1f9-a2a3-41b2-876c-48555923fcd4">
+
+## Final Display Result of Capture Eye in Bubble
+
+Single Card
+
+<img width="303" alt="Screenshot 2024-08-16 at 12 02 34 PM" src="https://github.com/user-attachments/assets/51ef70dd-7ec3-4403-ba28-8dcfa968628c">
+
+Multiple Cards
+
+<img width="905" alt="Screenshot 2024-08-16 at 12 02 15 PM" src="https://github.com/user-attachments/assets/6552109c-0694-4637-bf70-ee355b2e8a18">
