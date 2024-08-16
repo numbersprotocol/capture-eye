@@ -1,0 +1,37 @@
+<capture-eye nid=Current cell's List Assets - data result's cid bannerImage="https://static-cdn.numbersprotocol.io/capture-eye/capture-ad.png" bannerLink="https://captureapp.xyz"><div class="container">
+    <div class="img-container">
+      <a href="https://verify.numbersprotocol.io/asset-profile/Current cell's List Assets - data result's cid" target="_blank">
+      <img src=Current cell's List Assets - data result's asset_file_thumbnail class = "image">
+    </a></div>
+        <div class="text-container">
+                    <p class="title">App Text (Registration Time)</p>
+                    <p class="description">Current cell's List Assets - data result's uploaded_at:split by (T):first item Current cell's List Assets - data result's uploaded_at:split by (T):item #2:split by (.):first item GMT +0</p>
+                    <p class="title">App Text (Creator)</p>
+                    <p class="description">Current cell's List Assets - data result's nit_commit_custom assetCreator</p>
+                    <p class="title">App Text (Abstract)</p>
+                    <p class="description">Current cell's List Assets - data result's caption</p>
+                    <p class="title">Nid <span onclick="bubble_fn_Current cell's index()" class="icon_Current cell's index"><i class="fa fa-clone"></i></span></p>
+                    <p class="nid">Current cell's List Assets - data result's id</p>
+        </div>
+    </div>
+</capture-eye>
+
+
+<script>
+    function bubble_fn_Current cell's index() {
+        var param_1 = Current cell's List Assets - data result id;
+        navigator.clipboard.writeText(properties.param1);
+
+        // Create Popup Message
+        var $popup = $("<span>App Text Copied!</span>").css({
+            "font-weight": "normal",
+            position:'fixed',
+            "margin-left": '10px'
+        }).appendTo(".icon_Current cell's index");
+
+        // Remove the popup after 1 seconds
+        setTimeout(function() {
+            $popup.remove();
+        }, 1000);
+    }
+</script>
