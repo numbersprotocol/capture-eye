@@ -2,6 +2,11 @@
 
 A WordPress plugin used to add the Capture Eye script to the front-end head and add the widget in Elementor.
 
+## Plugin Activate
+
+1. Upload this plugin ./capture-eye to WordPress path `wp-content/plugins/` via FTP.
+1. Go to Plugins section in WordPress and click `Activate` for the Capture Eye plugin.
+
 ## Capture Eye Image Widget
 
 1. Search for eye in Elementor Editor.
