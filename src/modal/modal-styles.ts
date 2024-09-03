@@ -206,7 +206,7 @@ export function getModalStyles() {
       color: var(--secondary-text-color);
     }
 
-    .full-width-img {
+    .eng-img {
       width: 100%;
       display: block;
       border-bottom-left-radius: var(--border-radius);
