@@ -3,7 +3,7 @@ import { customElement, property, state, query } from 'lit/decorators.js';
 import { getModalStyles } from './modal-styles.js';
 import { Constant } from '../constant.js';
 
-function formatTxHash(txHash: string): string {
+export function formatTxHash(txHash: string): string {
   if (txHash.length < 60) {
     return '';
   }
@@ -194,18 +194,16 @@ export class CaptureEyeModal extends LitElement {
                           >${formatTxHash(this.transaction)}</a
                         ></span
                       >`
-                  : html`<span
-                      >${this.transaction !== Constant.text.loading
-                        ? html`<img
-                              src=${Constant.url.txIcon}
-                              loading="lazy"
-                              width="20"
-                              height="Auto"
-                              alt=""
-                            />
-                            <span class="middle-text">Transaction: N/A</span>`
-                        : html`<div class="shimmer-text"></div>`}</span
-                    >`}
+                  : html`${this.transaction !== Constant.text.loading
+                      ? html`<img
+                            src=${Constant.url.txIcon}
+                            loading="lazy"
+                            width="20"
+                            height="Auto"
+                            alt=""
+                          />
+                          <span class="middle-text">Transaction: N/A</span>`
+                      : html`<span class="shimmer-text"></span>`}`}
               </div>`
           : html`<div class="middle-row">
               ${this.backendOwnerName !== Constant.text.loading
@@ -265,19 +263,23 @@ export class CaptureEyeModal extends LitElement {
             </div>
           </div>
           ${this.engagementImage && this.engagementLink
-            ? html`<a href=${this.engagementLink} target="_blank">
+            ? html`<a
+                href=${this.engagementLink}
+                target="_blank"
+                class="eng-link"
+              >
                 <img
                   src=${this.engagementImage}
                   alt="Full width"
-                  class="full-width-img"
+                  class="eng-img"
                   @load=${this.handleImageLoad}
                   style="display: ${this.imageLoaded ? 'block' : 'none'}"
                 />
                 ${!this.imageLoaded
-                  ? html`<div class="shimmer full-width-img"></div>`
+                  ? html`<div class="shimmer eng-img"></div>`
                   : ''}
               </a>`
-            : html`<div class="full-width-img"></div>`}
+            : html`<div class="eng-img"></div>`}
           <div class="close-button" @click=${this.hideModal}>
             <img src=${Constant.url.closeIcon} alt="Close" />
           </div>

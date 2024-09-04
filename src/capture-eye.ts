@@ -6,16 +6,6 @@ import { ModalManager } from './modal/modal-manager.js';
 import { CaptureEyeModal } from './modal/modal.js';
 import { MediaViewer } from './media-viewer/media-viewer.js';
 
-function loadFontFace() {
-  /*
-   * Inject link stylesheet to DOM directly since it will not work in shadow DOM
-   */
-  const font = document.createElement('link');
-  font.href = Constant.url.fontFaceCssUrl;
-  font.rel = 'stylesheet';
-  document.head.appendChild(font);
-}
-
 @customElement('capture-eye')
 export class CaptureEye extends LitElement {
   static override styles = getCaptureEyeStyles();
@@ -66,7 +56,7 @@ export class CaptureEye extends LitElement {
 
   constructor() {
     super();
-    loadFontFace();
+    this.loadFontFace();
     console.debug(MediaViewer.name); // The line ensures MediaViewer is included in compilation.
     console.debug(CaptureEyeModal.name); // The line ensures CaptureEyeModal is included in compilation.
   }
@@ -74,7 +64,7 @@ export class CaptureEye extends LitElement {
   buttonTemplate() {
     return this.nid
       ? html`
-          <div class="capture-eye-button" @click=${this.showModal}>
+          <div class="capture-eye-button" @click=${this.openEye}>
             <img src=${Constant.url.captureEyeIcon} alt="Capture Eye" />
           </div>
         `
@@ -98,7 +88,9 @@ export class CaptureEye extends LitElement {
     ModalManager.getInstance().initializeModal();
   }
 
-  private async showModal() {
+  openEye(event: Event) {
+    event.stopPropagation();
+    event.preventDefault();
     const modalManager = ModalManager.getInstance();
     const buttonElement = this.getButtonElement();
     const buttonRect = buttonElement.getBoundingClientRect();
@@ -138,6 +130,16 @@ export class CaptureEye extends LitElement {
         button.classList.remove('active');
       }
     }
+  }
+
+  private loadFontFace() {
+    /*
+     * Inject link stylesheet to DOM directly since it will not work in shadow DOM
+     */
+    const font = document.createElement('link');
+    font.href = Constant.url.fontFaceCssUrl;
+    font.rel = 'stylesheet';
+    document.head.appendChild(font);
   }
 }
 
