@@ -37,6 +37,7 @@ export class ModalManager {
     if (this.modalElement) {
       this.positionModal(position);
       this.modalElement.modalHidden = false;
+      this.registerRootClickListener();
 
       if (this.modalElement.nid !== nid) {
         this.modalElement.resetModalProps();
@@ -103,6 +104,7 @@ export class ModalManager {
   public hideModal(): void {
     if (this.modalElement) {
       this.modalElement.modalHidden = true;
+      this.unregisterRootClickListener();
     }
   }
 
@@ -193,6 +195,23 @@ export class ModalManager {
     this.modalElement.usedBy = assetData.assetUsedBy;
     this.modalElement.hasNftProduct = hasNftProduct;
   }
+
+  private registerRootClickListener() {
+    document.body.addEventListener('click', this.handleRootClick);
+  }
+
+  private unregisterRootClickListener() {
+    document.body.removeEventListener('click', this.handleRootClick);
+  }
+
+  private handleRootClick = (event: MouseEvent) => {
+    if (
+      this.modalElement &&
+      !this.modalElement.contains(event.target as Node)
+    ) {
+      this.hideModal();
+    }
+  };
 }
 
 interface AssetData {

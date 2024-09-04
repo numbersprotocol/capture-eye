@@ -255,7 +255,10 @@ export class CaptureEyeModal extends LitElement {
 
   override render() {
     return html`
-      <div class="modal ${this.modalHidden ? 'modal-hidden' : 'modal-visible'}">
+      <div
+        class="modal ${this.modalHidden ? 'modal-hidden' : 'modal-visible'}"
+        @click=${this.handleModalClick}
+      >
         <div class="modal-container">
           <div class="modal-content">
             <div class="card">
@@ -286,6 +289,11 @@ export class CaptureEyeModal extends LitElement {
         </div>
       </div>
     `;
+  }
+
+  private handleModalClick(event: MouseEvent) {
+    event.stopPropagation();
+    event.preventDefault();
   }
 
   private hideModal() {
