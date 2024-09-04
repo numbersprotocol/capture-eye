@@ -8,9 +8,6 @@ interface Url {
   collect: string;
   captureEyeIcon: string;
   closeIcon: string;
-  contentCopyIcon: string;
-  helpIcon: string;
-  previewIcon: string;
   fontFaceCssUrl: string;
   blockchainIcon: string;
   txIcon: string;
@@ -32,10 +29,12 @@ interface ConstantType {
   layout: Layout;
 }
 
-export interface Layout {
+interface Layout {
   original: string;
   curated: string;
 }
+
+const numbersCdnUrl = 'https://static-cdn.numbersprotocol.io';
 
 export const Constant: ConstantType = {
   url: {
@@ -46,21 +45,13 @@ export const Constant: ConstantType = {
     explorer: 'https://mainnet.num.network',
     profile: 'https://verify.numbersprotocol.io/asset-profile',
     collect: 'https://captureappiframe.numbersprotocol.io/checkout',
-    captureEyeIcon: `https://static-cdn.numbersprotocol.io/capture-eye-blue-32x32.png`,
-    closeIcon:
-      'https://static-cdn.numbersprotocol.io/capture-eye/capture-eye-close-icon.png',
-    contentCopyIcon: 'https://c.animaapp.com/twFYQx58/img/content-copy@2x.png',
-    helpIcon: 'https://c.animaapp.com/twFYQx58/img/help-2@2x.png',
-    previewIcon: 'https://c.animaapp.com/twFYQx58/img/placeholder-image.png',
-    fontFaceCssUrl: 'https://static-cdn.numbersprotocol.io/fonts/degular.css',
-    blockchainIcon:
-      'https://static-cdn.numbersprotocol.io/capture-eye/capture-eye-blockchain-icon.svg',
-    txIcon:
-      'https://static-cdn.numbersprotocol.io/capture-eye/capture-eye-tx-icon.svg',
-    curatorIcon:
-      'https://static-cdn.numbersprotocol.io/capture-eye/capture-eye-curator-icon.png',
-    defaultEngagementImage:
-      'https://static-cdn.numbersprotocol.io/capture-eye/capture-ad.png',
+    captureEyeIcon: `${numbersCdnUrl}/capture-eye-blue-32x32.png`,
+    closeIcon: `${numbersCdnUrl}/capture-eye/capture-eye-close-icon.png`,
+    fontFaceCssUrl: `${numbersCdnUrl}/fonts/degular.css`,
+    blockchainIcon: `${numbersCdnUrl}/capture-eye/capture-eye-blockchain-icon.svg`,
+    txIcon: `${numbersCdnUrl}/capture-eye/capture-eye-tx-icon.svg`,
+    curatorIcon: `${numbersCdnUrl}/capture-eye/capture-eye-curator-icon.png`,
+    defaultEngagementImage: `${numbersCdnUrl}/capture-eye/capture-ad.png`,
     defaultEngagementLink: 'https://captureapp.xyz',
   },
   text: {
