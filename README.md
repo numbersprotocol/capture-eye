@@ -193,6 +193,43 @@ import '@numbersprotocol/capture-eye';
 </template>
 ```
 
+## Controlling Capture Eye with JavaScript
+
+The `<capture-eye>` web component provides several methods to control its behavior programmatically. You can interact with the component using the following public methods:
+
+### `get isOpened()`
+
+**Description**: Returns a boolean indicating whether the modal is currently open.
+
+**Usage**:
+
+```javascript
+const captureEyeElement = document.querySelector('capture-eye');
+console.log(captureEyeElement.isOpened); // true if modal is open, false otherwise
+```
+
+### `open()`
+
+**Description**: Opens the modal.
+
+**Usage**:
+
+```javascript
+const captureEyeElement = document.querySelector('capture-eye');
+captureEyeElement.open();
+```
+
+### `close()`
+
+**Description**: Closes the modal.
+
+**Usage**:
+
+```javascript
+const captureEyeElement = document.querySelector('capture-eye');
+captureEyeElement.close();
+```
+
 ## Style customization
 
 Capture Eye utilizes shadow DOM for encapsulation as a web component. However, if needed, the encapsulated styles could still be modified for any specific customization need. The section uses vanilla HTML/JavaScript to demonstrate how it is done. For different frontend frameworks it could also be done easily following the same logic.

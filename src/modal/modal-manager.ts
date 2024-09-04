@@ -11,6 +11,10 @@ export class ModalManager {
     return this?.modalElement?.nid ?? '';
   }
 
+  get modalHidden() {
+    return this?.modalElement?.modalHidden ?? true;
+  }
+
   public static getInstance(): ModalManager {
     if (!ModalManager.instance) {
       ModalManager.instance = new ModalManager();
