@@ -21,7 +21,6 @@ export function getCaptureEyeStyles() {
       left: 0;
       margin-top: 5px;
       margin-left: 5px;
-      display: flex;
       justify-content: center;
       align-items: center;
       z-index: 100;
@@ -38,6 +37,11 @@ export function getCaptureEyeStyles() {
     :host(:hover) .capture-eye-button,
     .capture-eye-button.active {
       display: flex; /* Show button on hover or when active */
+    }
+
+    .capture-eye-button.full-visibility {
+      opacity: 1;
+      display: flex;
     }
 
     @media (min-width: 401px) {

@@ -23,6 +23,12 @@ export class CaptureEye extends LitElement {
   layout = Constant.layout.original;
 
   /**
+   * Set visibility behavior. Default is mouse hover to show. Options: hover, always
+   */
+  @property({ type: String })
+  visibility = Constant.visibility.hover;
+
+  /**
    * Url of the engagement image.
    */
   @property({ type: String, attribute: 'eng-img' })
@@ -64,7 +70,13 @@ export class CaptureEye extends LitElement {
   buttonTemplate() {
     return this.nid
       ? html`
-          <div class="capture-eye-button" @click=${this.openEye}>
+          <div
+            class="capture-eye-button ${this.visibility ===
+            Constant.visibility.always
+              ? 'full-visibility'
+              : ''}"
+            @click=${this.openEye}
+          >
             <img src=${Constant.url.captureEyeIcon} alt="Capture Eye" />
           </div>
         `
