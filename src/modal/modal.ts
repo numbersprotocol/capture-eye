@@ -119,7 +119,15 @@ export class CaptureEyeModal extends LitElement {
       ? this.thumbnailUrl
       : 'https://via.placeholder.com/100';
     const name = this.isOriginal() ? this.creatorName : this.assetSourceType;
-    const date = this.isOriginal() ? this.date : this.captureTime;
+    /*
+     * original: signed_metadata.capture_time or assetTree.assetTimestampCreated or uploaded_at
+     * curated: integrity(signed_metadata) capture_time
+     */
+    const date = this.isOriginal()
+      ? this.captureTime && this.captureTime !== Constant.text.loading
+        ? this.captureTime
+        : this.date
+      : this.captureTime;
     return html`
       <div class="section">
         <div class="section-title">Produced by</div>
@@ -255,7 +263,10 @@ export class CaptureEyeModal extends LitElement {
 
   override render() {
     return html`
-      <div class="modal ${this.modalHidden ? 'modal-hidden' : 'modal-visible'}">
+      <div
+        class="modal ${this.modalHidden ? 'modal-hidden' : 'modal-visible'}"
+        @click=${this.handleModalClick}
+      >
         <div class="modal-container">
           <div class="modal-content">
             <div class="card">
@@ -286,6 +297,11 @@ export class CaptureEyeModal extends LitElement {
         </div>
       </div>
     `;
+  }
+
+  private handleModalClick(event: MouseEvent) {
+    event.stopPropagation();
+    event.preventDefault();
   }
 
   private hideModal() {

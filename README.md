@@ -40,12 +40,13 @@ Visit the [interactive playground](https://playcode.io/capture_eye_demo) for the
 
 | Attribute Name       | Required | Description                                                                                                                       | Example                                                                                         |
 | -------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `nid`                | true     | The unique [Nid](https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/numbers-id-nid) of the asset. | `<capture-eye nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"></capture-eye>` |
-| `layout`             | false    | Decides which layout to display. Default value is `original`. Additional option includes `curated`.                               | `<capture-eye nid="..." layout="curated"></capture-eye>`                                        |
-| `eng-img`            | false    | Override the engagement zone banner image. Recommended size is 400x200 px but any image with width >= 320px should work.          | `<capture-eye nid="..." eng-img="https://my.image.url/image.png"></capture-eye>`                |
-| `eng-link`           | false    | Override the engagement zone banner link.                                                                                         | `<capture-eye nid="..." eng-link="https://my.website.url"></capture-eye>`                       |
-| `action-button-text` | false    | Override the default action button text (`View More`).                                                                            | `<capture-eye nid="..." action-button-text="Collect"></capture-eye>`                            |
-| `action-button-link` | false    | Override the default action button link to Capture website.                                                                       | `<capture-eye nid="..." action-button-link="https://my.website.url"></capture-eye>`             |
+| `nid`                | Yes     | The unique [Nid](https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/numbers-id-nid) of the asset. | `<capture-eye nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"></capture-eye>` |
+| `layout`             | No    | Decides which layout to display. Default value is `original`. Additional option includes `curated`.                               | `<capture-eye nid="..." layout="curated"></capture-eye>`                                        |
+| `visibility`             | No    | Visibility behavior. Default value is `hover`, showing Eye on mouse hover. Setting it to option `always` will make the Eye always shown.                               | `<capture-eye nid="..." visibility="always"></capture-eye>`                                        |
+| `eng-img`            | No    | Override the engagement zone banner image. Recommended size is 400x200 px but any image with width >= 320px should work.          | `<capture-eye nid="..." eng-img="https://my.image.url/image.png"></capture-eye>`                |
+| `eng-link`           | No    | Override the engagement zone banner link.                                                                                         | `<capture-eye nid="..." eng-link="https://my.website.url"></capture-eye>`                       |
+| `action-button-text` | No    | Override the default action button text (`View More`).                                                                            | `<capture-eye nid="..." action-button-text="Collect"></capture-eye>`                            |
+| `action-button-link` | No    | Override the default action button link to Capture website.                                                                       | `<capture-eye nid="..." action-button-link="https://my.website.url"></capture-eye>`             |
 
 ## Integration with Frontend Frameworks
 
@@ -190,6 +191,43 @@ import '@numbersprotocol/capture-eye';
     </capture-eye>
   </main>
 </template>
+```
+
+## Controlling Capture Eye with JavaScript
+
+The `<capture-eye>` web component provides several methods to control its behavior programmatically. You can interact with the component using the following public methods:
+
+### `get isOpened()`
+
+**Description**: Returns a boolean indicating whether the modal is currently open.
+
+**Usage**:
+
+```javascript
+const captureEyeElement = document.querySelector('capture-eye');
+console.log(captureEyeElement.isOpened); // true if modal is open, false otherwise
+```
+
+### `open()`
+
+**Description**: Opens the modal.
+
+**Usage**:
+
+```javascript
+const captureEyeElement = document.querySelector('capture-eye');
+captureEyeElement.open();
+```
+
+### `close()`
+
+**Description**: Closes the modal.
+
+**Usage**:
+
+```javascript
+const captureEyeElement = document.querySelector('capture-eye');
+captureEyeElement.close();
 ```
 
 ## Style customization

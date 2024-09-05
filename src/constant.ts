@@ -27,11 +27,16 @@ interface ConstantType {
   url: Url;
   text: Text;
   layout: Layout;
+  visibility: Visibility;
 }
 
 interface Layout {
   original: string;
   curated: string;
+}
+interface Visibility {
+  hover: string;
+  always: string;
 }
 
 const numbersCdnUrl = 'https://static-cdn.numbersprotocol.io';
@@ -63,5 +68,9 @@ export const Constant: ConstantType = {
   layout: {
     original: 'original',
     curated: 'curated',
+  },
+  visibility: {
+    hover: 'hover',
+    always: 'always',
   },
 };
