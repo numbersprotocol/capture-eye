@@ -23,6 +23,12 @@ export class CaptureEye extends LitElement {
   layout = Constant.layout.original;
 
   /**
+   * Set visibility behavior. Default is mouse hover to show. Options: hover, always
+   */
+  @property({ type: String })
+  visibility = Constant.visibility.hover;
+
+  /**
    * Url of the engagement image.
    */
   @property({ type: String, attribute: 'eng-img' })
@@ -61,10 +67,29 @@ export class CaptureEye extends LitElement {
     console.debug(CaptureEyeModal.name); // The line ensures CaptureEyeModal is included in compilation.
   }
 
-  buttonTemplate() {
+  get isOpened() {
+    return !ModalManager.getInstance().modalHidden;
+  }
+
+  open() {
+    this.setButtonActive(true);
+    this.openEye();
+  }
+
+  close() {
+    ModalManager.getInstance().hideModal();
+  }
+
+  private buttonTemplate() {
     return this.nid
       ? html`
-          <div class="capture-eye-button" @click=${this.openEye}>
+          <div
+            class="capture-eye-button ${this.visibility ===
+            Constant.visibility.always
+              ? 'full-visibility'
+              : ''}"
+            @click=${this.openEye}
+          >
             <img src=${Constant.url.captureEyeIcon} alt="Capture Eye" />
           </div>
         `
@@ -88,9 +113,11 @@ export class CaptureEye extends LitElement {
     ModalManager.getInstance().initializeModal();
   }
 
-  openEye(event: Event) {
-    event.stopPropagation();
-    event.preventDefault();
+  openEye(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
     const modalManager = ModalManager.getInstance();
     const buttonElement = this.getButtonElement();
     const buttonRect = buttonElement.getBoundingClientRect();

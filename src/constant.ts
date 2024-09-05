@@ -30,11 +30,17 @@ interface ConstantType {
   url: Url;
   text: Text;
   layout: Layout;
+  visibility: Visibility;
 }
 
 export interface Layout {
   original: string;
   curated: string;
+}
+
+interface Visibility {
+  hover: string;
+  always: string;
 }
 
 export const Constant: ConstantType = {
@@ -72,5 +78,9 @@ export const Constant: ConstantType = {
   layout: {
     original: 'original',
     curated: 'curated',
+  },
+  visibility: {
+    hover: 'hover',
+    always: 'always',
   },
 };
