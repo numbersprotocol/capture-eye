@@ -119,7 +119,15 @@ export class CaptureEyeModal extends LitElement {
       ? this.thumbnailUrl
       : 'https://via.placeholder.com/100';
     const name = this.isOriginal() ? this.creatorName : this.assetSourceType;
-    const date = this.isOriginal() ? this.date : this.captureTime;
+    /*
+     * original: signed_metadata.capture_time or assetTree.assetTimestampCreated or uploaded_at
+     * curated: integrity(signed_metadata) capture_time
+     */
+    const date = this.isOriginal()
+      ? this.captureTime && this.captureTime !== Constant.text.loading
+        ? this.captureTime
+        : this.date
+      : this.captureTime;
     return html`
       <div class="section">
         <div class="section-title">Produced by</div>
