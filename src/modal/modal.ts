@@ -146,7 +146,17 @@ export class CaptureEyeModal extends LitElement {
     `;
   }
 
-  private renderMiddle() {
+  private renderIcon(iconUrl: string) {
+    return html`<img
+      src=${iconUrl}
+      loading="lazy"
+      width="20"
+      height="auto"
+      alt=""
+    />`;
+  }
+
+  private renderDefaultProvenanceZone() {
     const formattedTransaction = formatTxHash(
       this._asset?.initialTransaction ?? ''
     );
@@ -158,65 +168,75 @@ export class CaptureEyeModal extends LitElement {
         ${this.isOriginal()
           ? html`<div class="middle-row">
                 ${this._assetLoaded
-                  ? html`<img
-                        src=${Constant.url.blockchainIcon}
-                        loading="lazy"
-                        width="20"
-                        height="Auto"
-                        alt=""
-                      /><span class="middle-text"
-                        >Blockchain:
-                        <a
-                          class="link-text"
-                          href=${Constant.url.explorer}
-                          target="_blank"
-                          >${this._blockchain}</a
-                        ></span
+                  ? html`${this.renderIcon(Constant.url.blockchainIcon)}<span
+                        class="field-text"
+                        >Blockchain:</span
+                      >
+                      <a
+                        class="link-text"
+                        href=${Constant.url.explorer}
+                        target="_blank"
+                        ><span class="value-text">${this._blockchain}</span></a
                       >`
                   : html`<span class="shimmer-text"></span>`}
               </div>
               <div class="middle-row">
                 ${formattedTransaction
-                  ? html`<img
-                        src=${Constant.url.txIcon}
-                        loading="lazy"
-                        width="20"
-                        height="Auto"
-                        alt=""
-                      />
-                      <span class="middle-text"
-                        >Transaction:
-                        <a
-                          class="link-text"
-                          href=${this._asset?.explorerUrl ?? ''}
-                          target="_blank"
-                          >${formattedTransaction}</a
-                        ></span
+                  ? html`${this.renderIcon(Constant.url.txIcon)}
+                      <span class="field-text">Transaction:</span>
+                      <a
+                        class="link-text"
+                        href=${this._asset?.explorerUrl ?? ''}
+                        target="_blank"
+                        ><span class="value-text"
+                          >${formattedTransaction}</span
+                        ></a
                       >`
                   : html`${this._assetLoaded
-                      ? html`<img
-                            src=${Constant.url.txIcon}
-                            loading="lazy"
-                            width="20"
-                            height="Auto"
-                            alt=""
-                          />
-                          <span class="middle-text">Transaction: N/A</span>`
+                      ? html`${this.renderIcon(Constant.url.txIcon)}
+                          <span class="field-text">Transaction:</span
+                          ><span class="value-text">N/A</span>`
                       : html`<span class="shimmer-text"></span>`}`}
               </div>`
           : html`<div class="middle-row">
               ${this._assetLoaded
-                ? html`<img
-                      src=${Constant.url.curatorIcon}
-                      loading="lazy"
-                      width="20"
-                      height="Auto"
-                      alt=""
-                    /><span class="middle-text"
+                ? html`${this.renderIcon(Constant.url.curatorIcon)}<span
+                      class="field-text"
                       >${this._asset?.backendOwnerName}</span
                     >`
                 : html`<div class="shimmer-text"></div>`}
             </div>`}
+      </div>
+    `;
+  }
+
+  private renderCustomProvenanceZone() {
+    const captureEyeCustom = this._asset?.captureEyeCustom;
+    if (!Array.isArray(captureEyeCustom)) {
+      return html``;
+    }
+    const provenanceZoneItems = captureEyeCustom.filter(
+      (item) => item.field && item.value
+    );
+    return html`
+      <div class="section">
+        <div class="section-title">
+          ${this.isOriginal() ? 'Origins' : 'Curated By'}
+        </div>
+        ${provenanceZoneItems.map(
+          (item) => html`
+            <div class="middle-row">
+              ${item.iconSource ? this.renderIcon(item.iconSource) : html``}
+
+              <span class="field-text">${item.field}:</span>
+              ${item.url
+                ? html`<a class="link-text" href=${item.url} target="_blank"
+                    ><span class="value-text">${item.value}</span></a
+                  >`
+                : html`<span class="value-text">${item.value}</span>`}
+            </div>
+          `
+        )}
       </div>
     `;
   }
@@ -263,7 +283,11 @@ export class CaptureEyeModal extends LitElement {
         <div class="modal-container">
           <div class="modal-content">
             <div class="card">
-              ${this.renderTop()} ${this.renderMiddle()} ${this.renderBottom()}
+              ${this.renderTop()}
+              ${this._asset?.captureEyeCustom
+                ? this.renderCustomProvenanceZone()
+                : this.renderDefaultProvenanceZone()}
+              ${this.renderBottom()}
             </div>
           </div>
           ${this.engagementImage && this.engagementLink

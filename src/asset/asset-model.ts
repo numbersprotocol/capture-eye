@@ -9,6 +9,11 @@ export interface AssetModel {
   captureTime?: string;
   backendOwnerName?: string;
   usedBy?: string;
-  captureEyeCustom?: object;
+  captureEyeCustom?: Array<{
+    field: string;
+    value: string;
+    iconSource?: string;
+    url?: string;
+  }>;
   hasNftProduct?: boolean;
 }

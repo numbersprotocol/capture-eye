@@ -157,7 +157,16 @@ export function getModalStyles() {
     }
 
     .middle-text {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .field-text {
       margin-left: 10px;
+    }
+
+    .value-text {
+      margin-left: 1ch;
     }
 
     a.link-text,
@@ -165,7 +174,6 @@ export function getModalStyles() {
     a.link-text:visited {
       color: var(--primary-color);
       text-decoration: none;
-      margin-left: 0.4rem;
     }
 
     a.link-text:hover {
