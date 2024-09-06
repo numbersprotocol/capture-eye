@@ -318,7 +318,13 @@ export class CaptureEyeModal extends LitElement {
 
   private handleModalClick(event: MouseEvent) {
     event.stopPropagation();
-    event.preventDefault();
+    // Check if the target of the event is an <a> tag
+    const isAnchorTag = (event.target as HTMLElement).closest('a') !== null;
+
+    // Prevent default behavior only if the target is not an <a> tag
+    if (!isAnchorTag) {
+      event.preventDefault();
+    }
   }
 
   private hideModal() {
