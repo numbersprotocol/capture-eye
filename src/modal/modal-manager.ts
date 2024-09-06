@@ -1,5 +1,6 @@
 import { Constant } from '../constant.js';
 import { CaptureEyeModal } from './modal.js';
+import { AssetModel } from '../asset/asset-model.js';
 
 export class ModalManager {
   private static instance: ModalManager;
@@ -51,9 +52,12 @@ export class ModalManager {
         this.modalElement.engagementLink = engagementLink;
         this.modalElement.actionButtonText = actionButtonText;
         this.modalElement.actionButtonLink = actionButtonLink;
-        Promise.all([this.fetchAssetData(nid), this.hasNftProduct(nid)])
+        Promise.all([this.fetchAssetModel(nid), this.hasNftProduct(nid)])
           .then(([assetData, hasNftProduct]) => {
-            this.updateModalProperties(assetData, hasNftProduct);
+            if (assetData) {
+              assetData.hasNftProduct = hasNftProduct;
+            }
+            this.updateModalProperties(assetData);
           })
           .catch((error) => {
             console.error('Error fetching data for modal update:', error);
@@ -134,7 +138,7 @@ export class ModalManager {
     return false;
   }
 
-  private async fetchAssetData(nid: string): Promise<AssetData | undefined> {
+  private async fetchAssetModel(nid: string): Promise<AssetModel | undefined> {
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
     };
@@ -158,46 +162,35 @@ export class ModalManager {
 
       if (!data) return;
 
-      const assetData: AssetData = {
-        assetCreator: data.assetCreator ?? '',
-        assetTimestamp: data.assetTimestampCreated ?? '',
-        assetHeadline: data.headline ?? '',
-        assetInitialTransaction: data.initial_transaction ?? '',
-        assetThumbnailUrl: data.thumnail_url ?? '', // [sic]
+      const assetModel: AssetModel = {
+        creator: data.assetCreator,
+        createdTime: data.assetTimestampCreated,
+        headline: data.headline,
+        initialTransaction: data.initial_transaction,
+        thumbnailUrl: data.thumnail_url, // [sic]
         explorerUrl: data.initial_transaction
           ? `${Constant.url.explorer}/tx/${data.initial_transaction}`
           : '',
-        assetSourceType: data.assetSourceType ?? '',
-        assetCaptureTime: data.integrity_capture_time ?? '',
-        assetBackendOwnerName: data.backend_owner_name ?? '',
-        assetUsedBy: data.usedBy ?? '',
+        assetSourceType: data.assetSourceType,
+        captureTime: data.integrity_capture_time,
+        backendOwnerName: data.backend_owner_name,
+        usedBy: data.usedBy,
+        captureEyeCustom:
+          data.fullAssetTree?.['_api_c2_assetTree.captureEyeCustom'],
       };
 
-      console.debug(assetData);
-      return assetData;
+      console.debug(assetModel);
+      return assetModel;
     } catch (error) {
       console.error('Fetch error:', error);
       return;
     }
   }
 
-  private updateModalProperties(
-    assetData: AssetData | undefined,
-    hasNftProduct: boolean
-  ) {
-    if (!this.modalElement || !assetData) return;
-    this.modalElement.creatorName = assetData.assetCreator;
-    this.modalElement.date = assetData.assetTimestamp;
-    this.modalElement.headline = assetData.assetHeadline;
-    this.modalElement.blockchain = 'Numbers Mainnet';
-    this.modalElement.transaction = assetData.assetInitialTransaction;
-    this.modalElement.thumbnailUrl = assetData.assetThumbnailUrl;
-    this.modalElement.explorerUrl = assetData.explorerUrl;
-    this.modalElement.assetSourceType = assetData.assetSourceType;
-    this.modalElement.captureTime = assetData.assetCaptureTime;
-    this.modalElement.backendOwnerName = assetData.assetBackendOwnerName;
-    this.modalElement.usedBy = assetData.assetUsedBy;
-    this.modalElement.hasNftProduct = hasNftProduct;
+  private updateModalProperties(assetModel: AssetModel | undefined) {
+    if (!this.modalElement || !assetModel) return;
+    this.modalElement.asset = assetModel;
+    this.modalElement.assetLoaded = true;
   }
 
   private registerRootClickListener() {
@@ -216,17 +209,4 @@ export class ModalManager {
       this.hideModal();
     }
   };
-}
-
-interface AssetData {
-  assetCreator: string;
-  assetTimestamp: string;
-  assetHeadline: string;
-  assetInitialTransaction: string;
-  assetThumbnailUrl: string;
-  explorerUrl: string;
-  assetSourceType: string;
-  assetCaptureTime: string;
-  assetBackendOwnerName: string;
-  assetUsedBy: string;
 }

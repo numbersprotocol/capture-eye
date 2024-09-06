@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit';
 import { customElement, property, state, query } from 'lit/decorators.js';
 import { getModalStyles } from './modal-styles.js';
 import { Constant } from '../constant.js';
+import { AssetModel } from '../asset/asset-model.js';
 
 export function formatTxHash(txHash: string): string {
   if (txHash.length < 60) {
@@ -25,21 +26,14 @@ export class CaptureEyeModal extends LitElement {
   @property({ type: Boolean })
   modalHidden = true;
 
-  @state() creatorName = Constant.text.loading;
-  @state() date = Constant.text.loading;
-  @state() headline = Constant.text.loading;
-  @state() blockchain = Constant.text.loading;
-  @state() transaction = Constant.text.loading;
-  @state() thumbnailUrl = '';
-  @state() explorerUrl = '';
-  @state() assetSourceType = Constant.text.loading;
-  @state() captureTime = Constant.text.loading;
-  @state() backendOwnerName = Constant.text.loading;
-  @state() usedBy = Constant.text.loading;
   @state() engagementImage = '';
   @state() engagementLink = '';
   @state() actionButtonText = '';
   @state() actionButtonLink = '';
+  @state() blockchain = 'Numbers Mainnet';
+  @state() asset: AssetModel | undefined = undefined;
+  @state() assetLoaded = false;
+  @state() captureEyeCustom: object | undefined = undefined;
   @state() imageLoaded = false;
   @state() hasNftProduct = false;
 
@@ -50,22 +44,12 @@ export class CaptureEyeModal extends LitElement {
   }
 
   resetModalProps() {
-    this.creatorName = Constant.text.loading;
-    this.date = Constant.text.loading;
-    this.headline = Constant.text.loading;
-    this.blockchain = Constant.text.loading;
-    this.transaction = Constant.text.loading;
-    this.thumbnailUrl = '';
-    this.explorerUrl = '';
-    this.assetSourceType = Constant.text.loading;
-    this.captureTime = Constant.text.loading;
-    this.backendOwnerName = Constant.text.loading;
-    this.usedBy = Constant.text.loading;
+    this.asset = undefined;
+    this.assetLoaded = false;
     this.engagementImage = Constant.url.defaultEngagementImage;
     this.engagementLink = Constant.url.defaultEngagementLink;
     this.actionButtonText = '';
     this.actionButtonLink = '';
-    this.hasNftProduct = false;
   }
 
   override firstUpdated() {
@@ -115,42 +99,44 @@ export class CaptureEyeModal extends LitElement {
   }
 
   private renderTop() {
-    const imgSrc = this.thumbnailUrl
-      ? this.thumbnailUrl
+    const imgSrc = this.asset?.thumbnailUrl
+      ? this.asset?.thumbnailUrl
       : 'https://via.placeholder.com/100';
-    const name = this.isOriginal() ? this.creatorName : this.assetSourceType;
+    const name = this.isOriginal()
+      ? this.asset?.creator
+      : this.asset?.assetSourceType;
     /*
      * original: signed_metadata.capture_time or assetTree.assetTimestampCreated or uploaded_at
      * curated: integrity(signed_metadata) capture_time
      */
     const date = this.isOriginal()
-      ? this.captureTime && this.captureTime !== Constant.text.loading
-        ? this.captureTime
-        : this.date
-      : this.captureTime;
+      ? this.asset?.captureTime
+        ? this.asset?.captureTime
+        : this.asset?.createdTime
+      : this.asset?.captureTime;
     return html`
       <div class="section">
         <div class="section-title">Produced by</div>
         <div class="profile-container">
-          ${this.thumbnailUrl
+          ${this.assetLoaded
             ? html`<img src=${imgSrc} alt="Profile" class="profile-img" />`
             : html`<div class="shimmer-profile-img"></div>`}
           <div class="profile-text">
             <div class="top-name">
-              ${name !== Constant.text.loading
+              ${this.assetLoaded
                 ? name
                 : html`<div class="shimmer-text"></div>`}
             </div>
             <div class="top-date">
-              ${date !== Constant.text.loading
+              ${this.assetLoaded
                 ? date
                 : html`<div class="shimmer-text"></div>`}
             </div>
           </div>
         </div>
         <div class="headline">
-          ${this.headline !== Constant.text.loading
-            ? this.headline
+          ${this.assetLoaded
+            ? this.asset?.headline
             : html`<div class="shimmer-text"></div>`}
         </div>
       </div>
@@ -158,7 +144,9 @@ export class CaptureEyeModal extends LitElement {
   }
 
   private renderMiddle() {
-    const formattedTransaction = formatTxHash(this.transaction);
+    const formattedTransaction = formatTxHash(
+      this.asset?.initialTransaction ?? ''
+    );
     return html`
       <div class="section">
         <div class="section-title">
@@ -166,7 +154,7 @@ export class CaptureEyeModal extends LitElement {
         </div>
         ${this.isOriginal()
           ? html`<div class="middle-row">
-                ${this.blockchain !== Constant.text.loading
+                ${this.assetLoaded
                   ? html`<img
                         src=${Constant.url.blockchainIcon}
                         loading="lazy"
@@ -197,12 +185,12 @@ export class CaptureEyeModal extends LitElement {
                         >Transaction:
                         <a
                           class="link-text"
-                          href=${this.explorerUrl}
+                          href=${this.asset?.explorerUrl ?? ''}
                           target="_blank"
-                          >${formatTxHash(this.transaction)}</a
+                          >${formattedTransaction}</a
                         ></span
                       >`
-                  : html`${this.transaction !== Constant.text.loading
+                  : html`${this.assetLoaded
                       ? html`<img
                             src=${Constant.url.txIcon}
                             loading="lazy"
@@ -214,14 +202,16 @@ export class CaptureEyeModal extends LitElement {
                       : html`<span class="shimmer-text"></span>`}`}
               </div>`
           : html`<div class="middle-row">
-              ${this.backendOwnerName !== Constant.text.loading
+              ${this.assetLoaded
                 ? html`<img
                       src=${Constant.url.curatorIcon}
                       loading="lazy"
                       width="20"
                       height="Auto"
                       alt=""
-                    /><span class="middle-text">${this.backendOwnerName}</span>`
+                    /><span class="middle-text"
+                      >${this.asset?.backendOwnerName}</span
+                    >`
                 : html`<div class="shimmer-text"></div>`}
             </div>`}
       </div>
@@ -235,7 +225,7 @@ export class CaptureEyeModal extends LitElement {
       ? `${Constant.url.collect}?nid=${this.nid}&from=capture-eye`
       : this.isOriginal()
       ? `${Constant.url.profile}/${this.nid}`
-      : this.usedBy;
+      : this.asset?.usedBy ?? '';
     const actionButtonText = this.actionButtonText
       ? this.actionButtonText
       : this.hasNftProduct
@@ -247,7 +237,7 @@ export class CaptureEyeModal extends LitElement {
           ><button class="view-more-btn">${actionButtonText}</button></a
         >
         <div class="powered-by">
-          ${this.usedBy !== Constant.text.loading
+          ${this.assetLoaded
             ? html`<a href=${Constant.url.numbersWebsite} target="_blank"
                 >Powered by Numbers Protocol</a
               >`
