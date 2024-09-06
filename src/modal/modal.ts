@@ -30,12 +30,10 @@ export class CaptureEyeModal extends LitElement {
   @state() engagementLink = '';
   @state() actionButtonText = '';
   @state() actionButtonLink = '';
-  @state() blockchain = 'Numbers Mainnet';
-  @state() asset: AssetModel | undefined = undefined;
-  @state() assetLoaded = false;
-  @state() captureEyeCustom: object | undefined = undefined;
-  @state() imageLoaded = false;
-  @state() hasNftProduct = false;
+  @state() protected _blockchain = 'Numbers Mainnet';
+  @state() protected _asset: AssetModel | undefined = undefined;
+  @state() protected _assetLoaded = false;
+  @state() protected _imageLoaded = false;
 
   @query('.modal') modalElement!: HTMLDivElement;
 
@@ -43,9 +41,14 @@ export class CaptureEyeModal extends LitElement {
     super();
   }
 
+  updateAsset(asset: AssetModel, setAsLoaded = false) {
+    this._asset = { ...this._asset, ...asset };
+    if (setAsLoaded) this._assetLoaded = true;
+  }
+
   resetModalProps() {
-    this.asset = undefined;
-    this.assetLoaded = false;
+    this._asset = undefined;
+    this._assetLoaded = false;
     this.engagementImage = Constant.url.defaultEngagementImage;
     this.engagementLink = Constant.url.defaultEngagementLink;
     this.actionButtonText = '';
@@ -99,44 +102,44 @@ export class CaptureEyeModal extends LitElement {
   }
 
   private renderTop() {
-    const imgSrc = this.asset?.thumbnailUrl
-      ? this.asset?.thumbnailUrl
+    const imgSrc = this._asset?.thumbnailUrl
+      ? this._asset?.thumbnailUrl
       : 'https://via.placeholder.com/100';
     const name = this.isOriginal()
-      ? this.asset?.creator
-      : this.asset?.assetSourceType;
+      ? this._asset?.creator
+      : this._asset?.assetSourceType;
     /*
      * original: signed_metadata.capture_time or assetTree.assetTimestampCreated or uploaded_at
      * curated: integrity(signed_metadata) capture_time
      */
     const date = this.isOriginal()
-      ? this.asset?.captureTime
-        ? this.asset?.captureTime
-        : this.asset?.createdTime
-      : this.asset?.captureTime;
+      ? this._asset?.captureTime
+        ? this._asset?.captureTime
+        : this._asset?.createdTime
+      : this._asset?.captureTime;
     return html`
       <div class="section">
         <div class="section-title">Produced by</div>
         <div class="profile-container">
-          ${this.assetLoaded
+          ${this._assetLoaded
             ? html`<img src=${imgSrc} alt="Profile" class="profile-img" />`
             : html`<div class="shimmer-profile-img"></div>`}
           <div class="profile-text">
             <div class="top-name">
-              ${this.assetLoaded
+              ${this._assetLoaded
                 ? name
                 : html`<div class="shimmer-text"></div>`}
             </div>
             <div class="top-date">
-              ${this.assetLoaded
+              ${this._assetLoaded
                 ? date
                 : html`<div class="shimmer-text"></div>`}
             </div>
           </div>
         </div>
         <div class="headline">
-          ${this.assetLoaded
-            ? this.asset?.headline
+          ${this._assetLoaded
+            ? this._asset?.headline
             : html`<div class="shimmer-text"></div>`}
         </div>
       </div>
@@ -145,7 +148,7 @@ export class CaptureEyeModal extends LitElement {
 
   private renderMiddle() {
     const formattedTransaction = formatTxHash(
-      this.asset?.initialTransaction ?? ''
+      this._asset?.initialTransaction ?? ''
     );
     return html`
       <div class="section">
@@ -154,7 +157,7 @@ export class CaptureEyeModal extends LitElement {
         </div>
         ${this.isOriginal()
           ? html`<div class="middle-row">
-                ${this.assetLoaded
+                ${this._assetLoaded
                   ? html`<img
                         src=${Constant.url.blockchainIcon}
                         loading="lazy"
@@ -167,7 +170,7 @@ export class CaptureEyeModal extends LitElement {
                           class="link-text"
                           href=${Constant.url.explorer}
                           target="_blank"
-                          >${this.blockchain}</a
+                          >${this._blockchain}</a
                         ></span
                       >`
                   : html`<span class="shimmer-text"></span>`}
@@ -185,12 +188,12 @@ export class CaptureEyeModal extends LitElement {
                         >Transaction:
                         <a
                           class="link-text"
-                          href=${this.asset?.explorerUrl ?? ''}
+                          href=${this._asset?.explorerUrl ?? ''}
                           target="_blank"
                           >${formattedTransaction}</a
                         ></span
                       >`
-                  : html`${this.assetLoaded
+                  : html`${this._assetLoaded
                       ? html`<img
                             src=${Constant.url.txIcon}
                             loading="lazy"
@@ -202,7 +205,7 @@ export class CaptureEyeModal extends LitElement {
                       : html`<span class="shimmer-text"></span>`}`}
               </div>`
           : html`<div class="middle-row">
-              ${this.assetLoaded
+              ${this._assetLoaded
                 ? html`<img
                       src=${Constant.url.curatorIcon}
                       loading="lazy"
@@ -210,7 +213,7 @@ export class CaptureEyeModal extends LitElement {
                       height="Auto"
                       alt=""
                     /><span class="middle-text"
-                      >${this.asset?.backendOwnerName}</span
+                      >${this._asset?.backendOwnerName}</span
                     >`
                 : html`<div class="shimmer-text"></div>`}
             </div>`}
@@ -221,14 +224,14 @@ export class CaptureEyeModal extends LitElement {
   private renderBottom() {
     const actionButtonLink = this.actionButtonLink
       ? this.actionButtonLink
-      : this.hasNftProduct
+      : this._asset?.hasNftProduct
       ? `${Constant.url.collect}?nid=${this.nid}&from=capture-eye`
       : this.isOriginal()
       ? `${Constant.url.profile}/${this.nid}`
-      : this.asset?.usedBy ?? '';
+      : this._asset?.usedBy ?? '';
     const actionButtonText = this.actionButtonText
       ? this.actionButtonText
-      : this.hasNftProduct
+      : this._asset?.hasNftProduct
       ? Constant.text.collect
       : Constant.text.viewMore;
     return html`
@@ -237,7 +240,7 @@ export class CaptureEyeModal extends LitElement {
           ><button class="view-more-btn">${actionButtonText}</button></a
         >
         <div class="powered-by">
-          ${this.assetLoaded
+          ${this._assetLoaded
             ? html`<a href=${Constant.url.numbersWebsite} target="_blank"
                 >Powered by Numbers Protocol</a
               >`
@@ -248,7 +251,7 @@ export class CaptureEyeModal extends LitElement {
   }
 
   private handleImageLoad() {
-    this.imageLoaded = true;
+    this._imageLoaded = true;
   }
 
   override render() {
@@ -274,9 +277,9 @@ export class CaptureEyeModal extends LitElement {
                   alt="Full width"
                   class="eng-img"
                   @load=${this.handleImageLoad}
-                  style="display: ${this.imageLoaded ? 'block' : 'none'}"
+                  style="display: ${this._imageLoaded ? 'block' : 'none'}"
                 />
-                ${!this.imageLoaded
+                ${!this._imageLoaded
                   ? html`<div class="shimmer eng-img"></div>`
                   : ''}
               </a>`

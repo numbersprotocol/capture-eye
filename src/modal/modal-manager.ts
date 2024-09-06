@@ -1,6 +1,6 @@
-import { Constant } from '../constant.js';
 import { CaptureEyeModal } from './modal.js';
 import { AssetModel } from '../asset/asset-model.js';
+import { fetchAsset, hasNftProduct } from '../asset/asset-service.js';
 
 export class ModalManager {
   private static instance: ModalManager;
@@ -52,16 +52,12 @@ export class ModalManager {
         this.modalElement.engagementLink = engagementLink;
         this.modalElement.actionButtonText = actionButtonText;
         this.modalElement.actionButtonLink = actionButtonLink;
-        Promise.all([this.fetchAssetModel(nid), this.hasNftProduct(nid)])
-          .then(([assetData, hasNftProduct]) => {
-            if (assetData) {
-              assetData.hasNftProduct = hasNftProduct;
-            }
-            this.updateModalProperties(assetData);
-          })
-          .catch((error) => {
-            console.error('Error fetching data for modal update:', error);
-          });
+        fetchAsset(nid).then((assetData) =>
+          this.updateModalAsset(assetData, true)
+        );
+        hasNftProduct(nid).then((hasNftProduct) =>
+          this.updateModalAsset({ hasNftProduct }, false)
+        );
       }
     }
   }
@@ -116,81 +112,12 @@ export class ModalManager {
     }
   }
 
-  private async hasNftProduct(nid: string): Promise<boolean> {
-    try {
-      const response = await fetch(
-        `${Constant.url.productApi}?nid=${nid}&available=true&limit=1`,
-        { method: 'GET' }
-      );
-
-      if (response.ok) {
-        const { count } = await response.json();
-        return count > 0;
-      }
-
-      const errorResponse = await response.json();
-      console.error(
-        `Error ${response.status}: ${errorResponse?.error?.type} ${errorResponse?.error?.message}`
-      );
-    } catch (error) {
-      console.error('Fetch error:', error);
-    }
-    return false;
-  }
-
-  private async fetchAssetModel(nid: string): Promise<AssetModel | undefined> {
-    const headers: HeadersInit = {
-      'Content-Type': 'application/json',
-    };
-
-    try {
-      const response = await fetch(`${Constant.url.dataApi}?nid=${nid}`, {
-        method: 'GET',
-        headers,
-      });
-
-      if (!response.ok) {
-        const errorResponse = await response.json();
-        console.error(`Error ${response.status}: ${errorResponse.message}`);
-        return;
-      }
-
-      const {
-        response: { data },
-      } = await response.json();
-      console.debug(data);
-
-      if (!data) return;
-
-      const assetModel: AssetModel = {
-        creator: data.assetCreator,
-        createdTime: data.assetTimestampCreated,
-        headline: data.headline,
-        initialTransaction: data.initial_transaction,
-        thumbnailUrl: data.thumnail_url, // [sic]
-        explorerUrl: data.initial_transaction
-          ? `${Constant.url.explorer}/tx/${data.initial_transaction}`
-          : '',
-        assetSourceType: data.assetSourceType,
-        captureTime: data.integrity_capture_time,
-        backendOwnerName: data.backend_owner_name,
-        usedBy: data.usedBy,
-        captureEyeCustom:
-          data.fullAssetTree?.['_api_c2_assetTree.captureEyeCustom'],
-      };
-
-      console.debug(assetModel);
-      return assetModel;
-    } catch (error) {
-      console.error('Fetch error:', error);
-      return;
-    }
-  }
-
-  private updateModalProperties(assetModel: AssetModel | undefined) {
+  private updateModalAsset(
+    assetModel: AssetModel | undefined,
+    setAsLoaded: boolean
+  ) {
     if (!this.modalElement || !assetModel) return;
-    this.modalElement.asset = assetModel;
-    this.modalElement.assetLoaded = true;
+    this.modalElement.updateAsset(assetModel, setAsLoaded);
   }
 
   private registerRootClickListener() {
