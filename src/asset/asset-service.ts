@@ -25,6 +25,20 @@ export async function fetchAsset(nid: string): Promise<AssetModel | undefined> {
 
     if (!data) return;
 
+    const captureEyeCustom = data.captureEyeCustom?.map(
+      (custom: {
+        _api_c2_field?: string;
+        _api_c2_value?: string;
+        _api_c2_iconSource?: string;
+        _api_c2_url?: string;
+      }) => ({
+        field: custom._api_c2_field,
+        value: custom._api_c2_value,
+        iconSource: custom._api_c2_iconSource,
+        url: custom._api_c2_url,
+      })
+    );
+
     const assetModel: AssetModel = {
       creator: data.assetCreator,
       createdTime: data.assetTimestampCreated,
@@ -38,8 +52,7 @@ export async function fetchAsset(nid: string): Promise<AssetModel | undefined> {
       captureTime: data.integrity_capture_time,
       backendOwnerName: data.backend_owner_name,
       usedBy: data.usedBy,
-      captureEyeCustom:
-        data.fullAssetTree?.['_api_c2_assetTree.captureEyeCustom'],
+      captureEyeCustom,
     };
 
     console.debug(assetModel);
