@@ -294,7 +294,8 @@ export class CaptureEyeModal extends LitElement {
           <div class="modal-content">
             <div class="card">
               ${this.renderTop()}
-              ${this._asset?.captureEyeCustom
+              ${this._asset?.captureEyeCustom &&
+              this._asset.captureEyeCustom.length > 0
                 ? this.renderCustomProvenanceZone()
                 : this.renderDefaultProvenanceZone()}
               ${this.renderBottom()}
