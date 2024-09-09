@@ -69,7 +69,7 @@ export const Constant: ConstantType = {
     defaultEngagementLink: 'https://captureapp.xyz',
   },
   text: {
-    numberMainnet: 'Number Mainnet',
+    numberMainnet: 'Numbers Mainnet',
     viewMore: 'View More',
     collect: 'Collect',
   },
