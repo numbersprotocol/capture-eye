@@ -48,10 +48,12 @@ export class ModalManager {
         this.modalElement.resetModalProps();
         this.modalElement.nid = nid;
         this.modalElement.layout = layout;
-        this.modalElement.engagementImage = engagementImage;
-        this.modalElement.engagementLink = engagementLink;
-        this.modalElement.actionButtonText = actionButtonText;
-        this.modalElement.actionButtonLink = actionButtonLink;
+        this.modalElement.updateEngagementZone(
+          engagementImage,
+          engagementLink,
+          actionButtonText,
+          actionButtonLink
+        );
         fetchAsset(nid).then((assetData) =>
           this.updateModalAsset(assetData, true)
         );

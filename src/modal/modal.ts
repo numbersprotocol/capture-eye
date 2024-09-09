@@ -46,6 +46,22 @@ export class CaptureEyeModal extends LitElement {
     if (setAsLoaded) this._assetLoaded = true;
   }
 
+  updateEngagementZone(
+    engagementImage: string,
+    engagementLink: string,
+    actionButtonText: string,
+    actionButtonLink: string
+  ) {
+    if (this.engagementImage !== engagementImage) {
+      this._imageLoaded = false;
+      this.engagementImage = engagementImage;
+      this.requestUpdate();
+    }
+    this.engagementLink = engagementLink;
+    this.actionButtonText = actionButtonText;
+    this.actionButtonLink = actionButtonLink;
+  }
+
   resetModalProps() {
     this.engagementImage = Constant.url.defaultEngagementImage;
     this.engagementLink = Constant.url.defaultEngagementLink;
@@ -54,7 +70,6 @@ export class CaptureEyeModal extends LitElement {
     this._blockchain = Constant.text.numbersMainnet;
     this._asset = undefined;
     this._assetLoaded = false;
-    this._imageLoaded = false;
   }
 
   override firstUpdated() {
@@ -274,6 +289,7 @@ export class CaptureEyeModal extends LitElement {
 
   private handleImageLoad() {
     this._imageLoaded = true;
+    console.log('imageLoaded', this._imageLoaded);
   }
 
   override render() {
