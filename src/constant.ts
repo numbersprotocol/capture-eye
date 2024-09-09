@@ -20,8 +20,7 @@ interface Url {
 }
 
 interface Text {
-  not_available: string;
-  loading: string;
+  numberMainnet: string;
   viewMore: string;
   collect: string;
 }
@@ -70,8 +69,7 @@ export const Constant: ConstantType = {
     defaultEngagementLink: 'https://captureapp.xyz',
   },
   text: {
-    not_available: 'N/A',
-    loading: 'Loading...',
+    numberMainnet: 'Number Mainnet',
     viewMore: 'View More',
     collect: 'Collect',
   },

@@ -30,7 +30,7 @@ export class CaptureEyeModal extends LitElement {
   @state() engagementLink = '';
   @state() actionButtonText = '';
   @state() actionButtonLink = '';
-  @state() protected _blockchain = 'Numbers Mainnet';
+  @state() protected _blockchain = Constant.text.numberMainnet;
   @state() protected _asset: AssetModel | undefined = undefined;
   @state() protected _assetLoaded = false;
   @state() protected _imageLoaded = false;
@@ -47,12 +47,14 @@ export class CaptureEyeModal extends LitElement {
   }
 
   resetModalProps() {
-    this._asset = undefined;
-    this._assetLoaded = false;
     this.engagementImage = Constant.url.defaultEngagementImage;
     this.engagementLink = Constant.url.defaultEngagementLink;
     this.actionButtonText = '';
     this.actionButtonLink = '';
+    this._blockchain = Constant.text.numberMainnet;
+    this._asset = undefined;
+    this._assetLoaded = false;
+    this._imageLoaded = false;
   }
 
   override firstUpdated() {
@@ -127,19 +129,19 @@ export class CaptureEyeModal extends LitElement {
           <div class="profile-text">
             <div class="top-name">
               ${this._assetLoaded
-                ? name
+                ? name ?? ''
                 : html`<div class="shimmer-text"></div>`}
             </div>
             <div class="top-date">
               ${this._assetLoaded
-                ? date
+                ? date ?? ''
                 : html`<div class="shimmer-text"></div>`}
             </div>
           </div>
         </div>
         <div class="headline">
           ${this._assetLoaded
-            ? this._asset?.headline
+            ? this._asset?.headline ?? ''
             : html`<div class="shimmer-text"></div>`}
         </div>
       </div>
@@ -202,7 +204,7 @@ export class CaptureEyeModal extends LitElement {
               ${this._assetLoaded
                 ? html`${this.renderIcon(Constant.url.curatorIcon)}<span
                       class="field-text"
-                      >${this._asset?.backendOwnerName}</span
+                      >${this._asset?.backendOwnerName ?? ''}</span
                     >`
                 : html`<div class="shimmer-text"></div>`}
             </div>`}

@@ -1,5 +1,5 @@
 import { Constant } from '../constant';
-import { AssetModel } from './asset-model';
+import { AssetModel, CaptureEyeCustomItem } from './asset-model';
 
 export async function fetchAsset(nid: string): Promise<AssetModel | undefined> {
   const headers: HeadersInit = {
@@ -25,7 +25,7 @@ export async function fetchAsset(nid: string): Promise<AssetModel | undefined> {
 
     if (!data) return;
 
-    const captureEyeCustom = data.captureEyeCustom?.map(
+    const captureEyeCustom: CaptureEyeCustomItem[] = data.captureEyeCustom?.map(
       (custom: {
         _api_c2_field?: string;
         _api_c2_value?: string;

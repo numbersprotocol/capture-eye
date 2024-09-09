@@ -156,11 +156,6 @@ export function getModalStyles() {
       display: flex;
     }
 
-    .middle-text {
-      display: flex;
-      justify-content: space-between;
-    }
-
     .field-text {
       margin-left: 10px;
     }
