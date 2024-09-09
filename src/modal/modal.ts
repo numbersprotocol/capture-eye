@@ -164,12 +164,15 @@ export class CaptureEyeModal extends LitElement {
     return html`${this._assetLoaded
       ? html`${this.renderIcon(Constant.url.txIcon)}
           <span class="field-text">Blockchain Tx:</span>
-          <a
-            class="link-text"
-            href=${this._asset?.explorerUrl ?? ''}
-            target="_blank"
-            ><span class="value-text">${transactionText}</span></a
-          >`
+          ${transactionText !== 'N/A' && this._asset?.explorerUrl
+            ? html`<a
+                class="link-text"
+                href=${this._asset.explorerUrl}
+                target="_blank"
+              >
+                <span class="value-text">${transactionText}</span>
+              </a>`
+            : html`<span class="value-text">${transactionText}</span>`}`
       : html`<span class="shimmer-text"></span>`}`;
   }
 
