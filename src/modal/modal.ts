@@ -63,10 +63,6 @@ export class CaptureEyeModal extends LitElement {
   }
 
   resetModalProps() {
-    this.engagementImage = Constant.url.defaultEngagementImage;
-    this.engagementLink = Constant.url.defaultEngagementLink;
-    this.actionButtonText = '';
-    this.actionButtonLink = '';
     this._blockchain = Constant.text.numbersMainnet;
     this._asset = undefined;
     this._assetLoaded = false;
