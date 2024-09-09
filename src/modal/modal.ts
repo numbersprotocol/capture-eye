@@ -30,7 +30,7 @@ export class CaptureEyeModal extends LitElement {
   @state() engagementLink = '';
   @state() actionButtonText = '';
   @state() actionButtonLink = '';
-  @state() protected _blockchain = Constant.text.numberMainnet;
+  @state() protected _blockchain = Constant.text.numbersMainnet;
   @state() protected _asset: AssetModel | undefined = undefined;
   @state() protected _assetLoaded = false;
   @state() protected _imageLoaded = false;
@@ -51,7 +51,7 @@ export class CaptureEyeModal extends LitElement {
     this.engagementLink = Constant.url.defaultEngagementLink;
     this.actionButtonText = '';
     this.actionButtonLink = '';
-    this._blockchain = Constant.text.numberMainnet;
+    this._blockchain = Constant.text.numbersMainnet;
     this._asset = undefined;
     this._assetLoaded = false;
     this._imageLoaded = false;
