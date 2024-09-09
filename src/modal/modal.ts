@@ -217,7 +217,6 @@ export class CaptureEyeModal extends LitElement {
         <div class="section-title">
           ${this.isOriginal() ? 'Origins' : 'Curated By'}
         </div>
-        <div class="middle-row">${this.renderTransaction()}</div>
         ${provenanceZoneItems.map(
           (item) => html`
             <div class="middle-row">
@@ -232,6 +231,7 @@ export class CaptureEyeModal extends LitElement {
             </div>
           `
         )}
+        <div class="middle-row">${this.renderTransaction()}</div>
       </div>
     `;
   }
