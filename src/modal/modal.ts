@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit';
 import { customElement, property, state, query } from 'lit/decorators.js';
 import { getModalStyles } from './modal-styles.js';
 import { Constant } from '../constant.js';
+import { AssetModel } from '../asset/asset-model.js';
 
 export function formatTxHash(txHash: string): string {
   if (txHash.length < 60) {
@@ -25,23 +26,14 @@ export class CaptureEyeModal extends LitElement {
   @property({ type: Boolean })
   modalHidden = true;
 
-  @state() creatorName = Constant.text.loading;
-  @state() date = Constant.text.loading;
-  @state() headline = Constant.text.loading;
-  @state() blockchain = Constant.text.loading;
-  @state() transaction = Constant.text.loading;
-  @state() thumbnailUrl = '';
-  @state() explorerUrl = '';
-  @state() assetSourceType = Constant.text.loading;
-  @state() captureTime = Constant.text.loading;
-  @state() backendOwnerName = Constant.text.loading;
-  @state() usedBy = Constant.text.loading;
   @state() engagementImage = '';
   @state() engagementLink = '';
   @state() actionButtonText = '';
   @state() actionButtonLink = '';
-  @state() imageLoaded = false;
-  @state() hasNftProduct = false;
+  @state() protected _blockchain = Constant.text.numbersMainnet;
+  @state() protected _asset: AssetModel | undefined = undefined;
+  @state() protected _assetLoaded = false;
+  @state() protected _imageLoaded = false;
 
   @query('.modal') modalElement!: HTMLDivElement;
 
@@ -49,23 +41,20 @@ export class CaptureEyeModal extends LitElement {
     super();
   }
 
+  updateAsset(asset: AssetModel, setAsLoaded = false) {
+    this._asset = { ...this._asset, ...asset };
+    if (setAsLoaded) this._assetLoaded = true;
+  }
+
   resetModalProps() {
-    this.creatorName = Constant.text.loading;
-    this.date = Constant.text.loading;
-    this.headline = Constant.text.loading;
-    this.blockchain = Constant.text.loading;
-    this.transaction = Constant.text.loading;
-    this.thumbnailUrl = '';
-    this.explorerUrl = '';
-    this.assetSourceType = Constant.text.loading;
-    this.captureTime = Constant.text.loading;
-    this.backendOwnerName = Constant.text.loading;
-    this.usedBy = Constant.text.loading;
     this.engagementImage = Constant.url.defaultEngagementImage;
     this.engagementLink = Constant.url.defaultEngagementLink;
     this.actionButtonText = '';
     this.actionButtonLink = '';
-    this.hasNftProduct = false;
+    this._blockchain = Constant.text.numbersMainnet;
+    this._asset = undefined;
+    this._assetLoaded = false;
+    this._imageLoaded = false;
   }
 
   override firstUpdated() {
@@ -115,50 +104,64 @@ export class CaptureEyeModal extends LitElement {
   }
 
   private renderTop() {
-    const imgSrc = this.thumbnailUrl
-      ? this.thumbnailUrl
+    const imgSrc = this._asset?.thumbnailUrl
+      ? this._asset?.thumbnailUrl
       : 'https://via.placeholder.com/100';
-    const name = this.isOriginal() ? this.creatorName : this.assetSourceType;
+    const name = this.isOriginal()
+      ? this._asset?.creator
+      : this._asset?.assetSourceType;
     /*
      * original: signed_metadata.capture_time or assetTree.assetTimestampCreated or uploaded_at
      * curated: integrity(signed_metadata) capture_time
      */
     const date = this.isOriginal()
-      ? this.captureTime && this.captureTime !== Constant.text.loading
-        ? this.captureTime
-        : this.date
-      : this.captureTime;
+      ? this._asset?.captureTime
+        ? this._asset?.captureTime
+        : this._asset?.createdTime
+      : this._asset?.captureTime;
     return html`
       <div class="section">
         <div class="section-title">Produced by</div>
         <div class="profile-container">
-          ${this.thumbnailUrl
+          ${this._assetLoaded
             ? html`<img src=${imgSrc} alt="Profile" class="profile-img" />`
             : html`<div class="shimmer-profile-img"></div>`}
           <div class="profile-text">
             <div class="top-name">
-              ${name !== Constant.text.loading
-                ? name
+              ${this._assetLoaded
+                ? name ?? ''
                 : html`<div class="shimmer-text"></div>`}
             </div>
             <div class="top-date">
-              ${date !== Constant.text.loading
-                ? date
+              ${this._assetLoaded
+                ? date ?? ''
                 : html`<div class="shimmer-text"></div>`}
             </div>
           </div>
         </div>
         <div class="headline">
-          ${this.headline !== Constant.text.loading
-            ? this.headline
+          ${this._assetLoaded
+            ? this._asset?.headline ?? ''
             : html`<div class="shimmer-text"></div>`}
         </div>
       </div>
     `;
   }
 
-  private renderMiddle() {
-    const formattedTransaction = formatTxHash(this.transaction);
+  private renderIcon(iconUrl: string) {
+    return html`<img
+      src=${iconUrl}
+      loading="lazy"
+      width="20"
+      height="auto"
+      alt=""
+    />`;
+  }
+
+  private renderDefaultProvenanceZone() {
+    const formattedTransaction = formatTxHash(
+      this._asset?.initialTransaction ?? ''
+    );
     return html`
       <div class="section">
         <div class="section-title">
@@ -166,64 +169,76 @@ export class CaptureEyeModal extends LitElement {
         </div>
         ${this.isOriginal()
           ? html`<div class="middle-row">
-                ${this.blockchain !== Constant.text.loading
-                  ? html`<img
-                        src=${Constant.url.blockchainIcon}
-                        loading="lazy"
-                        width="20"
-                        height="Auto"
-                        alt=""
-                      /><span class="middle-text"
-                        >Blockchain:
-                        <a
-                          class="link-text"
-                          href=${Constant.url.explorer}
-                          target="_blank"
-                          >${this.blockchain}</a
-                        ></span
+                ${this._assetLoaded
+                  ? html`${this.renderIcon(Constant.url.blockchainIcon)}<span
+                        class="field-text"
+                        >Blockchain:</span
+                      >
+                      <a
+                        class="link-text"
+                        href=${Constant.url.explorer}
+                        target="_blank"
+                        ><span class="value-text">${this._blockchain}</span></a
                       >`
                   : html`<span class="shimmer-text"></span>`}
               </div>
               <div class="middle-row">
                 ${formattedTransaction
-                  ? html`<img
-                        src=${Constant.url.txIcon}
-                        loading="lazy"
-                        width="20"
-                        height="Auto"
-                        alt=""
-                      />
-                      <span class="middle-text"
-                        >Transaction:
-                        <a
-                          class="link-text"
-                          href=${this.explorerUrl}
-                          target="_blank"
-                          >${formatTxHash(this.transaction)}</a
-                        ></span
+                  ? html`${this.renderIcon(Constant.url.txIcon)}
+                      <span class="field-text">Transaction:</span>
+                      <a
+                        class="link-text"
+                        href=${this._asset?.explorerUrl ?? ''}
+                        target="_blank"
+                        ><span class="value-text"
+                          >${formattedTransaction}</span
+                        ></a
                       >`
-                  : html`${this.transaction !== Constant.text.loading
-                      ? html`<img
-                            src=${Constant.url.txIcon}
-                            loading="lazy"
-                            width="20"
-                            height="Auto"
-                            alt=""
-                          />
-                          <span class="middle-text">Transaction: N/A</span>`
+                  : html`${this._assetLoaded
+                      ? html`${this.renderIcon(Constant.url.txIcon)}
+                          <span class="field-text">Transaction:</span
+                          ><span class="value-text">N/A</span>`
                       : html`<span class="shimmer-text"></span>`}`}
               </div>`
           : html`<div class="middle-row">
-              ${this.backendOwnerName !== Constant.text.loading
-                ? html`<img
-                      src=${Constant.url.curatorIcon}
-                      loading="lazy"
-                      width="20"
-                      height="Auto"
-                      alt=""
-                    /><span class="middle-text">${this.backendOwnerName}</span>`
+              ${this._assetLoaded
+                ? html`${this.renderIcon(Constant.url.curatorIcon)}<span
+                      class="field-text"
+                      >${this._asset?.backendOwnerName ?? ''}</span
+                    >`
                 : html`<div class="shimmer-text"></div>`}
             </div>`}
+      </div>
+    `;
+  }
+
+  private renderCustomProvenanceZone() {
+    const captureEyeCustom = this._asset?.captureEyeCustom;
+    if (!Array.isArray(captureEyeCustom)) {
+      return html``;
+    }
+    const provenanceZoneItems = captureEyeCustom.filter(
+      (item) => item.field && item.value
+    );
+    return html`
+      <div class="section">
+        <div class="section-title">
+          ${this.isOriginal() ? 'Origins' : 'Curated By'}
+        </div>
+        ${provenanceZoneItems.map(
+          (item) => html`
+            <div class="middle-row">
+              ${item.iconSource ? this.renderIcon(item.iconSource) : html``}
+
+              <span class="field-text">${item.field}:</span>
+              ${item.url
+                ? html`<a class="link-text" href=${item.url} target="_blank"
+                    ><span class="value-text">${item.value}</span></a
+                  >`
+                : html`<span class="value-text">${item.value}</span>`}
+            </div>
+          `
+        )}
       </div>
     `;
   }
@@ -231,14 +246,14 @@ export class CaptureEyeModal extends LitElement {
   private renderBottom() {
     const actionButtonLink = this.actionButtonLink
       ? this.actionButtonLink
-      : this.hasNftProduct
+      : this._asset?.hasNftProduct
       ? `${Constant.url.collect}?nid=${this.nid}&from=capture-eye`
       : this.isOriginal()
       ? `${Constant.url.profile}/${this.nid}`
-      : this.usedBy;
+      : this._asset?.usedBy ?? '';
     const actionButtonText = this.actionButtonText
       ? this.actionButtonText
-      : this.hasNftProduct
+      : this._asset?.hasNftProduct
       ? Constant.text.collect
       : Constant.text.viewMore;
     return html`
@@ -247,7 +262,7 @@ export class CaptureEyeModal extends LitElement {
           ><button class="view-more-btn">${actionButtonText}</button></a
         >
         <div class="powered-by">
-          ${this.usedBy !== Constant.text.loading
+          ${this._assetLoaded
             ? html`<a href=${Constant.url.numbersWebsite} target="_blank"
                 >Powered by Numbers Protocol</a
               >`
@@ -258,7 +273,7 @@ export class CaptureEyeModal extends LitElement {
   }
 
   private handleImageLoad() {
-    this.imageLoaded = true;
+    this._imageLoaded = true;
   }
 
   override render() {
@@ -270,7 +285,11 @@ export class CaptureEyeModal extends LitElement {
         <div class="modal-container">
           <div class="modal-content">
             <div class="card">
-              ${this.renderTop()} ${this.renderMiddle()} ${this.renderBottom()}
+              ${this.renderTop()}
+              ${this._asset?.captureEyeCustom
+                ? this.renderCustomProvenanceZone()
+                : this.renderDefaultProvenanceZone()}
+              ${this.renderBottom()}
             </div>
           </div>
           ${this.engagementImage && this.engagementLink
@@ -284,9 +303,9 @@ export class CaptureEyeModal extends LitElement {
                   alt="Full width"
                   class="eng-img"
                   @load=${this.handleImageLoad}
-                  style="display: ${this.imageLoaded ? 'block' : 'none'}"
+                  style="display: ${this._imageLoaded ? 'block' : 'none'}"
                 />
-                ${!this.imageLoaded
+                ${!this._imageLoaded
                   ? html`<div class="shimmer eng-img"></div>`
                   : ''}
               </a>`
@@ -301,7 +320,13 @@ export class CaptureEyeModal extends LitElement {
 
   private handleModalClick(event: MouseEvent) {
     event.stopPropagation();
-    event.preventDefault();
+    // Check if the target of the event is an <a> tag
+    const isAnchorTag = (event.target as HTMLElement).closest('a') !== null;
+
+    // Prevent default behavior only if the target is not an <a> tag
+    if (!isAnchorTag) {
+      event.preventDefault();
+    }
   }
 
   private hideModal() {

@@ -1,5 +1,5 @@
 import { html } from 'lit';
-import { fixture, assert } from '@open-wc/testing';
+import { fixture, assert, expect } from '@open-wc/testing';
 import { CaptureEyeModal, formatTxHash } from '../modal/modal';
 
 suite('capture-eye-modal', () => {
@@ -67,13 +67,13 @@ suite('capture-eye-modal', () => {
       html`<capture-eye-modal class="modal-hidden"></capture-eye-modal>`
     );
     const modal = el.shadowRoot?.querySelector('.modal');
-    assert.isNotNull(modal);
-    assert.isTrue(modal?.classList.contains('modal-hidden'));
+    expect(modal).to.not.be.null;
+    expect(modal?.classList.contains('modal-hidden')).to.be.true;
 
     el.modalHidden = false;
     await el.updateComplete;
-    assert.isFalse(modal?.classList.contains('modal-hidden'));
-    assert.isTrue(modal?.classList.contains('modal-visible'));
+    expect(modal?.classList.contains('modal-hidden')).to.be.false;
+    expect(modal?.classList.contains('modal-visible')).to.be.true;
   });
 
   test('calls hideModal() when close button is clicked', async () => {
@@ -83,7 +83,7 @@ suite('capture-eye-modal', () => {
     const closeButton = el.shadowRoot?.querySelector(
       '.close-button'
     ) as HTMLElement;
-    assert.isNotNull(closeButton);
+    expect(closeButton).to.exist;
 
     el.modalHidden = false;
     await el.updateComplete;
@@ -91,8 +91,8 @@ suite('capture-eye-modal', () => {
     await el.updateComplete;
 
     const modal = el.shadowRoot?.querySelector('.modal');
-    assert.isTrue(modal?.classList.contains('modal-hidden'));
-    assert.isTrue(el.modalHidden);
+    expect(modal?.classList.contains('modal-hidden')).to.be.true;
+    expect(el.modalHidden).to.be.true;
   });
 
   test('renders engagement image and link correctly', async () => {
@@ -106,18 +106,75 @@ suite('capture-eye-modal', () => {
     el.engagementLink = engagementLink;
     await el.updateComplete;
     const img = el.shadowRoot?.querySelector('.eng-img') as HTMLImageElement;
-    assert.isNotNull(img);
-    assert.equal(img.src, engagementImage);
+    expect(img).to.exist;
+    expect(img!.src).to.equal(engagementImage);
 
     const link = el.shadowRoot?.querySelector('.eng-link') as HTMLAnchorElement;
-    assert.isNotNull(link);
-    assert.equal(new URL(link.href).href, new URL(engagementLink).href);
+    expect(link).to.exist;
+    expect(new URL(link!.href).href).to.equal(new URL(engagementLink).href);
+  });
+
+  test('should render custom provenance zone correctly', async () => {
+    const el = await fixture<CaptureEyeModal>(html`
+      <capture-eye-modal></capture-eye-modal>
+    `);
+    const customProvenance = [
+      {
+        field: 'Custom Field 1',
+        value: 'Custom Value 1',
+        iconSource: 'https://via.placeholder.com/20',
+        url: 'https://example.com',
+      },
+      {
+        field: 'Custom Field 2',
+        value: 'Custom Value 2',
+        iconSource: 'https://via.placeholder.com/20',
+      },
+    ];
+
+    el.updateAsset({
+      captureEyeCustom: customProvenance,
+    });
+
+    await el.updateComplete; // Wait for LitElement to finish rendering
+
+    const provenanceItems = el.shadowRoot!.querySelectorAll('.middle-row');
+
+    expect(provenanceItems.length).to.equal(customProvenance.length);
+
+    customProvenance.forEach((item, index) => {
+      const itemElement = provenanceItems[index];
+
+      const icon = itemElement.querySelector('img');
+      const fieldText = itemElement.querySelector('.field-text');
+      const valueText = itemElement.querySelector('.value-text');
+      const link = itemElement.querySelector('a');
+
+      if (item.iconSource) {
+        expect(icon).to.exist;
+        expect(icon!.src).to.equal(item.iconSource);
+      } else {
+        expect(icon).to.not.exist;
+      }
+
+      expect(fieldText).to.exist;
+      expect(fieldText!.textContent).to.equal(`${item.field}:`);
+
+      if (item.url) {
+        expect(link).to.exist;
+        expect(new URL(link!.href).href).to.equal(new URL(item.url).href);
+        expect(valueText!.textContent).to.equal(item.value);
+      } else {
+        expect(link).to.not.exist;
+        expect(valueText!.textContent).to.equal(item.value);
+      }
+    });
   });
 
   test('correctly formats transaction hash', () => {
     const txHash =
       '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef';
     const formatted = formatTxHash(txHash);
-    assert.equal(formatted, '0x1234...abcdef');
+    expect(formatted).to.equal('0x1234...abcdef');
   });
 });

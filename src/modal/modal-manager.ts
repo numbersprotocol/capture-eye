@@ -1,5 +1,6 @@
-import { Constant } from '../constant.js';
 import { CaptureEyeModal } from './modal.js';
+import { AssetModel } from '../asset/asset-model.js';
+import { fetchAsset, hasNftProduct } from '../asset/asset-service.js';
 
 export class ModalManager {
   private static instance: ModalManager;
@@ -51,13 +52,12 @@ export class ModalManager {
         this.modalElement.engagementLink = engagementLink;
         this.modalElement.actionButtonText = actionButtonText;
         this.modalElement.actionButtonLink = actionButtonLink;
-        Promise.all([this.fetchAssetData(nid), this.hasNftProduct(nid)])
-          .then(([assetData, hasNftProduct]) => {
-            this.updateModalProperties(assetData, hasNftProduct);
-          })
-          .catch((error) => {
-            console.error('Error fetching data for modal update:', error);
-          });
+        fetchAsset(nid).then((assetData) =>
+          this.updateModalAsset(assetData, true)
+        );
+        hasNftProduct(nid).then((hasNftProduct) =>
+          this.updateModalAsset({ hasNftProduct }, false)
+        );
       }
     }
   }
@@ -112,92 +112,12 @@ export class ModalManager {
     }
   }
 
-  private async hasNftProduct(nid: string): Promise<boolean> {
-    try {
-      const response = await fetch(
-        `${Constant.url.productApi}?nid=${nid}&available=true&limit=1`,
-        { method: 'GET' }
-      );
-
-      if (response.ok) {
-        const { count } = await response.json();
-        return count > 0;
-      }
-
-      const errorResponse = await response.json();
-      console.error(
-        `Error ${response.status}: ${errorResponse?.error?.type} ${errorResponse?.error?.message}`
-      );
-    } catch (error) {
-      console.error('Fetch error:', error);
-    }
-    return false;
-  }
-
-  private async fetchAssetData(nid: string): Promise<AssetData | undefined> {
-    const headers: HeadersInit = {
-      'Content-Type': 'application/json',
-    };
-
-    try {
-      const response = await fetch(`${Constant.url.dataApi}?nid=${nid}`, {
-        method: 'GET',
-        headers,
-      });
-
-      if (!response.ok) {
-        const errorResponse = await response.json();
-        console.error(`Error ${response.status}: ${errorResponse.message}`);
-        return;
-      }
-
-      const {
-        response: { data },
-      } = await response.json();
-      console.debug(data);
-
-      if (!data) return;
-
-      const assetData: AssetData = {
-        assetCreator: data.assetCreator ?? '',
-        assetTimestamp: data.assetTimestampCreated ?? '',
-        assetHeadline: data.headline ?? '',
-        assetInitialTransaction: data.initial_transaction ?? '',
-        assetThumbnailUrl: data.thumnail_url ?? '', // [sic]
-        explorerUrl: data.initial_transaction
-          ? `${Constant.url.explorer}/tx/${data.initial_transaction}`
-          : '',
-        assetSourceType: data.assetSourceType ?? '',
-        assetCaptureTime: data.integrity_capture_time ?? '',
-        assetBackendOwnerName: data.backend_owner_name ?? '',
-        assetUsedBy: data.usedBy ?? '',
-      };
-
-      console.debug(assetData);
-      return assetData;
-    } catch (error) {
-      console.error('Fetch error:', error);
-      return;
-    }
-  }
-
-  private updateModalProperties(
-    assetData: AssetData | undefined,
-    hasNftProduct: boolean
+  private updateModalAsset(
+    assetModel: AssetModel | undefined,
+    setAsLoaded: boolean
   ) {
-    if (!this.modalElement || !assetData) return;
-    this.modalElement.creatorName = assetData.assetCreator;
-    this.modalElement.date = assetData.assetTimestamp;
-    this.modalElement.headline = assetData.assetHeadline;
-    this.modalElement.blockchain = 'Numbers Mainnet';
-    this.modalElement.transaction = assetData.assetInitialTransaction;
-    this.modalElement.thumbnailUrl = assetData.assetThumbnailUrl;
-    this.modalElement.explorerUrl = assetData.explorerUrl;
-    this.modalElement.assetSourceType = assetData.assetSourceType;
-    this.modalElement.captureTime = assetData.assetCaptureTime;
-    this.modalElement.backendOwnerName = assetData.assetBackendOwnerName;
-    this.modalElement.usedBy = assetData.assetUsedBy;
-    this.modalElement.hasNftProduct = hasNftProduct;
+    if (!this.modalElement || !assetModel) return;
+    this.modalElement.updateAsset(assetModel, setAsLoaded);
   }
 
   private registerRootClickListener() {
@@ -216,17 +136,4 @@ export class ModalManager {
       this.hideModal();
     }
   };
-}
-
-interface AssetData {
-  assetCreator: string;
-  assetTimestamp: string;
-  assetHeadline: string;
-  assetInitialTransaction: string;
-  assetThumbnailUrl: string;
-  explorerUrl: string;
-  assetSourceType: string;
-  assetCaptureTime: string;
-  assetBackendOwnerName: string;
-  assetUsedBy: string;
 }
