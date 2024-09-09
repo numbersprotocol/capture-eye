@@ -31,7 +31,8 @@
     "test:watch": "wtr --watch",
     "test:prod": "MODE=prod wtr",
     "test:prod:watch": "MODE=prod wtr --watch",
-    "checksize": "rollup -c ; cat capture-eye.bundled.js | gzip -9 | wc -c ; rm capture-eye.bundled.js"
+    "checksize": "rollup -c ; cat capture-eye.bundled.js | gzip -9 | wc -c ; rm capture-eye.bundled.js",
+    "knip": "knip"
   },
   "keywords": [
     "web-components",
@@ -52,6 +53,7 @@
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-replace": "^5.0.2",
     "@rollup/plugin-typescript": "^11.1.6",
+    "@types/node": "^22.5.3",
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "@typescript-eslint/parser": "^5.25.0",
     "@web/dev-server": "^0.1.31",
@@ -60,6 +62,7 @@
     "@web/test-runner-playwright": "^0.9.0",
     "@webcomponents/webcomponentsjs": "^2.8.0",
     "eslint": "^8.15.0",
+    "knip": "^5.29.2",
     "lit-analyzer": "^2.0.3",
     "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
