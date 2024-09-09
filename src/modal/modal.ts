@@ -158,58 +158,53 @@ export class CaptureEyeModal extends LitElement {
     />`;
   }
 
+  private renderTransaction() {
+    const transactionText =
+      formatTxHash(this._asset?.initialTransaction ?? '') || 'N/A';
+    return html`${this._assetLoaded
+      ? html`${this.renderIcon(Constant.url.txIcon)}
+          <span class="field-text">Blockchain Tx:</span>
+          ${transactionText !== 'N/A' && this._asset?.explorerUrl
+            ? html`<a
+                class="link-text"
+                href=${this._asset.explorerUrl}
+                target="_blank"
+              >
+                <span class="value-text">${transactionText}</span>
+              </a>`
+            : html`<span class="value-text">${transactionText}</span>`}`
+      : html`<span class="shimmer-text"></span>`}`;
+  }
+
   private renderDefaultProvenanceZone() {
-    const formattedTransaction = formatTxHash(
-      this._asset?.initialTransaction ?? ''
-    );
-    return html`
-      <div class="section">
-        <div class="section-title">
-          ${this.isOriginal() ? 'Origins' : 'Curated By'}
-        </div>
-        ${this.isOriginal()
-          ? html`<div class="middle-row">
-                ${this._assetLoaded
-                  ? html`${this.renderIcon(Constant.url.blockchainIcon)}<span
-                        class="field-text"
-                        >Blockchain:</span
-                      >
-                      <a
-                        class="link-text"
-                        href=${Constant.url.explorer}
-                        target="_blank"
-                        ><span class="value-text">${this._blockchain}</span></a
-                      >`
-                  : html`<span class="shimmer-text"></span>`}
-              </div>
-              <div class="middle-row">
-                ${formattedTransaction
-                  ? html`${this.renderIcon(Constant.url.txIcon)}
-                      <span class="field-text">Transaction:</span>
-                      <a
-                        class="link-text"
-                        href=${this._asset?.explorerUrl ?? ''}
-                        target="_blank"
-                        ><span class="value-text"
-                          >${formattedTransaction}</span
-                        ></a
-                      >`
-                  : html`${this._assetLoaded
-                      ? html`${this.renderIcon(Constant.url.txIcon)}
-                          <span class="field-text">Transaction:</span
-                          ><span class="value-text">N/A</span>`
-                      : html`<span class="shimmer-text"></span>`}`}
-              </div>`
-          : html`<div class="middle-row">
-              ${this._assetLoaded
-                ? html`${this.renderIcon(Constant.url.curatorIcon)}<span
-                      class="field-text"
-                      >${this._asset?.backendOwnerName ?? ''}</span
-                    >`
-                : html`<div class="shimmer-text"></div>`}
-            </div>`}
+    return html` <div class="section">
+      <div class="section-title">
+        ${this.isOriginal() ? 'Origins' : 'Curated By'}
       </div>
-    `;
+      ${this.isOriginal()
+        ? html`<div class="middle-row">
+              ${this._assetLoaded
+                ? html`${this.renderIcon(Constant.url.blockchainIcon)}
+                    <span class="field-text">Blockchain:</span>
+                    <a
+                      class="link-text"
+                      href=${Constant.url.explorer}
+                      target="_blank"
+                    >
+                      <span class="value-text">${this._blockchain}</span>
+                    </a>`
+                : html`<span class="shimmer-text"></span>`}
+            </div>
+            <div class="middle-row">${this.renderTransaction()}</div>`
+        : html`<div class="middle-row">
+            ${this._assetLoaded
+              ? html`${this.renderIcon(Constant.url.curatorIcon)}
+                  <span class="field-text">
+                    ${this._asset?.backendOwnerName ?? ''}
+                  </span>`
+              : html`<div class="shimmer-text"></div>`}
+          </div>`}
+    </div>`;
   }
 
   private renderCustomProvenanceZone() {
@@ -239,6 +234,7 @@ export class CaptureEyeModal extends LitElement {
             </div>
           `
         )}
+        <div class="middle-row">${this.renderTransaction()}</div>
       </div>
     `;
   }
