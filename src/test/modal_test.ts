@@ -140,10 +140,10 @@ suite('capture-eye-modal', () => {
 
     const provenanceItems = el.shadowRoot!.querySelectorAll('.middle-row');
 
-    expect(provenanceItems.length).to.equal(customProvenance.length);
+    expect(provenanceItems.length).to.equal(customProvenance.length + 1); // first row is tx
 
     customProvenance.forEach((item, index) => {
-      const itemElement = provenanceItems[index];
+      const itemElement = provenanceItems[index + 1]; // first row is tx
 
       const icon = itemElement.querySelector('img');
       const fieldText = itemElement.querySelector('.field-text');
