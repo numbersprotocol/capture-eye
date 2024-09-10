@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Capture Eye
  * Description: Capture Eye WordPress plugin.
- * Version:     0.0.1
+ * Version:     0.0.2
  * Author:      Numbers Protocol
  * Author URI:  https://www.numbersprotocol.io/
  */
@@ -27,7 +27,7 @@ function capture_eye_script_dependencies() {
 		'script-capture-eye',
 		'https://cdn.jsdelivr.net/npm/@numbersprotocol/capture-eye@latest/dist/capture-eye.bundled.js',
 		[],
-		'0.0.1',
+		'0.0.2',
 	);
 	wp_enqueue_script( 'script-capture-eye' );
 	add_filter( 'script_loader_tag', function($tag, $handle, $src) {
