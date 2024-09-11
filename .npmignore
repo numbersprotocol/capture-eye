@@ -3,6 +3,7 @@ dev
 docs
 docs-src
 examples
+plugins
 test
 .eleventy.cjs
 .vscode
