@@ -29,7 +29,7 @@ function updateElement(elem) {
                 <p class="title">簡介</p>
                 <p class="description">${headline}</p>
                 <p class="title">影像 Nid</p>
-                <p class="nid" onclick="window.open('https://verify.numbersprotocol.io/asset-profile/${_nid}', '_blank')">${nid}</p>
+                <p class="nid" onclick="window.open('https://asset.captureapp.xyz/${_nid}', '_blank')">${nid}</p>
              </div></div></capture-eye>`;
 }
 

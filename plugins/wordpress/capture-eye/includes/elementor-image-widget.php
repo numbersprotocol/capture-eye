@@ -247,7 +247,7 @@ class Elementor_Widget_Capture_Eye_Image extends \Elementor\Widget_Image {
 			<?php
 			$action_url = '';
 			if ( $settings['action_button_link_source'] === 'verify_asset_profile' ) {
-				$action_url = "https://verify.numbersprotocol.io/asset-profile/$nid";
+				$action_url = "https://asset.captureapp.xyz/$nid";
 			} elseif (
 				$settings['action_button_link_source'] === 'custom' &&
 				$settings['action_button_link']['url']
@@ -306,7 +306,7 @@ class Elementor_Widget_Capture_Eye_Image extends \Elementor\Widget_Image {
 				<# }
 				let action_url = '';
 				if ( settings.action_button_link_source === 'verify_asset_profile' ) {
-					action_url = `https://verify.numbersprotocol.io/asset-profile/${nid}`;
+					action_url = `https://asset.captureapp.xyz/${nid}`;
 				} else if (
 					settings.action_button_link_source === 'custom' &&
 					settings.action_button_link.url

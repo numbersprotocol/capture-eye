@@ -44,7 +44,7 @@ suite('capture-eye-modal', () => {
                 </div>
               </div>
               <div class="section">
-                <a href="https://verify.numbersprotocol.io/asset-profile/" target="_blank"><button class="view-more-btn">View More</button></a>
+                <a href="https://asset.captureapp.xyz/" target="_blank"><button class="view-more-btn">View More</button></a>
                 <div class="powered-by">
                   <div class="shimmer-text"></div>
                 </div>
