@@ -120,6 +120,22 @@ class Elementor_Widget_Capture_Eye_Image extends \Elementor\Widget_Image {
 		);
 
 		$this->add_control(
+			'capture_eye_visibility',
+			[
+				'label' => esc_html__( 'Visibility', 'elementor-capture-eye-widget' ),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'options' => [
+					'hover' => esc_html__( 'Hover', 'elementor-capture-eye-widget' ),
+					'always' => esc_html__( 'Always', 'elementor-capture-eye-widget' ),
+				],
+				'default' => 'hover',
+				'condition' => [
+					'nid!' => '',
+				],
+			]
+		);
+
+		$this->add_control(
 			'eng_img',
 			[
 				'label' => esc_html__( 'Engagement zone banner image', 'elementor-capture-eye-widget' ),
@@ -218,6 +234,7 @@ class Elementor_Widget_Capture_Eye_Image extends \Elementor\Widget_Image {
 		<capture-eye
 			nid="<?php echo $nid; ?>"
 			layout="<?php echo $settings['capture_eye_layout']; ?>"
+			visibility="<?php echo $settings['capture_eye_visibility']; ?>"
 			<?php if ( $settings['eng_img']['url'] ) { ?>
 				eng-img="<?php echo $settings['eng_img']['url']; ?>"
 			<?php } ?>
@@ -277,6 +294,7 @@ class Elementor_Widget_Capture_Eye_Image extends \Elementor\Widget_Image {
 			#><capture-eye
 				nid="{{ nid }}"
 				layout="{{ settings.capture_eye_layout }}"
+				visibility="{{ settings.capture_eye_visibility }}"
 				<# if ( settings.eng_img.url ) {
 					#> eng-img="{{ settings.eng_img.url }}"
 				<# } #>
