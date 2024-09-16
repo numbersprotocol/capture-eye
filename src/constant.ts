@@ -47,7 +47,7 @@ export const Constant: ConstantType = {
     productApi: 'https://api.numbersprotocol.io/api/v3/store/products/',
     ipfsGateway: 'https://ipfs-pin.numbersprotocol.io/ipfs',
     explorer: 'https://mainnet.num.network',
-    profile: 'https://verify.numbersprotocol.io/asset-profile',
+    profile: 'https://asset.captureapp.xyz',
     collect: 'https://captureappiframe.numbersprotocol.io/checkout',
     captureEyeIcon: `${numbersCdnUrl}/capture-eye-blue-32x32.png`,
     closeIcon: `${numbersCdnUrl}/capture-eye/capture-eye-close-icon.png`,
