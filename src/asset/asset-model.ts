@@ -7,6 +7,7 @@ export interface AssetModel {
   explorerUrl?: string;
   assetSourceType?: string;
   captureTime?: string;
+  captureLocation?: string;
   backendOwnerName?: string;
   usedBy?: string;
   captureEyeCustom?: Array<CaptureEyeCustomItem>;

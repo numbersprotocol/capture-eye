@@ -135,7 +135,7 @@ export function getModalStyles() {
       margin-bottom: 0.25rem;
     }
 
-    .top-date {
+    .top-info {
       color: var(--secondary-text-color);
       font-family: var(--font-light);
       font-size: var(--font-size-very-small);

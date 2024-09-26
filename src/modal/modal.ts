@@ -143,9 +143,14 @@ export class CaptureEyeModal extends LitElement {
                 ? name ?? ''
                 : html`<div class="shimmer-text"></div>`}
             </div>
-            <div class="top-date">
+            <div class="top-info">
               ${this._assetLoaded
                 ? date ?? ''
+                : html`<div class="shimmer-text"></div>`}
+            </div>
+            <div class="top-info">
+              ${this._assetLoaded
+                ? this._asset?.captureLocation ?? ''
                 : html`<div class="shimmer-text"></div>`}
             </div>
           </div>
