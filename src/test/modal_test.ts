@@ -25,7 +25,10 @@ suite('capture-eye-modal', () => {
                     <div class="top-name">
                       <div class="shimmer-text"></div>
                     </div>
-                    <div class="top-date">
+                    <div class="top-info">
+                      <div class="shimmer-text"></div>
+                    </div>
+                    <div class="top-info">
                       <div class="shimmer-text"></div>
                     </div>
                   </div>
