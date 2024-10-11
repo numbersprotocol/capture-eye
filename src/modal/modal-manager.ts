@@ -1,12 +1,15 @@
 import { CaptureEyeModal } from './modal.js';
 import { AssetModel } from '../asset/asset-model.js';
 import { fetchAsset, hasNftProduct } from '../asset/asset-service.js';
+import interactionTracker, { TrackerEvent } from './interaction-tracker.js';
 
 export class ModalManager {
   private static instance: ModalManager;
   private modalElement: CaptureEyeModal | null = null;
 
-  private constructor() {}
+  private constructor() {
+    interactionTracker.trackInteraction(TrackerEvent.SCRIPT);
+  }
 
   get nid() {
     return this?.modalElement?.nid ?? '';
