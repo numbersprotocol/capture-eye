@@ -10,22 +10,24 @@ INVALIDATION_PATHS=(
   "/${S3_PATH}/capture-eye-curator-icon.png"
   "/${S3_PATH}/capture-eye-close-icon.png"
   "/${S3_PATH}/capture-eye-tx-icon.svg"
+  "/${S3_PATH}/capture-eye-gray.svg"
 )
 FILES_TO_UPLOAD=(
   "${ICON_DIR}/capture-eye-blockchain-icon.svg"
   "${ICON_DIR}/capture-eye-curator-icon.png"
   "${ICON_DIR}/capture-eye-close-icon.png"
   "${ICON_DIR}/capture-eye-tx-icon.svg"
+  "${ICON_DIR}/capture-eye-gray.svg"
 )
 
 # Upload files to S3
 for file in "${FILES_TO_UPLOAD[@]}"; do
-  aws s3 cp $file s3://$S3_BUCKET/$S3_PATH/$file
+  aws s3 cp $file s3://$S3_BUCKET/$S3_PATH/
   if [ $? -ne 0 ]; then
-    echo "Failed to upload $file to s3://$S3_BUCKET/$S3_PATH/$file"
+    echo "Failed to upload $file to s3://$S3_BUCKET/$S3_PATH/"
     exit 1
   fi
-  echo "File uploaded to s3://$S3_BUCKET/$S3_PATH/$file"
+  echo "File uploaded to s3://$S3_BUCKET/$S3_PATH/"
 done
 
 # Create the invalidation

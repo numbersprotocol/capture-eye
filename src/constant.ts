@@ -7,6 +7,7 @@ interface Url {
   profile: string;
   collect: string;
   captureEyeIcon: string;
+  captureEyeMobileIcon: string;
   closeIcon: string;
   fontFaceCssUrl: string;
   blockchainIcon: string;
@@ -50,6 +51,7 @@ export const Constant: ConstantType = {
     profile: 'https://asset.captureapp.xyz',
     collect: 'https://captureappiframe.numbersprotocol.io/checkout',
     captureEyeIcon: `${numbersCdnUrl}/capture-eye-blue-32x32.png`,
+    captureEyeMobileIcon: `${numbersCdnUrl}/capture-eye/capture-eye-gray.svg`,
     closeIcon: `${numbersCdnUrl}/capture-eye/capture-eye-close-icon.png`,
     fontFaceCssUrl: `${numbersCdnUrl}/fonts/degular.css`,
     blockchainIcon: `${numbersCdnUrl}/capture-eye/capture-eye-blockchain-icon.svg`,
