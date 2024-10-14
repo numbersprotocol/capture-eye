@@ -5,6 +5,9 @@ import { getCaptureEyeStyles } from './capture-eye-styles.js';
 import { ModalManager } from './modal/modal-manager.js';
 import { CaptureEyeModal } from './modal/modal.js';
 import { MediaViewer } from './media-viewer/media-viewer.js';
+import interactionTracker, {
+  TrackerEvent,
+} from './modal/interaction-tracker.js';
 
 @customElement('capture-eye')
 export class CaptureEye extends LitElement {
@@ -134,6 +137,14 @@ export class CaptureEye extends LitElement {
       }
     );
     this.setButtonActive(false);
+
+    if (this.nid) {
+      interactionTracker.trackInteraction(
+        TrackerEvent.CAPTURE_EYE,
+        this.nid,
+        `layout=${this.layout},visibility=${this.visibility}`
+      );
+    }
   }
 
   private getButtonElement(): HTMLElement {

@@ -3,6 +3,7 @@ import { customElement, property, state, query } from 'lit/decorators.js';
 import { getModalStyles } from './modal-styles.js';
 import { Constant } from '../constant.js';
 import { AssetModel } from '../asset/asset-model.js';
+import interactionTracker, { TrackerEvent } from './interaction-tracker.js';
 
 export function formatTxHash(txHash: string): string {
   if (txHash.length < 60) {
@@ -311,6 +312,7 @@ export class CaptureEyeModal extends LitElement {
                 href=${this.engagementLink}
                 target="_blank"
                 class="eng-link"
+                @click=${this.trackEngagement}
               >
                 <img
                   src=${this.engagementImage}
@@ -345,6 +347,19 @@ export class CaptureEyeModal extends LitElement {
 
   private hideModal() {
     this.modalHidden = true;
+  }
+
+  private trackEngagement() {
+    // 0: User-customized link (not provided by us)
+    // 1: Default engagement link
+    // 2, 3, ...: Future rotating engagement links
+    const subid =
+      this.engagementLink === Constant.url.defaultEngagementLink ? '1' : '0';
+    interactionTracker.trackInteraction(
+      TrackerEvent.ENGAGEMENT_ZONE,
+      this.nid,
+      subid
+    );
   }
 }
 
