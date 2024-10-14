@@ -11,6 +11,7 @@ INVALIDATION_PATHS=(
   "/${S3_PATH}/capture-eye-close-icon.png"
   "/${S3_PATH}/capture-eye-tx-icon.svg"
   "/${S3_PATH}/capture-eye-gray.svg"
+  "/${S3_PATH}/capture-eye-close-gray.svg"
 )
 FILES_TO_UPLOAD=(
   "${ICON_DIR}/capture-eye-blockchain-icon.svg"
@@ -18,6 +19,7 @@ FILES_TO_UPLOAD=(
   "${ICON_DIR}/capture-eye-close-icon.png"
   "${ICON_DIR}/capture-eye-tx-icon.svg"
   "${ICON_DIR}/capture-eye-gray.svg"
+  "${ICON_DIR}/capture-eye-close-gray.svg"
 )
 
 # Upload files to S3

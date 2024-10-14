@@ -4,6 +4,7 @@ import { getModalStyles } from './modal-styles.js';
 import { Constant } from '../constant.js';
 import { AssetModel } from '../asset/asset-model.js';
 import interactionTracker, { TrackerEvent } from './interaction-tracker.js';
+import { hasTouchScreen } from '../utils.js';
 
 export function formatTxHash(txHash: string): string {
   if (txHash.length < 60) {
@@ -37,6 +38,7 @@ export class CaptureEyeModal extends LitElement {
   @state() protected _imageLoaded = false;
 
   @query('.modal') modalElement!: HTMLDivElement;
+  @query('.close-icon') closeIconElement!: HTMLDivElement;
 
   constructor() {
     super();
@@ -87,6 +89,9 @@ export class CaptureEyeModal extends LitElement {
         this.modalElement.classList.remove('modal-visible');
         closeButton.classList.add('close-button-hidden');
         closeButton.classList.remove('close-button-visible');
+        if (hasTouchScreen()) {
+          closeButton.classList.add('mobile');
+        }
 
         // Add a transitionend event listener to move the modal off-screen after the animation
         this.modalElement.addEventListener(
@@ -295,6 +300,7 @@ export class CaptureEyeModal extends LitElement {
   }
 
   override render() {
+    const isMobile = hasTouchScreen();
     return html`
       <div
         class="modal ${this.modalHidden ? 'modal-hidden' : 'modal-visible'}"
@@ -331,7 +337,12 @@ export class CaptureEyeModal extends LitElement {
               </a>`
             : html`<div class="eng-img"></div>`}
           <div class="close-button" @click=${this.hideModal}>
-            <img src=${Constant.url.closeIcon} alt="Close" />
+            <img
+              src=${isMobile
+                ? Constant.url.mobileCloseIcon
+                : Constant.url.closeIcon}
+              alt="Close"
+            />
           </div>
         </div>
       </div>
