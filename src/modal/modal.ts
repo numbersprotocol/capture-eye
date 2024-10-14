@@ -136,7 +136,11 @@ export class CaptureEyeModal extends LitElement {
         <div class="section-title">Produced by</div>
         <div class="profile-container">
           ${this._assetLoaded
-            ? html`<img src=${imgSrc} alt="Profile" class="profile-img" />`
+            ? html`<a
+                href=${`${Constant.url.profile}/${this.nid}`}
+                target="_blank"
+                ><img src=${imgSrc} alt="Profile" class="profile-img"
+              /></a>`
             : html`<div class="shimmer-profile-img"></div>`}
           <div class="profile-text">
             <div class="top-name">
