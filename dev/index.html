@@ -1,108 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>&lt;capture-eye> Demo</title>
     <script type="module" src="../dist/capture-eye.bundled.js"></script>
     <style>
       body {
         margin: 0;
         padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
         background-color: #f0f0f0;
         font-family: Arial, sans-serif;
       }
 
       .grid-container {
-        position: relative;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 16px;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 12px;
         padding: 16px;
-        max-width: 1000px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        background-color: white;
-        border-radius: 8px;
-        transform: translate(-50%, -50%);
-        top: 50%;
-        left: 50%;
-        position: absolute;
+        max-width: 1200px;
+        margin: 0 auto;
       }
 
       capture-eye {
         display: block;
-        margin: auto;
       }
 
       img,
       video {
         width: 100%;
         height: auto;
-        border-radius: 4px;
+        border-radius: 8px;
+        object-fit: cover;
       }
 
-      p {
-        text-align: center;
-        color: #333;
-        font-size: 18px;
-        margin-bottom: 16px;
+      @media (max-width: 768px) {
+        .grid-container {
+          grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        }
+
+        img {
+          border-radius: 4px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .grid-container {
+          grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+          gap: 8px;
+        }
+
+        img {
+          border-radius: 2px;
+        }
       }
     </style>
   </head>
   <body>
     <div class="grid-container">
       <capture-eye
-        nid="bafkreihp7xwj64t43ryo7ssxrsh77bfijm5vqi4l6mzka3zt255igc5ica"
+        nid="bafybeifksqe7orsgtfnly5j3okltqi3iyt3k2pptnlfyre62jpfzxftsju"
         eng-img="https://static-cdn.numbersprotocol.io/collab/defiance_media_banner.webp"
         eng-link="https://defiance.media/"
         action-button-text="View docs"
         action-button-link="https://docs.captureapp.xyz"
       >
         <media-viewer
-          src="https://ipfs-pin.numbersprotocol.io/ipfs/bafkreihp7xwj64t43ryo7ssxrsh77bfijm5vqi4l6mzka3zt255igc5ica"
+          src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeifksqe7orsgtfnly5j3okltqi3iyt3k2pptnlfyre62jpfzxftsju"
         >
         </media-viewer>
       </capture-eye>
 
       <capture-eye
-        nid="bafybeiapkasydcg5r2oprt5fyq333edk5aqrql3nssrr4kqus6mz7scyym"
+        nid="bafybeibdwq2wh5dczt5q5pebec2oy6cd3zz4h6jrbjday77igpnubtj4y4"
         layout="curated"
       >
         <media-viewer
-          src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeiapkasydcg5r2oprt5fyq333edk5aqrql3nssrr4kqus6mz7scyym"
+          src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeibdwq2wh5dczt5q5pebec2oy6cd3zz4h6jrbjday77igpnubtj4y4"
         />
       </capture-eye>
 
       <capture-eye
-        nid="bafkreibhetry764n6f6sanv6xsffgkjth4flxyo4qghohlnd4dbd77ijym"
+        nid="bafybeiclalewdmcdj2lwj2wtsxyacncg2vbpoorllsgkvpc3ercocqea6i"
       >
         <media-viewer
-          src="https://ipfs-pin.numbersprotocol.io/ipfs/bafkreibhetry764n6f6sanv6xsffgkjth4flxyo4qghohlnd4dbd77ijym"
+          src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeiclalewdmcdj2lwj2wtsxyacncg2vbpoorllsgkvpc3ercocqea6i"
         />
       </capture-eye>
 
       <capture-eye
-        nid="bafybeicn7yge5gbyjyfd35fohgaiked6qaqbkrrfh73aiycuico7zjdsk4"
+        nid="bafybeidmy3oncdegri3cugy3zstnqderjokmj5f3wfqrbrswhcf47eyxau"
       >
         <img
-          src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeicn7yge5gbyjyfd35fohgaiked6qaqbkrrfh73aiycuico7zjdsk4"
+          src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeidmy3oncdegri3cugy3zstnqderjokmj5f3wfqrbrswhcf47eyxau"
         />
       </capture-eye>
 
       <capture-eye
-        nid="bafybeiht3bkcat6b6ytgo23wyckef6ohrgedwxrujewm6w2qvrjrstg24q"
+        nid="bafybeieq4kw5rmkwhvwgrb5psr5h4mdbnxtmqf6wxiun7jqjxsoj43zevm"
       >
         <img
-          src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeiht3bkcat6b6ytgo23wyckef6ohrgedwxrujewm6w2qvrjrstg24q"
+          src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeieq4kw5rmkwhvwgrb5psr5h4mdbnxtmqf6wxiun7jqjxsoj43zevm"
         />
       </capture-eye>
 
-      <capture-eye nid="">
+      <capture-eye
+        nid="bafybeicnparo54ctkk5tbqaz2ykteuzp4gy4aof76pjv72x5bl35qiftim"
+      >
         <img
-          src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeihdm3ibjk5j3rj2lrrbdw2bc7cx7qpvcgxkn4dkxm5uygep7kh5jq"
+          src="https://ipfs-pin.numbersprotocol.io/ipfs/bafybeicnparo54ctkk5tbqaz2ykteuzp4gy4aof76pjv72x5bl35qiftim"
         />
       </capture-eye>
     </div>
