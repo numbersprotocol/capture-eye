@@ -38,7 +38,6 @@ export class CaptureEyeModal extends LitElement {
   @state() protected _imageLoaded = false;
 
   @query('.modal') modalElement!: HTMLDivElement;
-  @query('.close-icon') closeIconElement!: HTMLDivElement;
 
   constructor() {
     super();
@@ -89,10 +88,6 @@ export class CaptureEyeModal extends LitElement {
         this.modalElement.classList.remove('modal-visible');
         closeButton.classList.add('close-button-hidden');
         closeButton.classList.remove('close-button-visible');
-        if (hasTouchScreen()) {
-          closeButton.classList.add('mobile');
-        }
-
         // Add a transitionend event listener to move the modal off-screen after the animation
         this.modalElement.addEventListener(
           'transitionend',
@@ -112,6 +107,9 @@ export class CaptureEyeModal extends LitElement {
         this.modalElement.classList.add('modal-visible');
         closeButton.classList.remove('close-button-hidden');
         closeButton.classList.add('close-button-visible');
+        if (hasTouchScreen()) {
+          closeButton.classList.add('mobile');
+        }
       }
     }
   }
