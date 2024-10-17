@@ -33,6 +33,12 @@ export class CaptureEye extends LitElement {
   visibility = Constant.visibility.hover;
 
   /**
+   * Customizable copyright zone title.
+   */
+  @property({ type: String, attribute: 'cz-title' })
+  copyrightZoneTitle = '';
+
+  /**
    * Url of the engagement image.
    */
   @property({ type: String, attribute: 'eng-img' })
@@ -131,18 +137,20 @@ export class CaptureEye extends LitElement {
     const modalManager = ModalManager.getInstance();
     const buttonElement = this.getButtonElement();
     const buttonRect = buttonElement.getBoundingClientRect();
-    modalManager.updateModalWithDelay(
-      this.nid,
-      this.layout,
-      this.engagementImage,
-      this.engagementLink,
-      this.actionButtonText,
-      this.actionButtonLink,
-      {
+    const modalOptions = {
+      nid: this.nid,
+      layout: this.layout,
+      copyrightZoneTitle: this.copyrightZoneTitle,
+      engagementImage: this.engagementImage,
+      engagementLink: this.engagementLink,
+      actionButtonText: this.actionButtonText,
+      actionButtonLink: this.actionButtonLink,
+      position: {
         top: buttonRect.top + window.scrollY,
         left: buttonRect.left + window.scrollX,
-      }
-    );
+      },
+    };
+    modalManager.updateModal(modalOptions);
     this.setButtonActive(false);
 
     if (this.nid) {
