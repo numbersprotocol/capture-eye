@@ -54,8 +54,20 @@ suite('capture-eye-modal', () => {
               </div>
             </div>
           </div>
-          <div class="eng-img">
-          </div>
+          <a
+            class="eng-link"
+            href="https://captureapp.xyz"
+            target="_blank"
+          >
+            <img
+              alt="Full width"
+              class="eng-img"
+              src="https://static-cdn.numbersprotocol.io/capture-eye/capture-ad.png"
+              style="display: none"
+            >
+            <div class="eng-img shimmer">
+            </div>
+          </a>
           <div class="close-button close-button-hidden">
             <img src="https://static-cdn.numbersprotocol.io/capture-eye/capture-eye-close-icon.png" alt="Close" />
           </div>
@@ -105,12 +117,19 @@ suite('capture-eye-modal', () => {
       <capture-eye-modal></capture-eye-modal>
     `);
 
-    el.engagementImage = engagementImage;
-    el.engagementLink = engagementLink;
+    el.updateModalOptions({
+      nid: '123',
+      engagementImage,
+      engagementLink,
+    });
     await el.updateComplete;
     const img = el.shadowRoot?.querySelector('.eng-img') as HTMLImageElement;
     expect(img).to.exist;
     expect(img!.src).to.equal(engagementImage);
+
+    img.dispatchEvent(new Event('load'));
+    await el.updateComplete;
+    expect(img.style.display).to.equal('block');
 
     const link = el.shadowRoot?.querySelector('.eng-link') as HTMLAnchorElement;
     expect(link).to.exist;

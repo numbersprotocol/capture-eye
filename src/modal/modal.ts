@@ -15,6 +15,17 @@ export function formatTxHash(txHash: string): string {
   return `${firstPart}...${lastPart}`;
 }
 
+export interface ModalOptions {
+  nid: string;
+  layout?: string;
+  copyrightZoneTitle?: string;
+  engagementImage?: string;
+  engagementLink?: string;
+  actionButtonText?: string;
+  actionButtonLink?: string;
+  position?: { top: number; left: number };
+}
+
 @customElement('capture-eye-modal')
 export class CaptureEyeModal extends LitElement {
   static override styles = getModalStyles();
@@ -28,11 +39,11 @@ export class CaptureEyeModal extends LitElement {
   @property({ type: Boolean })
   modalHidden = true;
 
-  @state() engagementImage = '';
-  @state() engagementLink = '';
-  @state() actionButtonText = '';
-  @state() actionButtonLink = '';
-  @state() protected _blockchain = Constant.text.numbersMainnet;
+  @state() protected _copyrightZoneTitle = '';
+  @state() protected _engagementImage = '';
+  @state() protected _engagementLink = '';
+  @state() protected _actionButtonText = '';
+  @state() protected _actionButtonLink = '';
   @state() protected _asset: AssetModel | undefined = undefined;
   @state() protected _assetLoaded = false;
   @state() protected _imageLoaded = false;
@@ -48,24 +59,35 @@ export class CaptureEyeModal extends LitElement {
     if (setAsLoaded) this._assetLoaded = true;
   }
 
-  updateEngagementZone(
-    engagementImage: string,
-    engagementLink: string,
-    actionButtonText: string,
-    actionButtonLink: string
-  ) {
-    if (this.engagementImage !== engagementImage) {
-      this._imageLoaded = false;
-      this.engagementImage = engagementImage;
-      this.requestUpdate();
+  updateModalOptions(options: ModalOptions) {
+    if (options.nid) this.nid = options.nid;
+    if (options.layout) this.layout = options.layout;
+    if (options.copyrightZoneTitle)
+      this._copyrightZoneTitle = options.copyrightZoneTitle;
+    if (options.engagementImage)
+      this._engagementImage = options.engagementImage;
+    if (options.engagementLink) this._engagementLink = options.engagementLink;
+    if (options.actionButtonText)
+      this._actionButtonText = options.actionButtonText;
+    if (options.actionButtonLink)
+      this._actionButtonLink = options.actionButtonLink;
+    if (options.position) {
+      const remOffset = this.remToPixels(1); // Convert 1rem to pixels
+      // Update modal position styles with 1rem offset
+      this.modalElement.style.position = 'absolute';
+      this.modalElement.style.top = `${options.position.top + remOffset}px`;
+      this.modalElement.style.left = `${options.position.left + remOffset}px`;
     }
-    this.engagementLink = engagementLink;
-    this.actionButtonText = actionButtonText;
-    this.actionButtonLink = actionButtonLink;
   }
 
-  resetModalProps() {
-    this._blockchain = Constant.text.numbersMainnet;
+  clearModalOptions() {
+    this.nid = '';
+    this.layout = Constant.layout.original;
+    this._copyrightZoneTitle = '';
+    this._engagementImage = '';
+    this._engagementLink = '';
+    this._actionButtonText = '';
+    this._actionButtonLink = '';
     this._asset = undefined;
     this._assetLoaded = false;
   }
@@ -100,9 +122,6 @@ export class CaptureEyeModal extends LitElement {
           { once: true }
         );
       } else {
-        // Reset the position before making it visible
-        this.modalElement.style.top = '';
-        this.modalElement.style.left = '';
         this.modalElement.classList.remove('modal-hidden');
         this.modalElement.classList.add('modal-visible');
         closeButton.classList.remove('close-button-hidden');
@@ -112,6 +131,12 @@ export class CaptureEyeModal extends LitElement {
         }
       }
     }
+  }
+
+  private remToPixels(rem: number): number {
+    return (
+      rem * parseFloat(getComputedStyle(document.documentElement).fontSize)
+    );
   }
 
   private isOriginal() {
@@ -136,7 +161,9 @@ export class CaptureEyeModal extends LitElement {
       : this._asset?.captureTime;
     return html`
       <div class="section">
-        <div class="section-title">Produced by</div>
+        <div class="section-title">
+          ${this._copyrightZoneTitle || Constant.text.defaultCopyrightZoneTitle}
+        </div>
         <div class="profile-container">
           ${this._assetLoaded
             ? html`<a
@@ -215,7 +242,9 @@ export class CaptureEyeModal extends LitElement {
                       href=${Constant.url.explorer}
                       target="_blank"
                     >
-                      <span class="value-text">${this._blockchain}</span>
+                      <span class="value-text"
+                        >${Constant.text.numbersMainnet}</span
+                      >
                     </a>`
                 : html`<span class="shimmer-text"></span>`}
             </div>
@@ -264,15 +293,15 @@ export class CaptureEyeModal extends LitElement {
   }
 
   private renderBottom() {
-    const actionButtonLink = this.actionButtonLink
-      ? this.actionButtonLink
+    const actionButtonLink = this._actionButtonLink
+      ? this._actionButtonLink
       : this._asset?.hasNftProduct
       ? `${Constant.url.collect}?nid=${this.nid}&from=capture-eye`
       : this.isOriginal()
       ? `${Constant.url.profile}/${this.nid}`
       : this._asset?.usedBy ?? '';
-    const actionButtonText = this.actionButtonText
-      ? this.actionButtonText
+    const actionButtonText = this._actionButtonText
+      ? this._actionButtonText
       : this._asset?.hasNftProduct
       ? Constant.text.collect
       : Constant.text.viewMore;
@@ -294,7 +323,6 @@ export class CaptureEyeModal extends LitElement {
 
   private handleImageLoad() {
     this._imageLoaded = true;
-    console.log('imageLoaded', this._imageLoaded);
   }
 
   override render() {
@@ -315,25 +343,24 @@ export class CaptureEyeModal extends LitElement {
               ${this.renderBottom()}
             </div>
           </div>
-          ${this.engagementImage && this.engagementLink
-            ? html`<a
-                href=${this.engagementLink}
-                target="_blank"
-                class="eng-link"
-                @click=${this.trackEngagement}
-              >
-                <img
-                  src=${this.engagementImage}
-                  alt="Full width"
-                  class="eng-img"
-                  @load=${this.handleImageLoad}
-                  style="display: ${this._imageLoaded ? 'block' : 'none'}"
-                />
-                ${!this._imageLoaded
-                  ? html`<div class="shimmer eng-img"></div>`
-                  : ''}
-              </a>`
-            : html`<div class="eng-img"></div>`}
+          <a
+            href=${this._engagementLink || Constant.url.defaultEngagementLink}
+            target="_blank"
+            class="eng-link"
+            @click=${this.trackEngagement}
+          >
+            <img
+              src=${this._engagementImage ||
+              Constant.url.defaultEngagementImage}
+              alt="Full width"
+              class="eng-img"
+              @load=${this.handleImageLoad}
+              style="display: ${this._imageLoaded ? 'block' : 'none'}"
+            />
+            ${!this._imageLoaded
+              ? html`<div class="shimmer eng-img"></div>`
+              : ''}
+          </a>
           <div class="close-button" @click=${this.hideModal}>
             <img
               src=${isMobile
@@ -366,8 +393,7 @@ export class CaptureEyeModal extends LitElement {
     // 0: User-customized link (not provided by us)
     // 1: Default engagement link
     // 2, 3, ...: Future rotating engagement links
-    const subid =
-      this.engagementLink === Constant.url.defaultEngagementLink ? '1' : '0';
+    const subid = this._engagementLink ? '0' : '1';
     interactionTracker.trackInteraction(
       TrackerEvent.ENGAGEMENT_ZONE,
       this.nid,
