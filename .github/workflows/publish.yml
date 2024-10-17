@@ -59,6 +59,14 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+  purge-cdn-cache:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Send GET request to purge jsdelivr cache
+        run: |
+          curl --fail-with-body -X GET "https://purge.jsdelivr.net/npm/@numbersprotocol/capture-eye@latest/dist/capture-eye.bundled.js"
+
   create-release:
     needs: [build, publish-github, publish-npm]
     runs-on: ubuntu-latest
