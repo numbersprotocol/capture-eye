@@ -393,7 +393,11 @@ export class CaptureEyeModal extends LitElement {
     // 0: User-customized link (not provided by us)
     // 1: Default engagement link
     // 2, 3, ...: Future rotating engagement links
-    const subid = this._engagementLink ? '0' : '1';
+    const subid =
+      !this._engagementLink ||
+      this._engagementLink === Constant.url.defaultEngagementLink
+        ? '1'
+        : '0';
     interactionTracker.trackInteraction(
       TrackerEvent.ENGAGEMENT_ZONE,
       this.nid,

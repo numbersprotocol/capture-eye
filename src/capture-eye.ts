@@ -42,13 +42,13 @@ export class CaptureEye extends LitElement {
    * Url of the engagement image.
    */
   @property({ type: String, attribute: 'eng-img' })
-  engagementImage = Constant.url.defaultEngagementImage;
+  engagementImage = '';
 
   /**
    * Url of the engagement link.
    */
   @property({ type: String, attribute: 'eng-link' })
-  engagementLink = Constant.url.defaultEngagementLink;
+  engagementLink = '';
 
   /**
    * Text of the action button.
