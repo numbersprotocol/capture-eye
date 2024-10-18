@@ -19,6 +19,7 @@ interface Url {
 }
 
 interface Text {
+  defaultCopyrightZoneTitle: string;
   numbersMainnet: string;
   viewMore: string;
   collect: string;
@@ -63,6 +64,7 @@ export const Constant: ConstantType = {
     defaultEngagementLink: 'https://captureapp.xyz',
   },
   text: {
+    defaultCopyrightZoneTitle: 'Produced by',
     numbersMainnet: 'Numbers Mainnet',
     viewMore: 'View More',
     collect: 'Collect',
