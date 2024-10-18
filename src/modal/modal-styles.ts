@@ -216,11 +216,47 @@ export function getModalStyles() {
       color: var(--secondary-text-color);
     }
 
+    .slideshow-container {
+      position: relative;
+      width: 320px; /* Fixed width */
+      height: 160px; /* Fixed height */
+      margin: auto;
+      overflow: hidden; /* Hide any overflow from the images */
+    }
     .eng-img {
-      width: 100%;
+      width: 320px; /* Fixed width for all images, including SVG */
+      height: 160px; /* Fixed height for all images, including SVG */
       display: block;
+      object-fit: contain; /* Ensure the image scales correctly */
       border-bottom-left-radius: var(--border-radius);
       border-bottom-right-radius: var(--border-radius);
+      background-color: #eee;
+    }
+    .prev,
+    .next {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 30px; /* Make the buttons thinner */
+      background-color: rgba(0, 0, 0, 0); /* Semi-transparent background */
+      color: white;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-size: 18px;
+      user-select: none;
+      opacity: 0;
+    }
+    .prev {
+      left: 0;
+    }
+    .next {
+      right: 0;
+    }
+    .prev:hover,
+    .next:hover {
+      background-color: rgba(0, 0, 0, 0.3); /* Darker background on hover */
+      opacity: 1;
     }
 
     /* Shimmer effect */

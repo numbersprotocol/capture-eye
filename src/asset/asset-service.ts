@@ -1,4 +1,5 @@
 import { Constant } from '../constant';
+import { formatTxHash } from '../modal/modal';
 import { AssetModel, CaptureEyeCustomItem } from './asset-model';
 
 export async function fetchAsset(nid: string): Promise<AssetModel | undefined> {
@@ -25,20 +26,22 @@ export async function fetchAsset(nid: string): Promise<AssetModel | undefined> {
 
     if (!data) return;
 
-    const captureEyeCustom: CaptureEyeCustomItem[] | undefined =
-      data.captureEyeCustom?.map(
-        (custom: {
-          _api_c2_field?: string;
-          _api_c2_value?: string;
-          _api_c2_iconSource?: string;
-          _api_c2_url?: string;
-        }) => ({
-          field: custom._api_c2_field,
-          value: custom._api_c2_value,
-          iconSource: custom._api_c2_iconSource,
-          url: custom._api_c2_url,
-        })
-      );
+    const captureEyeCustom: CaptureEyeCustomItem[] | undefined = [
+      {
+        field: 'Near Proof',
+        value: formatTxHash(
+          '0xb9127f7d751f1101a1b67f27d9e9947be7c266c479a832e3a44388503ca20225'
+        ),
+        url: 'https://explorer.aurora.dev/tx/0xb9127f7d751f1101a1b67f27d9e9947be7c266c479a832e3a44388503ca20225',
+        iconSource:
+          'https://static-cdn.numbersprotocol.io/capture-eye/near-icon.svg',
+      },
+      {
+        field: 'Author (M)',
+        value: 'Yaroslav',
+        iconSource: 'https://static-cdn.numbersprotocol.io/capture-eye/pen.png',
+      },
+    ];
 
     const assetModel: AssetModel = {
       creator: data.assetCreator,

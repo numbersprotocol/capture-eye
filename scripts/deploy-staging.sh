@@ -2,10 +2,10 @@
 
 # Variables
 DISTRIBUTION_ID="E1GEDS049Y53CA"
-INVALIDATION_PATH="/staging/capture-eye.bundled.js"
+INVALIDATION_PATH="/staging/capture-eye-misw.bundled.js"
 FILE_PATH="dist/capture-eye.bundled.js"
 S3_BUCKET="numbers-static"
-S3_KEY="staging/capture-eye.bundled.js"
+S3_KEY="staging/capture-eye-misw.bundled.js"
 
 # Upload the file to S3
 aws s3 cp $FILE_PATH s3://$S3_BUCKET/$S3_KEY

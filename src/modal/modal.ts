@@ -39,6 +39,8 @@ export class CaptureEyeModal extends LitElement {
   @property({ type: Boolean })
   modalHidden = true;
 
+  @property({ type: Number }) currentIndex = 0;
+
   @state() protected _copyrightZoneTitle = '';
   @state() protected _engagementImage = '';
   @state() protected _engagementLink = '';
@@ -50,8 +52,49 @@ export class CaptureEyeModal extends LitElement {
 
   @query('.modal') modalElement!: HTMLDivElement;
 
+  engImages = [
+    'https://static-cdn.numbersprotocol.io/capture-eye/near-logo.svg',
+    'https://static-cdn.numbersprotocol.io/capture-eye/capture-ad.png',
+    'https://www.misw.org/wp-content/themes/misw/img/main-logo-home.png',
+  ];
+
+  engLinks = [
+    'https://near.org/',
+    'https://captureapp.xyz',
+    'https://www.misw.org',
+  ];
+
+  _slideshowInterval = 5;
+
   constructor() {
     super();
+  }
+
+  _startSlideshow() {
+    this._slideshowInterval = setInterval(() => {
+      this.currentIndex = (this.currentIndex + 1) % this.engImages.length;
+    }, 5000); // 5-second interval
+  }
+
+  _goToNextSlide() {
+    this.currentIndex = (this.currentIndex + 1) % this.engImages.length;
+  }
+
+  _goToPrevSlide() {
+    this.currentIndex =
+      (this.currentIndex - 1 + this.engImages.length) % this.engImages.length;
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    // Start the automatic slideshow on component mount
+    this._startSlideshow();
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    // Clear the interval when component is removed
+    clearInterval(this._slideshowInterval);
   }
 
   updateAsset(asset: AssetModel, setAsLoaded = false) {
@@ -273,6 +316,7 @@ export class CaptureEyeModal extends LitElement {
         <div class="section-title">
           ${this.isOriginal() ? 'Origins' : 'Curated By'}
         </div>
+        <div class="middle-row">${this.renderTransaction()}</div>
         ${provenanceZoneItems.map(
           (item) => html`
             <div class="middle-row">
@@ -287,7 +331,6 @@ export class CaptureEyeModal extends LitElement {
             </div>
           `
         )}
-        <div class="middle-row">${this.renderTransaction()}</div>
       </div>
     `;
   }
@@ -321,6 +364,34 @@ export class CaptureEyeModal extends LitElement {
     `;
   }
 
+  private renderEngagementZone() {
+    const currentImage = this.engImages[this.currentIndex];
+    const currentLink = this.engLinks[this.currentIndex];
+    return html`
+      <div class="slideshow-container">
+        <a
+          href=${currentLink}
+          target="_blank"
+          class="eng-link"
+          @click=${this.trackEngagement}
+        >
+          <img
+            src=${currentImage}
+            alt="Slideshow Image"
+            class="eng-img"
+            @load=${this.handleImageLoad}
+            style="display: ${this._imageLoaded ? 'block' : 'none'}"
+          />
+          ${!this._imageLoaded ? html`<div class="shimmer eng-img"></div>` : ''}
+        </a>
+
+        <!-- Left and Right Arrows -->
+        <button class="prev" @click=${this._goToPrevSlide}>&#10094;</button>
+        <button class="next" @click=${this._goToNextSlide}>&#10095;</button>
+      </div>
+    `;
+  }
+
   private handleImageLoad() {
     this._imageLoaded = true;
   }
@@ -343,24 +414,7 @@ export class CaptureEyeModal extends LitElement {
               ${this.renderBottom()}
             </div>
           </div>
-          <a
-            href=${this._engagementLink || Constant.url.defaultEngagementLink}
-            target="_blank"
-            class="eng-link"
-            @click=${this.trackEngagement}
-          >
-            <img
-              src=${this._engagementImage ||
-              Constant.url.defaultEngagementImage}
-              alt="Full width"
-              class="eng-img"
-              @load=${this.handleImageLoad}
-              style="display: ${this._imageLoaded ? 'block' : 'none'}"
-            />
-            ${!this._imageLoaded
-              ? html`<div class="shimmer eng-img"></div>`
-              : ''}
-          </a>
+          ${this.renderEngagementZone()}
           <div class="close-button" @click=${this.hideModal}>
             <img
               src=${isMobile

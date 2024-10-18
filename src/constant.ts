@@ -58,7 +58,7 @@ export const Constant: ConstantType = {
     mobileCloseIcon: `${numbersCdnUrl}/capture-eye/capture-eye-close-gray.svg`,
     fontFaceCssUrl: `${numbersCdnUrl}/fonts/degular.css`,
     blockchainIcon: `${numbersCdnUrl}/capture-eye/capture-eye-blockchain-icon.svg`,
-    txIcon: `${numbersCdnUrl}/capture-eye/capture-eye-tx-icon.svg`,
+    txIcon: `${numbersCdnUrl}/capture-eye/numbers-icon.svg`,
     curatorIcon: `${numbersCdnUrl}/capture-eye/capture-eye-curator-icon.png`,
     defaultEngagementImage: `${numbersCdnUrl}/capture-eye/capture-ad.png`,
     defaultEngagementLink: 'https://captureapp.xyz',
