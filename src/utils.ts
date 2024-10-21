@@ -4,16 +4,12 @@ export function hasTouchScreen() {
     msMaxTouchPoints: number;
   }
   let hasTouchScreen = false;
-  console.log('start detecting touch screen');
   if ('maxTouchPoints' in navigator) {
     hasTouchScreen = navigator.maxTouchPoints > 0;
-    console.log('maxTouchPoints in navigator');
   } else if ('msMaxTouchPoints' in navigator) {
     hasTouchScreen = (navigator as NavgiatorExtended).msMaxTouchPoints > 0;
-    console.log('msMaxTouchPoints in navigator');
   } else {
     const mQ = matchMedia?.('(pointer:coarse)');
-    console.log('mQ', mQ);
     if (mQ?.media === '(pointer:coarse)') {
       hasTouchScreen = !!mQ.matches;
     } else if ('orientation' in window) {
