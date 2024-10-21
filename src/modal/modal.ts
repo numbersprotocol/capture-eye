@@ -64,8 +64,10 @@ export class CaptureEyeModal extends LitElement {
     if (options.layout) this.layout = options.layout;
     if (options.copyrightZoneTitle)
       this._copyrightZoneTitle = options.copyrightZoneTitle;
-    if (options.engagementImage)
-      this._engagementImage = options.engagementImage;
+    if (options.engagementImage !== this._engagementImage) {
+      this._imageLoaded = false;
+      this._engagementImage = options.engagementImage ?? '';
+    }
     if (options.engagementLink) this._engagementLink = options.engagementLink;
     if (options.actionButtonText)
       this._actionButtonText = options.actionButtonText;
@@ -323,6 +325,7 @@ export class CaptureEyeModal extends LitElement {
 
   private handleImageLoad() {
     this._imageLoaded = true;
+    console.debug('Engagement image loaded');
   }
 
   override render() {
