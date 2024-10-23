@@ -107,8 +107,10 @@ export class CaptureEyeModal extends LitElement {
     if (options.layout) this.layout = options.layout;
     if (options.copyrightZoneTitle)
       this._copyrightZoneTitle = options.copyrightZoneTitle;
-    if (options.engagementImage)
-      this._engagementImage = options.engagementImage;
+    if (options.engagementImage !== this._engagementImage) {
+      this._imageLoaded = false;
+      this._engagementImage = options.engagementImage ?? '';
+    }
     if (options.engagementLink) this._engagementLink = options.engagementLink;
     if (options.actionButtonText)
       this._actionButtonText = options.actionButtonText;
@@ -186,13 +188,25 @@ export class CaptureEyeModal extends LitElement {
     return this.layout == Constant.layout.original;
   }
 
+  private renderCreatorOrAssetSourceType() {
+    // Render creator and showcase link if layout is original, otherwise render assetSourceType
+    return this.isOriginal()
+      ? html`
+          <a
+            class="link-text"
+            href=${this._asset?.showcaseLink ?? '#'}
+            target="_blank"
+          >
+            ${this._asset?.creator ?? ''}
+          </a>
+        `
+      : this._asset?.assetSourceType ?? '';
+  }
+
   private renderTop() {
     const imgSrc = this._asset?.thumbnailUrl
       ? this._asset?.thumbnailUrl
       : 'https://via.placeholder.com/100';
-    const name = this.isOriginal()
-      ? this._asset?.creator
-      : this._asset?.assetSourceType;
     /*
      * original: signed_metadata.capture_time or assetTree.assetTimestampCreated or uploaded_at
      * curated: integrity(signed_metadata) capture_time
@@ -218,7 +232,7 @@ export class CaptureEyeModal extends LitElement {
           <div class="profile-text">
             <div class="top-name">
               ${this._assetLoaded
-                ? name ?? ''
+                ? this.renderCreatorOrAssetSourceType()
                 : html`<div class="shimmer-text"></div>`}
             </div>
             <div class="top-info">

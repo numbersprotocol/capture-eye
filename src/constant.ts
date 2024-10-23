@@ -1,10 +1,12 @@
 interface Url {
   numbersWebsite: string;
   dataApi: string;
+  assetApi: string;
   productApi: string;
   ipfsGateway: string;
   explorer: string;
   profile: string;
+  showcase: string;
   collect: string;
   captureEyeIcon: string;
   captureEyeMobileIcon: string;
@@ -47,10 +49,12 @@ export const Constant: ConstantType = {
   url: {
     numbersWebsite: 'https://www.numbersprotocol.io',
     dataApi: 'https://verify.numbersprotocol.io/api/1.1/wf/captureEyeData',
+    assetApi: 'https://api.numbersprotocol.io/api/v3/assets/',
     productApi: 'https://api.numbersprotocol.io/api/v3/store/products/',
     ipfsGateway: 'https://ipfs-pin.numbersprotocol.io/ipfs',
     explorer: 'https://mainnet.num.network',
     profile: 'https://asset.captureapp.xyz',
+    showcase: 'https://dashboard.captureapp.xyz/showcase',
     collect: 'https://captureappiframe.numbersprotocol.io/checkout',
     captureEyeIcon: `${numbersCdnUrl}/capture-eye-blue-32x32.png`,
     captureEyeMobileIcon: `${numbersCdnUrl}/capture-eye/capture-eye-gray.svg`,
