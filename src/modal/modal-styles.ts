@@ -17,6 +17,8 @@ export function getModalStyles() {
       --font-size-small: 0.875rem;
       --font-size-very-small: 0.7rem;
       --padding: 1rem;
+      --eng-img-width: 320px;
+      --eng-img-height: 120px;
     }
 
     :host {
@@ -218,16 +220,16 @@ export function getModalStyles() {
 
     .slideshow-container {
       position: relative;
-      width: 320px; /* Fixed width */
-      height: 160px; /* Fixed height */
+      width: var(--eng-img-width);
+      height: var(--eng-img-height);
       margin: auto;
-      overflow: hidden; /* Hide any overflow from the images */
+      overflow: hidden;
     }
     .eng-img {
-      width: 320px; /* Fixed width for all images, including SVG */
-      height: 160px; /* Fixed height for all images, including SVG */
+      width: var(--eng-img-width);
+      height: var(--eng-img-height);
       display: block;
-      object-fit: contain; /* Ensure the image scales correctly */
+      object-fit: contain;
       border-bottom-left-radius: var(--border-radius);
       border-bottom-right-radius: var(--border-radius);
       background-color: #eee;
