@@ -1,5 +1,6 @@
 export interface AssetModel {
   creator?: string;
+  creatorWallet?: string;
   createdTime?: string;
   headline?: string;
   initialTransaction?: string;
@@ -12,6 +13,7 @@ export interface AssetModel {
   usedBy?: string;
   captureEyeCustom?: Array<CaptureEyeCustomItem>;
   hasNftProduct?: boolean;
+  showcaseLink?: string;
 }
 
 export interface CaptureEyeCustomItem {
