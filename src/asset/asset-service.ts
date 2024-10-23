@@ -42,6 +42,7 @@ export async function fetchAsset(nid: string): Promise<AssetModel | undefined> {
 
     const assetModel: AssetModel = {
       creator: data.assetCreator,
+      creatorWallet: data.fullAssetTree?.['_api_c2_assetTree.creatorWallet'],
       createdTime: data.assetTimestampCreated,
       headline: data.headline,
       initialTransaction: data.initial_transaction,
@@ -86,4 +87,25 @@ export async function hasNftProduct(nid: string): Promise<boolean> {
     console.error('Fetch error:', error);
   }
   return false;
+}
+
+export async function getUsername(nid: string): Promise<string | undefined> {
+  try {
+    const response = await fetch(`${Constant.url.assetApi}${nid}/`, {
+      method: 'GET',
+    });
+
+    if (response.ok) {
+      const responseJson = await response.json();
+      return `${responseJson.owner_name}`;
+    }
+
+    const errorResponse = await response.json();
+    console.error(
+      `Error ${response.status}: ${errorResponse?.error?.type} ${errorResponse?.error?.message}`
+    );
+  } catch (error) {
+    console.error('Fetch error:', error);
+  }
+  return;
 }

@@ -1,7 +1,12 @@
 import { CaptureEyeModal, ModalOptions } from './modal.js';
 import { AssetModel } from '../asset/asset-model.js';
-import { fetchAsset, hasNftProduct } from '../asset/asset-service.js';
+import {
+  fetchAsset,
+  hasNftProduct,
+  getUsername,
+} from '../asset/asset-service.js';
 import interactionTracker, { TrackerEvent } from './interaction-tracker.js';
+import { Constant } from '../constant.js';
 
 export class ModalManager {
   private static instance: ModalManager;
@@ -46,9 +51,17 @@ export class ModalManager {
     this.modalElement.updateModalOptions(options);
 
     if (nidChanged) {
-      fetchAsset(options.nid).then((assetData) =>
-        this.updateModalAsset(assetData, true)
-      );
+      fetchAsset(options.nid).then((assetData) => {
+        this.updateModalAsset(assetData, true);
+      });
+      getUsername(options.nid).then((username) => {
+        if (username) {
+          const showcaseLink = `${
+            Constant.url.showcase
+          }/${username.toLowerCase()}`;
+          this.updateModalAsset({ showcaseLink }, false);
+        }
+      });
       hasNftProduct(options.nid).then((hasNftProduct) =>
         this.updateModalAsset({ hasNftProduct }, false)
       );
