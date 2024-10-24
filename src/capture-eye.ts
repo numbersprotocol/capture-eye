@@ -91,17 +91,18 @@ export class CaptureEye extends LitElement {
   }
 
   private buttonTemplate() {
+    const mobile = isMobile();
     return this.nid
       ? html`
           <div
             class="capture-eye-button ${this.visibility ===
-              Constant.visibility.always || isMobile()
+              Constant.visibility.always || mobile
               ? 'full-visibility'
               : ''}"
             @click=${this.openEye}
           >
             <img
-              src=${isMobile()
+              src=${mobile
                 ? Constant.url.captureEyeMobileIcon
                 : Constant.url.captureEyeIcon}
               alt="Capture Eye"
