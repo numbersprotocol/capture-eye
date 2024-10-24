@@ -38,16 +38,16 @@ Visit the [interactive playground](https://playcode.io/capture_eye_demo) for the
 
 ## Component attributes
 
-| Attribute Name       | Required | Description                                                                                                                       | Example                                                                                         |
-| -------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `nid`                | Yes     | The unique [Nid](https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/numbers-id-nid) of the asset. | `<capture-eye nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"></capture-eye>` |
-| `layout`             | No    | Decides which layout to display. Default value is `original`. Additional option includes `curated`.                               | `<capture-eye nid="..." layout="curated"></capture-eye>`                                        |
-| `visibility`             | No    | Visibility behavior. Default value is `hover`, showing Eye on mouse hover. Setting it to option `always` will make the Eye always shown. This attribute is ignored when on mobile devices.                               | `<capture-eye nid="..." visibility="always"></capture-eye>`                                        |
-| `cz-title`            | No    | Override the copyright zone title.          | `<capture-eye nid="..." cz-title="collected by"></capture-eye>`                |
-| eng-img | No | Sets the image for the engagement zone banner. Recommended dimensions: `320x120 px`. Supports multiple `eng-img` and `eng-link` pairs for rotating banners. If multiple pairs are provided, the banner will rotate every 5 seconds. Ensure that the number of `eng-img` matches the number of `eng-link` entries. Use URL encoding to replace commas with `%2C` in the URLs. Example: | `<capture-eye nid="..." eng-img="https://my.image.url/image1.png, https://my.image.url/image2.png"></capture-eye>` |
-| eng-link | No | Sets the URL for the engagement zone banner link. Each `eng-link` should correspond to an `eng-img` for proper pairing in rotating banners. Example: | `<capture-eye nid="..." eng-link="https://my.website.url"></capture-eye>` |
-| `action-button-text` | No    | Override the default action button text (`View More`).                                                                            | `<capture-eye nid="..." action-button-text="Collect"></capture-eye>`                            |
-| `action-button-link` | No    | Override the default action button link to Capture website.                                                                       | `<capture-eye nid="..." action-button-link="https://my.website.url"></capture-eye>`             |
+| Attribute Name | Required | Description |
+| ---- | --- | --- |
+| `nid` | Yes | The unique [Nid](https://docs.numbersprotocol.io/introduction/numbers-protocol/defining-web3-assets/numbers-id-nid) of the asset. <br> `<capture-eye nid="bafybeief3yriouin54tzub5otnzka6muacrsu32tl2vxnaexgffizdxxqy"></capture-eye>` |
+| `layout` | No | Decides which layout to display. Default value is `original`. Additional option includes `curated`. <br> `<capture-eye nid="..." layout="curated"></capture-eye>` |
+| `visibility` | No | Visibility behavior. Default value is `hover`, showing Eye on mouse hover. Setting it to option `always` will make the Eye always shown. This attribute is ignored when on mobile devices. <br> `<capture-eye nid="..." visibility="always"></capture-eye>` |
+| `cz-title` | No | Override the copyright zone title. <br> `<capture-eye nid="..." cz-title="collected by"></capture-eye>` |
+| eng-img | No | Sets the image for the engagement zone banner. Recommended dimensions: `320x120 px`. Supports multiple `eng-img` and `eng-link` pairs for rotating banners. If multiple pairs are provided, the banner will rotate every 5 seconds. Ensure that the number of `eng-img` matches the number of `eng-link` entries. Use URL encoding to replace commas with `%2C` in the URLs. <br> `<capture-eye nid="..." eng-img="https://my.image.url/image1.png, https://my.image.url/image2.png"></capture-eye>` |
+| eng-link | No | Sets the URL for the engagement zone banner link. Each `eng-link` should correspond to an `eng-img` for proper pairing in rotating banners. <br> `<capture-eye nid="..." eng-link="https://my.website.url"></capture-eye>` |
+| `action-button-text` | No | Override the default action button text (`View More`). <br> `<capture-eye nid="..." action-button-text="Collect"></capture-eye>` |
+| `action-button-link` | No | Override the default action button link to Capture website. <br> `<capture-eye nid="..." action-button-link="https://my.website.url"></capture-eye>` |
 
 ## Integration with Frontend Frameworks
 
