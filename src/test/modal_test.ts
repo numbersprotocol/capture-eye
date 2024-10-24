@@ -302,7 +302,13 @@ suite('capture-eye-modal', () => {
 
     el.updateModalOptions({
       nid: '123',
-      engagementZones: [{ image: '', link: engagementLink }],
+      engagementZones: [
+        {
+          image:
+            'https://static-cdn.numbersprotocol.io/capture-eye/capture-ad.png',
+          link: engagementLink,
+        },
+      ],
     });
 
     await el.updateComplete;

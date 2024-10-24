@@ -82,11 +82,12 @@ export class CaptureEyeModal extends LitElement {
     if (options.copyrightZoneTitle)
       this._copyrightZoneTitle = options.copyrightZoneTitle;
     if (
+      options.engagementZones &&
       JSON.stringify(options.engagementZones) !==
-      JSON.stringify(this._engagementZones)
+        JSON.stringify(this._engagementZones)
     ) {
       this._imageLoaded = false;
-      this._engagementZones = options.engagementZones ?? [];
+      this._engagementZones = options.engagementZones;
     }
     this.preloadEngagementZoneImages();
     if (options.actionButtonText)
@@ -167,14 +168,15 @@ export class CaptureEyeModal extends LitElement {
   }
 
   private rotateNext() {
-    if (this._engagementZones.length === 0) return;
+    if (this._engagementZones.length <= 1) return;
     this._engagementZoneIndex =
       (this._engagementZoneIndex + 1) % this._engagementZones.length;
   }
   private rotatePrev() {
-    if (this._engagementZones.length === 0) return;
+    if (this._engagementZones.length <= 1) return;
     this._engagementZoneIndex =
-      (this._engagementZoneIndex - 1) % this._engagementZones.length;
+      (this._engagementZoneIndex - 1 + this._engagementZones.length) %
+      this._engagementZones.length;
   }
 
   private preloadEngagementZoneImages(): Promise<void> {
@@ -182,15 +184,8 @@ export class CaptureEyeModal extends LitElement {
       let loadedImages = 0;
       const imageUrls =
         this._engagementZones.length > 0
-          ? this._engagementZones
-              .map((zone) => zone.image)
-              .filter((url) => url !== '')
+          ? this._engagementZones.map((zone) => zone.image)
           : [Constant.url.defaultEngagementImage];
-
-      if (imageUrls.length === 0) {
-        resolve(); // No images to preload
-        return;
-      }
 
       imageUrls.forEach((url) => {
         const img = new Image();
