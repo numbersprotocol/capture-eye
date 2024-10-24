@@ -73,12 +73,6 @@ suite('capture-eye-modal', () => {
               <div class="eng-img shimmer">
               </div>
             </a>
-            <button class="prev">
-              ❮
-            </button>
-            <button class="next">
-              ❯
-            </button>
           </div>
           <div class="close-button close-button-hidden">
             <img src="https://static-cdn.numbersprotocol.io/capture-eye/capture-eye-close-icon.png" alt="Close" />

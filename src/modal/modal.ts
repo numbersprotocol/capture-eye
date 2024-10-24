@@ -439,8 +439,12 @@ export class CaptureEyeModal extends LitElement {
           ${!this._imageLoaded ? html`<div class="shimmer eng-img"></div>` : ''}
         </a>
         <!-- Left and Right Arrows -->
-        <button class="prev" @click=${this.rotatePrev}>&#10094;</button>
-        <button class="next" @click=${this.rotateNext}>&#10095;</button>
+        ${this._engagementZones.length > 1
+          ? html` <button class="prev" @click=${this.rotatePrev}>
+                &#10094;
+              </button>
+              <button class="next" @click=${this.rotateNext}>&#10095;</button>`
+          : ''}
       </div>
     `;
   }
