@@ -8,7 +8,7 @@ import { MediaViewer } from './media-viewer/media-viewer.js';
 import interactionTracker, {
   TrackerEvent,
 } from './modal/interaction-tracker.js';
-import { hasTouchScreen } from './utils.js';
+import { isMobile } from './utils.js';
 
 @customElement('capture-eye')
 export class CaptureEye extends LitElement {
@@ -91,18 +91,17 @@ export class CaptureEye extends LitElement {
   }
 
   private buttonTemplate() {
-    const isMobile = hasTouchScreen();
     return this.nid
       ? html`
           <div
             class="capture-eye-button ${this.visibility ===
-              Constant.visibility.always || isMobile
+              Constant.visibility.always || isMobile()
               ? 'full-visibility'
               : ''}"
             @click=${this.openEye}
           >
             <img
-              src=${isMobile
+              src=${isMobile()
                 ? Constant.url.captureEyeMobileIcon
                 : Constant.url.captureEyeIcon}
               alt="Capture Eye"

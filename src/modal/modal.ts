@@ -4,7 +4,7 @@ import { getModalStyles } from './modal-styles.js';
 import { Constant } from '../constant.js';
 import { AssetModel } from '../asset/asset-model.js';
 import interactionTracker, { TrackerEvent } from './interaction-tracker.js';
-import { hasTouchScreen } from '../utils.js';
+import { isMobile } from '../utils.js';
 
 export function formatTxHash(txHash: string): string {
   if (txHash.length < 60) {
@@ -128,7 +128,7 @@ export class CaptureEyeModal extends LitElement {
         this.modalElement.classList.add('modal-visible');
         closeButton.classList.remove('close-button-hidden');
         closeButton.classList.add('close-button-visible');
-        if (hasTouchScreen()) {
+        if (isMobile()) {
           closeButton.classList.add('mobile');
         }
       }
@@ -341,7 +341,6 @@ export class CaptureEyeModal extends LitElement {
   }
 
   override render() {
-    const isMobile = hasTouchScreen();
     return html`
       <div
         class="modal ${this.modalHidden ? 'modal-hidden' : 'modal-visible'}"
@@ -378,7 +377,7 @@ export class CaptureEyeModal extends LitElement {
           </a>
           <div class="close-button" @click=${this.hideModal}>
             <img
-              src=${isMobile
+              src=${isMobile()
                 ? Constant.url.mobileCloseIcon
                 : Constant.url.closeIcon}
               alt="Close"

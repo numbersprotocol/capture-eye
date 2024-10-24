@@ -1,5 +1,13 @@
-export function hasTouchScreen() {
+export function isMobile() {
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Browser_detection_using_the_user_agent#mobile_device_detection
+  const UA = (navigator as Navigator).userAgent;
+  const isMobileUserAgent =
+    /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+    /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA);
+  // Ensure touchscreen desktops are not considered mobile by checking screen width and not mobile user agent
+  if (!isMobileUserAgent && window.screen.width >= 768) {
+    return false;
+  }
   interface NavgiatorExtended extends Navigator {
     msMaxTouchPoints: number;
   }
@@ -14,13 +22,7 @@ export function hasTouchScreen() {
       hasTouchScreen = !!mQ.matches;
     } else if ('orientation' in window) {
       hasTouchScreen = true; // deprecated, but good fallback
-    } else {
-      // Only as a last resort, fall back to user agent sniffing
-      const UA = (navigator as Navigator).userAgent;
-      hasTouchScreen =
-        /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
-        /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA);
     }
   }
-  return hasTouchScreen;
+  return hasTouchScreen || isMobileUserAgent;
 }
