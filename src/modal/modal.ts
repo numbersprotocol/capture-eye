@@ -177,31 +177,41 @@ export class CaptureEyeModal extends LitElement {
       (this._engagementZoneIndex - 1) % this._engagementZones.length;
   }
 
-  private preloadEngagementZoneImages() {
-    let loadedImages = 0;
-    const imageUrls =
-      this._engagementZones.length > 0
-        ? this._engagementZones.map((zone) => zone.image)
-        : [Constant.url.defaultEngagementImage];
-    console.log('Preloading engagement zone images', imageUrls);
-    imageUrls.forEach((url) => {
-      const img = new Image();
-      img.src = url;
-      img.onload = () => {
-        loadedImages++;
-        if (loadedImages === Math.max(this._engagementZones.length, 1)) {
-          this.handleImageLoad();
-        }
-      };
-      img.onerror = () => {
-        console.error(`Image failed to load: ${url}`);
-      };
+  private preloadEngagementZoneImages(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      let loadedImages = 0;
+      const imageUrls =
+        this._engagementZones.length > 0
+          ? this._engagementZones
+              .map((zone) => zone.image)
+              .filter((url) => url !== '')
+          : [Constant.url.defaultEngagementImage];
+
+      if (imageUrls.length === 0) {
+        resolve(); // No images to preload
+        return;
+      }
+
+      imageUrls.forEach((url) => {
+        const img = new Image();
+        img.src = url;
+        img.onload = () => {
+          loadedImages++;
+          if (loadedImages === imageUrls.length) {
+            this.handleImageLoad();
+            resolve();
+          }
+        };
+        img.onerror = () => {
+          console.error(`Image failed to load: ${url}`);
+          reject(new Error(`Image failed to load: ${url}`));
+        };
+      });
     });
   }
 
   private handleImageLoad() {
     this._imageLoaded = true;
-    console.debug('Engagement image loaded');
     this.startEngagementZoneRotation();
   }
 

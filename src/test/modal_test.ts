@@ -58,20 +58,28 @@ suite('capture-eye-modal', () => {
               </div>
             </div>
           </div>
-          <a
-            class="eng-link"
-            href="https://captureapp.xyz"
-            target="_blank"
-          >
-            <img
-              alt="Full width"
-              class="eng-img"
-              src="https://static-cdn.numbersprotocol.io/capture-eye/capture-ad.png"
-              style="display: none"
+          <div class="slideshow-container">
+            <a
+              class="eng-link"
+              href="https://captureapp.xyz"
+              target="_blank"
             >
-            <div class="eng-img shimmer">
-            </div>
-          </a>
+              <img
+                alt="Slideshow Image"
+                class="eng-img"
+                src="https://static-cdn.numbersprotocol.io/capture-eye/capture-ad.png"
+                style="display: none"
+              >
+              <div class="eng-img shimmer">
+              </div>
+            </a>
+            <button class="prev">
+              ❮
+            </button>
+            <button class="next">
+              ❯
+            </button>
+          </div>
           <div class="close-button close-button-hidden">
             <img src="https://static-cdn.numbersprotocol.io/capture-eye/capture-eye-close-icon.png" alt="Close" />
           </div>
@@ -115,29 +123,34 @@ suite('capture-eye-modal', () => {
   });
 
   test('renders engagement image and link correctly', async () => {
-    const engagementImage = 'https://example.com/image.jpg';
+    const engagementImage =
+      'https://static-cdn.numbersprotocol.io/capture-eye/capture-ad.png';
     const engagementLink = 'https://example.com';
+
+    // Fixture to create the CaptureEyeModal component
     const el = await fixture<CaptureEyeModal>(html`
       <capture-eye-modal></capture-eye-modal>
     `);
 
+    // Set the modal options with engagement zones
     el.updateModalOptions({
       nid: '123',
-      engagementImage,
-      engagementLink,
+      engagementZones: [{ image: engagementImage, link: engagementLink }],
     });
     await el.updateComplete;
+
     const img = el.shadowRoot?.querySelector('.eng-img') as HTMLImageElement;
     expect(img).to.exist;
-    expect(img!.src).to.equal(engagementImage);
 
-    img.dispatchEvent(new Event('load'));
+    expect(new URL(img.src).href).to.equal(new URL(engagementImage).href);
+
+    await (el as any).preloadEngagementZoneImages();
     await el.updateComplete;
     expect(img.style.display).to.equal('block');
 
     const link = el.shadowRoot?.querySelector('.eng-link') as HTMLAnchorElement;
     expect(link).to.exist;
-    expect(new URL(link!.href).href).to.equal(new URL(engagementLink).href);
+    expect(new URL(link.href).href).to.equal(new URL(engagementLink).href);
   });
 
   test('should render custom provenance zone correctly', async () => {
@@ -233,8 +246,13 @@ suite('capture-eye-modal', () => {
     el.updateModalOptions({
       nid: '123',
       layout: 'custom-layout',
-      engagementImage: 'https://example.com/image.jpg',
-      engagementLink: 'https://example.com',
+      engagementZones: [
+        {
+          image:
+            'https://static-cdn.numbersprotocol.io/capture-eye/capture-ad.png',
+          link: 'https://example.com',
+        },
+      ],
     });
 
     await el.updateComplete;
@@ -246,8 +264,7 @@ suite('capture-eye-modal', () => {
     // Verify that options are reset to defaults
     expect(el.nid).to.equal('');
     expect(el.layout).to.equal(Constant.layout.original);
-    expect((el as any)._engagementImage).to.equal('');
-    expect((el as any)._engagementLink).to.equal('');
+    expect((el as any)._engagementZones).to.deep.equal([]);
   });
 
   test('modal visibility toggle works with transition end', async () => {
@@ -291,7 +308,7 @@ suite('capture-eye-modal', () => {
 
     el.updateModalOptions({
       nid: '123',
-      engagementLink,
+      engagementZones: [{ image: '', link: engagementLink }],
     });
 
     await el.updateComplete;
