@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { Constant } from './constant.js';
 import { getCaptureEyeStyles } from './capture-eye-styles.js';
 import { ModalManager } from './modal/modal-manager.js';
-import { CaptureEyeModal } from './modal/modal.js';
+import { CaptureEyeModal, EngagementZone } from './modal/modal.js';
 import { MediaViewer } from './media-viewer/media-viewer.js';
 import interactionTracker, {
   TrackerEvent,
@@ -39,13 +39,13 @@ export class CaptureEye extends LitElement {
   copyrightZoneTitle = '';
 
   /**
-   * Url of the engagement image.
+   * Urls of the engagement images. Use comma to separate multiple images.
    */
   @property({ type: String, attribute: 'eng-img' })
   engagementImage = '';
 
   /**
-   * Url of the engagement link.
+   * Urls of the engagement links. Use comma to separate multiple links.
    */
   @property({ type: String, attribute: 'eng-link' })
   engagementLink = '';
@@ -141,8 +141,7 @@ export class CaptureEye extends LitElement {
       nid: this.nid,
       layout: this.layout,
       copyrightZoneTitle: this.copyrightZoneTitle,
-      engagementImage: this.engagementImage,
-      engagementLink: this.engagementLink,
+      engagementZones: this.engagementZones,
       actionButtonText: this.actionButtonText,
       actionButtonLink: this.actionButtonLink,
       position: {
@@ -193,6 +192,26 @@ export class CaptureEye extends LitElement {
     font.href = Constant.url.fontFaceCssUrl;
     font.rel = 'stylesheet';
     document.head.appendChild(font);
+  }
+
+  private get engagementZones() {
+    const engagementImages = this.engagementImage
+      .split(',')
+      .map((url) => url.trim())
+      .filter((url) => url !== '');
+    const engagementLinks = this.engagementLink
+      .split(',')
+      .map((url) => url.trim())
+      .filter((url) => url !== '');
+    /* Use image as base. For unexpected use cases links > images, ignore the exceeding links.
+     * For unexpected use cases images > links, use default link.
+     */
+    return engagementImages.map((image, index) => {
+      return {
+        image,
+        link: engagementLinks[index] || Constant.url.defaultEngagementLink,
+      } as EngagementZone;
+    });
   }
 }
 

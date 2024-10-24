@@ -216,11 +216,47 @@ export function getModalStyles() {
       color: var(--secondary-text-color);
     }
 
+    .slideshow-container {
+      position: relative;
+      width: 320px;
+      height: 120px;
+    }
     .eng-img {
-      width: 100%;
+      width: 320px;
+      height: 120px;
       display: block;
+      object-fit: contain;
       border-bottom-left-radius: var(--border-radius);
       border-bottom-right-radius: var(--border-radius);
+      background-color: #eee;
+    }
+    .prev,
+    .next {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 30px; /* Make the buttons thinner */
+      background-color: rgba(0, 0, 0, 0); /* Semi-transparent background */
+      color: white;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      font-size: 18px;
+      user-select: none;
+      opacity: 0;
+    }
+    .prev {
+      left: 0;
+      border-bottom-left-radius: var(--border-radius);
+    }
+    .next {
+      right: 0;
+      border-bottom-right-radius: var(--border-radius);
+    }
+    .prev:hover,
+    .next:hover {
+      background-color: rgba(0, 0, 0, 0.3); /* Darker background on hover */
+      opacity: 1;
     }
 
     /* Shimmer effect */
