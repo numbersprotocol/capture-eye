@@ -15,12 +15,16 @@ export function formatTxHash(txHash: string): string {
   return `${firstPart}...${lastPart}`;
 }
 
+export interface EngagementZone {
+  image: string;
+  link: string;
+}
+
 export interface ModalOptions {
   nid: string;
   layout?: string;
   copyrightZoneTitle?: string;
-  engagementImage?: string;
-  engagementLink?: string;
+  engagementZones?: EngagementZone[];
   actionButtonText?: string;
   actionButtonLink?: string;
   position?: { top: number; left: number };
@@ -30,18 +34,16 @@ export interface ModalOptions {
 export class CaptureEyeModal extends LitElement {
   static override styles = getModalStyles();
 
-  @property({ type: String })
-  nid = '';
-
-  @property({ type: String })
-  layout = Constant.layout.original;
-
-  @property({ type: Boolean })
-  modalHidden = true;
+  @property({ type: String }) nid = '';
+  @property({ type: String }) layout = Constant.layout.original;
+  @property({ type: Boolean }) modalHidden = true;
 
   @state() protected _copyrightZoneTitle = '';
-  @state() protected _engagementImage = '';
-  @state() protected _engagementLink = '';
+  @state() protected _engagementZones: EngagementZone[] = [];
+  @state() protected _engagementZoneIndex = 0;
+  @state() protected _engagementZoneRotationInterval = 5000;
+  @state() protected _engagementZoneRotationIntervalId: number | undefined =
+    undefined;
   @state() protected _actionButtonText = '';
   @state() protected _actionButtonLink = '';
   @state() protected _asset: AssetModel | undefined = undefined;
@@ -54,6 +56,21 @@ export class CaptureEyeModal extends LitElement {
     super();
   }
 
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.stopEngagementZoneRotation();
+  }
+
+  override firstUpdated() {
+    this.updateModalVisibility();
+  }
+
+  override updated(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has('modalHidden')) {
+      this.updateModalVisibility();
+    }
+  }
+
   updateAsset(asset: AssetModel, setAsLoaded = false) {
     this._asset = { ...this._asset, ...asset };
     if (setAsLoaded) this._assetLoaded = true;
@@ -64,11 +81,15 @@ export class CaptureEyeModal extends LitElement {
     if (options.layout) this.layout = options.layout;
     if (options.copyrightZoneTitle)
       this._copyrightZoneTitle = options.copyrightZoneTitle;
-    if (options.engagementImage !== this._engagementImage) {
+    if (
+      options.engagementZones !== undefined &&
+      JSON.stringify(options.engagementZones) !==
+        JSON.stringify(this._engagementZones)
+    ) {
       this._imageLoaded = false;
-      this._engagementImage = options.engagementImage ?? '';
+      this._engagementZones = options.engagementZones;
     }
-    if (options.engagementLink) this._engagementLink = options.engagementLink;
+    this.preloadEngagementZoneImages();
     if (options.actionButtonText)
       this._actionButtonText = options.actionButtonText;
     if (options.actionButtonLink)
@@ -83,25 +104,17 @@ export class CaptureEyeModal extends LitElement {
   }
 
   clearModalOptions() {
+    this.stopEngagementZoneRotation();
     this.nid = '';
     this.layout = Constant.layout.original;
     this._copyrightZoneTitle = '';
-    this._engagementImage = '';
-    this._engagementLink = '';
+    this._engagementZones = [];
+    this._engagementZoneIndex = 0;
+    this._engagementZoneRotationIntervalId = undefined;
     this._actionButtonText = '';
     this._actionButtonLink = '';
     this._asset = undefined;
     this._assetLoaded = false;
-  }
-
-  override firstUpdated() {
-    this.updateModalVisibility();
-  }
-
-  override updated(changedProperties: Map<string | number | symbol, unknown>) {
-    if (changedProperties.has('modalHidden')) {
-      this.updateModalVisibility();
-    }
   }
 
   private updateModalVisibility() {
@@ -139,6 +152,62 @@ export class CaptureEyeModal extends LitElement {
     return (
       rem * parseFloat(getComputedStyle(document.documentElement).fontSize)
     );
+  }
+
+  private startEngagementZoneRotation() {
+    if (this._engagementZones.length <= 1) return;
+    this._engagementZoneRotationIntervalId = setInterval(() => {
+      this._engagementZoneIndex =
+        (this._engagementZoneIndex + 1) % this._engagementZones.length;
+    }, this._engagementZoneRotationInterval);
+  }
+
+  private stopEngagementZoneRotation() {
+    if (this._engagementZoneRotationIntervalId)
+      clearInterval(this._engagementZoneRotationIntervalId);
+  }
+
+  private rotateNext() {
+    if (this._engagementZones.length <= 1) return;
+    this._engagementZoneIndex =
+      (this._engagementZoneIndex + 1) % this._engagementZones.length;
+  }
+  private rotatePrev() {
+    if (this._engagementZones.length <= 1) return;
+    this._engagementZoneIndex =
+      (this._engagementZoneIndex - 1 + this._engagementZones.length) %
+      this._engagementZones.length;
+  }
+
+  private preloadEngagementZoneImages(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      let loadedImages = 0;
+      const imageUrls =
+        this._engagementZones.length > 0
+          ? this._engagementZones.map((zone) => zone.image)
+          : [Constant.url.defaultEngagementImage];
+
+      imageUrls.forEach((url) => {
+        const img = new Image();
+        img.src = url;
+        img.onload = () => {
+          loadedImages++;
+          if (loadedImages === imageUrls.length) {
+            this.handleImageLoad();
+            resolve();
+          }
+        };
+        img.onerror = () => {
+          console.error(`Image failed to load: ${url}`);
+          reject(new Error(`Image failed to load: ${url}`));
+        };
+      });
+    });
+  }
+
+  private handleImageLoad() {
+    this._imageLoaded = true;
+    this.startEngagementZoneRotation();
   }
 
   private isOriginal() {
@@ -335,9 +404,44 @@ export class CaptureEyeModal extends LitElement {
     `;
   }
 
-  private handleImageLoad() {
-    this._imageLoaded = true;
-    console.debug('Engagement image loaded');
+  private get currentEngagementZone() {
+    const defaultEngagementZone: EngagementZone = {
+      image: Constant.url.defaultEngagementImage,
+      link: Constant.url.defaultEngagementLink,
+    };
+    const currentEngagementZone =
+      this._engagementZones.length > 0
+        ? this._engagementZones[this._engagementZoneIndex]
+        : defaultEngagementZone;
+    return currentEngagementZone;
+  }
+
+  private renderEngagementZone() {
+    return html`
+      <div class="slideshow-container">
+        <a
+          href=${this.currentEngagementZone.link}
+          target="_blank"
+          class="eng-link"
+          @click=${this.trackEngagement}
+        >
+          <img
+            src=${this.currentEngagementZone.image}
+            alt="Slideshow Image"
+            class="eng-img"
+            style="display: ${this._imageLoaded ? 'block' : 'none'}"
+          />
+          ${!this._imageLoaded ? html`<div class="shimmer eng-img"></div>` : ''}
+        </a>
+        <!-- Left and Right Arrows -->
+        ${this._engagementZones.length > 1
+          ? html` <button class="prev" @click=${this.rotatePrev}>
+                &#10094;
+              </button>
+              <button class="next" @click=${this.rotateNext}>&#10095;</button>`
+          : ''}
+      </div>
+    `;
   }
 
   override render() {
@@ -357,24 +461,7 @@ export class CaptureEyeModal extends LitElement {
               ${this.renderBottom()}
             </div>
           </div>
-          <a
-            href=${this._engagementLink || Constant.url.defaultEngagementLink}
-            target="_blank"
-            class="eng-link"
-            @click=${this.trackEngagement}
-          >
-            <img
-              src=${this._engagementImage ||
-              Constant.url.defaultEngagementImage}
-              alt="Full width"
-              class="eng-img"
-              @load=${this.handleImageLoad}
-              style="display: ${this._imageLoaded ? 'block' : 'none'}"
-            />
-            ${!this._imageLoaded
-              ? html`<div class="shimmer eng-img"></div>`
-              : ''}
-          </a>
+          ${this.renderEngagementZone()}
           <div class="close-button" @click=${this.hideModal}>
             <img
               src=${isMobile()
@@ -408,8 +495,7 @@ export class CaptureEyeModal extends LitElement {
     // 1: Default engagement link
     // 2, 3, ...: Future rotating engagement links
     const subid =
-      !this._engagementLink ||
-      this._engagementLink === Constant.url.defaultEngagementLink
+      this.currentEngagementZone.link === Constant.url.defaultEngagementLink
         ? '1'
         : '0';
     interactionTracker.trackInteraction(
