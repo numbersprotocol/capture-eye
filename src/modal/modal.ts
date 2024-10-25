@@ -82,7 +82,7 @@ export class CaptureEyeModal extends LitElement {
     if (options.copyrightZoneTitle)
       this._copyrightZoneTitle = options.copyrightZoneTitle;
     if (
-      options.engagementZones &&
+      options.engagementZones !== undefined &&
       JSON.stringify(options.engagementZones) !==
         JSON.stringify(this._engagementZones)
     ) {
