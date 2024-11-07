@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { LitElement, HTMLTemplateResult, html } from 'lit';
 import { customElement, property, state, query } from 'lit/decorators.js';
 import { getModalStyles } from './modal-styles.js';
 import { Constant } from '../constant.js';
@@ -15,6 +15,28 @@ export function formatTxHash(txHash: string): string {
   return `${firstPart}...${lastPart}`;
 }
 
+export function generateCaptureEyeCloseSvg(
+  color: string, size: number
+): HTMLTemplateResult {
+  return html`
+    <svg
+      style="--eye-color: ${color};" width="${size}" height="${size}"
+      viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12
+          0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24Z"
+        style="fill: var(--eye-color, #377dde);"
+      />
+      <path
+        d="M17 7.875L16.125 7L12 11.125L7.875 7L7 7.875L11.125 12L7
+          16.125L7.875 17L12 12.875L16.125 17L17 16.125L12.875 12L17 7.875Z"
+        fill="white"
+      />
+    </svg>
+  `;
+}
+
 export interface EngagementZone {
   image: string;
   link: string;
@@ -23,6 +45,7 @@ export interface EngagementZone {
 export interface ModalOptions {
   nid: string;
   layout?: string;
+  color?: string;
   copyrightZoneTitle?: string;
   engagementZones?: EngagementZone[];
   actionButtonText?: string;
@@ -38,6 +61,7 @@ export class CaptureEyeModal extends LitElement {
   @property({ type: String }) layout = Constant.layout.original;
   @property({ type: Boolean }) modalHidden = true;
 
+  @state() protected _color = '';
   @state() protected _copyrightZoneTitle = '';
   @state() protected _engagementZones: EngagementZone[] = [];
   @state() protected _engagementZoneIndex = 0;
@@ -79,6 +103,7 @@ export class CaptureEyeModal extends LitElement {
   updateModalOptions(options: ModalOptions) {
     if (options.nid) this.nid = options.nid;
     if (options.layout) this.layout = options.layout;
+    if (options.color) this._color = options.color;
     if (options.copyrightZoneTitle)
       this._copyrightZoneTitle = options.copyrightZoneTitle;
     if (
@@ -107,6 +132,7 @@ export class CaptureEyeModal extends LitElement {
     this.stopEngagementZoneRotation();
     this.nid = '';
     this.layout = Constant.layout.original;
+    this._color = '';
     this._copyrightZoneTitle = '';
     this._engagementZones = [];
     this._engagementZoneIndex = 0;
@@ -445,6 +471,13 @@ export class CaptureEyeModal extends LitElement {
   }
 
   override render() {
+    const mobile = isMobile()
+    const color = this._color
+      ? this._color
+      : mobile
+        ? Constant.color.mobileEye
+        : Constant.color.defaultEye;
+    const size = mobile ? 24 : 32;
     return html`
       <div
         class="modal ${this.modalHidden ? 'modal-hidden' : 'modal-visible'}"
@@ -463,12 +496,7 @@ export class CaptureEyeModal extends LitElement {
           </div>
           ${this.renderEngagementZone()}
           <div class="close-button" @click=${this.hideModal}>
-            <img
-              src=${isMobile()
-                ? Constant.url.mobileCloseIcon
-                : Constant.url.closeIcon}
-              alt="Close"
-            />
+            ${generateCaptureEyeCloseSvg(color, size)}
           </div>
         </div>
       </div>
