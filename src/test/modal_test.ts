@@ -1,6 +1,10 @@
 import { html } from 'lit';
 import { fixture, assert, expect } from '@open-wc/testing';
-import { CaptureEyeModal, formatTxHash, generateCaptureEyeCloseSvg } from '../modal/modal';
+import {
+  CaptureEyeModal,
+  formatTxHash,
+  generateCaptureEyeCloseSvg,
+} from '../modal/modal';
 import { AssetModel } from '../asset/asset-model';
 import interactionTracker, { TrackerEvent } from '../modal/interaction-tracker';
 import sinon from 'sinon';
@@ -75,7 +79,10 @@ suite('capture-eye-modal', () => {
             </a>
           </div>
           <div class="close-button close-button-hidden">
-            ${generateCaptureEyeCloseSvg(Constant.color.defaultEye, 32).strings.join()}
+            ${generateCaptureEyeCloseSvg(
+              Constant.color.defaultEye,
+              32
+            ).strings.join()}
           </div>
         </div>
       </div>
@@ -216,18 +223,47 @@ suite('capture-eye-modal', () => {
       <capture-eye-modal></capture-eye-modal>
     `);
 
-    const position = { top: 100, left: 200 };
+    const position = { top: 100, left: 200, name: '' };
 
     el.updateModalOptions({
       nid: '123',
       position,
     });
 
+    el.modalHidden = false;
     await el.updateComplete;
 
-    const modal = el.shadowRoot?.querySelector('.modal') as HTMLDivElement;
+    let modal = el.shadowRoot?.querySelector('.modal') as HTMLDivElement;
 
     expect(modal.style.top).to.equal('116px'); // Assuming 1rem = 16px (this may vary)
+    expect(modal.style.left).to.equal('216px');
+
+    // Position is bottom right with enough space in that direction
+    el.modalHidden = true;
+    el.modalHidden = false;
+    el.updateModalOptions({
+      nid: '123',
+      position: { top: 600, left: 800, name: 'bottom right' },
+    });
+    await el.updateComplete;
+
+    modal = el.shadowRoot?.querySelector('.modal') as HTMLDivElement;
+
+    expect(modal.style.top).to.equal(`${600 + 16 - modal.offsetHeight}px`);
+    expect(modal.style.left).to.equal(`${800 + 16 - modal.offsetWidth}px`);
+
+    // Position is bottom right without enough space in that direction
+    el.modalHidden = true;
+    el.modalHidden = false;
+    el.updateModalOptions({
+      nid: '123',
+      position: { top: 100, left: 200, name: 'bottom right' },
+    });
+    await el.updateComplete;
+
+    modal = el.shadowRoot?.querySelector('.modal') as HTMLDivElement;
+
+    expect(modal.style.top).to.equal('116px');
     expect(modal.style.left).to.equal('216px');
   });
 
@@ -247,6 +283,7 @@ suite('capture-eye-modal', () => {
           link: 'https://example.com',
         },
       ],
+      position: { top: 100, left: 200, name: '' },
     });
 
     await el.updateComplete;
@@ -259,6 +296,7 @@ suite('capture-eye-modal', () => {
     expect(el.nid).to.equal('');
     expect(el.layout).to.equal(Constant.layout.original);
     expect((el as any)._engagementZones).to.deep.equal([]);
+    expect((el as any)._position).to.equal(undefined);
   });
 
   test('modal visibility toggle works with transition end', async () => {

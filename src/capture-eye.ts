@@ -33,6 +33,12 @@ export class CaptureEye extends LitElement {
   visibility = Constant.visibility.hover;
 
   /**
+   * Set position. Default is top left. Options: top left, top right, bottom left, bottom right
+   */
+  @property({ type: String })
+  position = '';
+
+  /**
    * Set color: default is #377dde, and for mobile, the default is #333333.
    */
   @property({ type: String })
@@ -105,15 +111,19 @@ export class CaptureEye extends LitElement {
     const color = this.color
       ? this.color
       : mobile
-        ? Constant.color.mobileEye
-        : Constant.color.defaultEye;
+      ? Constant.color.mobileEye
+      : Constant.color.defaultEye;
     const size = mobile ? 24 : 32;
+    const positions = this.position.split(' ');
     return html`
       <div
         class="capture-eye-button ${this.visibility ===
           Constant.visibility.always || mobile
           ? 'full-visibility'
-          : ''}"
+          : ''}
+          ${positions.includes('bottom') ? 'position-bottom' : 'position-top'}
+          ${positions.includes('right') ? 'position-right' : 'position-left'}
+          "
         @click=${this.openEye}
       >
         ${this.generateCaptureEyeSvg(color, size)}
@@ -157,6 +167,7 @@ export class CaptureEye extends LitElement {
       position: {
         top: buttonRect.top + window.scrollY,
         left: buttonRect.left + window.scrollX,
+        name: this.position,
       },
     };
     modalManager.updateModal(modalOptions);
@@ -172,12 +183,17 @@ export class CaptureEye extends LitElement {
   }
 
   private generateCaptureEyeSvg(
-    color: string, size: number
+    color: string,
+    size: number
   ): HTMLTemplateResult {
     return html`
       <svg
-        style="--eye-color: ${color};" width="${size}" height="${size}"
-        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+        style="--eye-color: ${color};"
+        width="${size}"
+        height="${size}"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
       >
         <g clip-path="url(#clip0_640_264)">
           <path
@@ -248,7 +264,7 @@ export class CaptureEye extends LitElement {
         </g>
         <defs>
           <clipPath id="clip0_640_264">
-            <rect width="24" height="24" fill="white"/>
+            <rect width="24" height="24" fill="white" />
           </clipPath>
         </defs>
       </svg>

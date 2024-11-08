@@ -29,6 +29,7 @@ interface ConstantType {
   layout: Layout;
   visibility: Visibility;
   color: Color;
+  position: Position;
 }
 
 interface Layout {
@@ -44,6 +45,13 @@ interface Visibility {
 interface Color {
   defaultEye: string;
   mobileEye: string;
+}
+
+interface Position {
+  topLeft: string;
+  topRight: string;
+  bottomLeft: string;
+  bottomRight: string;
 }
 
 const numbersCdnUrl = 'https://static-cdn.numbersprotocol.io';
@@ -83,5 +91,11 @@ export const Constant: ConstantType = {
   color: {
     defaultEye: '#377dde',
     mobileEye: '#333333',
-  }
+  },
+  position: {
+    topLeft: 'top left',
+    topRight: 'top right',
+    bottomLeft: 'bottom left',
+    bottomRight: 'bottom right',
+  },
 };

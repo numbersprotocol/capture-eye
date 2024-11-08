@@ -16,12 +16,17 @@ export function formatTxHash(txHash: string): string {
 }
 
 export function generateCaptureEyeCloseSvg(
-  color: string, size: number
+  color: string,
+  size: number
 ): HTMLTemplateResult {
   return html`
     <svg
-      style="--eye-color: ${color};" width="${size}" height="${size}"
-      viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+      style="--eye-color: ${color};"
+      width="${size}"
+      height="${size}"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
     >
       <path
         d="M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12
@@ -50,7 +55,7 @@ export interface ModalOptions {
   engagementZones?: EngagementZone[];
   actionButtonText?: string;
   actionButtonLink?: string;
-  position?: { top: number; left: number };
+  position?: { top: number; left: number; name: string };
 }
 
 @customElement('capture-eye-modal')
@@ -68,6 +73,9 @@ export class CaptureEyeModal extends LitElement {
   @state() protected _engagementZoneRotationInterval = 5000;
   @state() protected _engagementZoneRotationIntervalId: number | undefined =
     undefined;
+  @state() protected _position:
+    | { top: number; left: number; name: string }
+    | undefined = undefined;
   @state() protected _actionButtonText = '';
   @state() protected _actionButtonLink = '';
   @state() protected _asset: AssetModel | undefined = undefined;
@@ -120,11 +128,7 @@ export class CaptureEyeModal extends LitElement {
     if (options.actionButtonLink)
       this._actionButtonLink = options.actionButtonLink;
     if (options.position) {
-      const remOffset = this.remToPixels(1); // Convert 1rem to pixels
-      // Update modal position styles with 1rem offset
-      this.modalElement.style.position = 'absolute';
-      this.modalElement.style.top = `${options.position.top + remOffset}px`;
-      this.modalElement.style.left = `${options.position.left + remOffset}px`;
+      this._position = options.position;
     }
   }
 
@@ -141,6 +145,7 @@ export class CaptureEyeModal extends LitElement {
     this._actionButtonLink = '';
     this._asset = undefined;
     this._assetLoaded = false;
+    this._position = undefined;
   }
 
   private updateModalVisibility() {
@@ -163,13 +168,11 @@ export class CaptureEyeModal extends LitElement {
           { once: true }
         );
       } else {
+        this.updateModelPosition(closeButton as HTMLElement);
         this.modalElement.classList.remove('modal-hidden');
         this.modalElement.classList.add('modal-visible');
         closeButton.classList.remove('close-button-hidden');
         closeButton.classList.add('close-button-visible');
-        if (isMobile()) {
-          closeButton.classList.add('mobile');
-        }
       }
     }
   }
@@ -471,12 +474,12 @@ export class CaptureEyeModal extends LitElement {
   }
 
   override render() {
-    const mobile = isMobile()
+    const mobile = isMobile();
     const color = this._color
       ? this._color
       : mobile
-        ? Constant.color.mobileEye
-        : Constant.color.defaultEye;
+      ? Constant.color.mobileEye
+      : Constant.color.defaultEye;
     const size = mobile ? 24 : 32;
     return html`
       <div
@@ -531,6 +534,53 @@ export class CaptureEyeModal extends LitElement {
       this.nid,
       subid
     );
+  }
+
+  private updateModelPosition(closeButton: HTMLElement) {
+    if (!this._position) {
+      return;
+    }
+
+    const remOffset = this.remToPixels(1); // Convert 1rem to pixels
+    const top = this._position.top + remOffset;
+    const left = this._position.left + remOffset;
+    const positions = this._position.name.split(' ');
+
+    // Update modal position styles with 1rem offset
+    // Calculate the modal position relative to the media
+    let modelTop = top;
+    let modelLeft = left;
+    if (
+      modelTop > this.modalElement.offsetHeight &&
+      (positions.includes('bottom') ||
+        modelTop + this.modalElement.offsetHeight >
+          document.documentElement.scrollHeight)
+    ) {
+      modelTop -= this.modalElement.offsetHeight;
+    }
+    if (
+      modelLeft > this.modalElement.offsetWidth &&
+      (positions.includes('right') ||
+        modelLeft + this.modalElement.offsetWidth >
+          document.documentElement.scrollWidth)
+    ) {
+      modelLeft -= this.modalElement.offsetWidth;
+    }
+
+    this.modalElement.style.top = `${modelTop}px`;
+    this.modalElement.style.left = `${modelLeft}px`;
+
+    let transform_origin = top <= modelTop ? 'top' : 'bottom';
+    transform_origin =
+      transform_origin + ' ' + (left <= modelLeft ? 'left' : 'right');
+    this.modalElement.style.transformOrigin = transform_origin;
+
+    closeButton.style.top = `${
+      top - modelTop - closeButton.offsetHeight / 2
+    }px`;
+    closeButton.style.left = `${
+      left - modelLeft - closeButton.offsetWidth / 2
+    }px`;
   }
 }
 
