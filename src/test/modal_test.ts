@@ -1,6 +1,6 @@
 import { html } from 'lit';
 import { fixture, assert, expect } from '@open-wc/testing';
-import { CaptureEyeModal, formatTxHash } from '../modal/modal';
+import { CaptureEyeModal, formatTxHash, generateCaptureEyeCloseSvg } from '../modal/modal';
 import { AssetModel } from '../asset/asset-model';
 import interactionTracker, { TrackerEvent } from '../modal/interaction-tracker';
 import sinon from 'sinon';
@@ -75,7 +75,7 @@ suite('capture-eye-modal', () => {
             </a>
           </div>
           <div class="close-button close-button-hidden">
-            <img src="https://static-cdn.numbersprotocol.io/capture-eye/capture-eye-close-icon.png" alt="Close" />
+            ${generateCaptureEyeCloseSvg(Constant.color.defaultEye, 32).strings.join()}
           </div>
         </div>
       </div>
