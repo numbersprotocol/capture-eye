@@ -32,7 +32,6 @@ export function getModalStyles() {
       align-items: flex-start;
       opacity: 0;
       transform: scale(0.5);
-      transform-origin: top left;
       transition: opacity 0.3s ease-in-out, transform 0.3s ease-in;
       position: absolute;
     }
@@ -60,26 +59,15 @@ export function getModalStyles() {
 
     .close-button {
       position: absolute;
-      top: -16px;
-      left: -16px;
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 10001;
-      width: 32px;
-      height: 32px;
       cursor: pointer;
       border-radius: 100vw;
       opacity: 0;
       transform: scale(0.5) rotate(0deg);
       transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-    }
-
-    .close-button.mobile {
-      top: -12px;
-      left: -12px;
-      width: 24px;
-      height: 24px;
     }
 
     .close-button-visible {

@@ -9,6 +9,7 @@ export function getMediaViewerStyles() {
     video {
       width: var(--media-viewer-width, 100%);
       height: var(--media-viewer-height, auto);
+      vertical-align: bottom;
     }
     .unsupported {
       color: red;

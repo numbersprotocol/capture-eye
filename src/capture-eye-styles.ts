@@ -5,22 +5,21 @@ export function getCaptureEyeStyles() {
     :host {
       display: block;
       font-family: 'Degular-Medium', Helvetica;
-      --capture-eye-container-flex: 0 1 auto;
-      --capture-eye-container-display: flex;
+      --capture-eye-container-display: inline-block;
+    }
+
+    ::slotted(*) {
+      display: block;
     }
 
     .capture-eye-container {
       position: relative;
       display: var(--capture-eye-container-display);
-      flex: var(--capture-eye-container-flex);
+      vertical-align: bottom;
     }
 
     .capture-eye-button {
       position: absolute;
-      top: 0;
-      left: 0;
-      margin-top: 5px;
-      margin-left: 5px;
       justify-content: center;
       align-items: center;
       z-index: 100;
@@ -30,6 +29,22 @@ export function getCaptureEyeStyles() {
       border-radius: 100vw;
       opacity: 0.4;
       display: none; /* Hidden by default */
+    }
+    .capture-eye-button.position-top {
+      top: 0;
+      margin-top: 5px;
+    }
+    .capture-eye-button.position-bottom {
+      bottom: 0;
+      margin-bottom: 5px;
+    }
+    .capture-eye-button.position-left {
+      left: 0;
+      margin-left: 5px;
+    }
+    .capture-eye-button.position-right {
+      right: 0;
+      margin-right: 5px;
     }
     .capture-eye-button:hover {
       opacity: 1;
@@ -53,9 +68,7 @@ export function getCaptureEyeStyles() {
         text-overflow: ellipsis;
         content: 'Click me!';
         position: absolute;
-        left: 220%;
         /* Adjust as needed */
-        transform: translateX(-50%);
         padding: 5px 10px;
         background-color: #fff;
         /* Background color of the popup */
@@ -69,6 +82,14 @@ export function getCaptureEyeStyles() {
         pointer-events: none;
         /* Ensure it doesn't interfere with other interactions */
         font-family: 'Degular-Medium', Helvetica;
+      }
+      .capture-eye-button.position-left:hover::before {
+        left: 220%;
+        transform: translateX(-50%);
+      }
+      .capture-eye-button.position-right:hover::before {
+        right: 220%;
+        transform: translateX(50%);
       }
     }
 
