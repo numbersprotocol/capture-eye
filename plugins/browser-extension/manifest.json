@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Capture Eye",
+  "version": "1.0",
+  "description": "Enable Capture Eye widget everywhere",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "host_permissions": ["<all_urls>"]
+}
