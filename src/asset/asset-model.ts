@@ -2,6 +2,7 @@ export interface AssetModel {
   creator?: string;
   creatorWallet?: string;
   createdTime?: string;
+  encodingFormat?: string;
   headline?: string;
   initialTransaction?: string;
   thumbnailUrl?: string;
