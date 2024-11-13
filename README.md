@@ -86,6 +86,10 @@ The most simple way of adding Capture Eye to a webpage is by importing via CDN a
 </body>
 ```
 
+To always use the latest version of Capture Eye on your website, reference `capture-eye@latest`. Be aware that due to CDN edge locations and browser caching, it may take up to 12 hours for some users to receive the latest version after a release.
+
+If you prefer to control version updates and avoid automatic upgrades, use `capture-eye@<sem-version>` to specify an exact semantic version or install directly from the npm registry. Pinning the version ensures immediate upgrades when desired, bypassing any cache-related delays.
+
 For a full example, see the [example html](dev/index.html).
 
 To run a development server and view the example HTML in your browser, execute the following command:
