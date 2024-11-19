@@ -259,9 +259,44 @@ export class CaptureEyeModal extends LitElement {
   }
 
   private renderTop() {
-    const imgSrc = this._asset?.thumbnailUrl
-      ? this._asset?.thumbnailUrl
-      : 'https://via.placeholder.com/100';
+    const image = this._asset?.thumbnailUrl
+      ? html`<img
+          src=${this._asset?.thumbnailUrl}
+          alt="Profile"
+          class="profile-img"
+        />`
+      : typeof this._asset?.encodingFormat === 'string' &&
+        this._asset.encodingFormat.includes('audio/')
+      ? html`<svg
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svgjs="http://svgjs.com/svgjs"
+          width="100"
+          height="100"
+          x="0"
+          y="0"
+          viewBox="0 0 512 512"
+          style="enable-background:new 0 0 100 100"
+          xml:space="preserve"
+          class="profile-img"
+        >
+          <g>
+            <path
+              d="M501.969 5.638A23.063 23.063 0 0 0 483.603.231L160.83 46.341c-11.359 1.623-19.795 11.351-19.795 22.825V339.475c-13.656-7.956-29.509-12.537-46.421-12.537-51.021 0-92.531 41.51-92.531 92.531S43.592 512 94.613 512s92.531-41.51 92.531-92.531V181.383l276.663-39.523v151.504c-13.656-7.956-29.509-12.537-46.421-12.537-51.021 0-92.531 41.51-92.531 92.531 0 51.021 41.51 92.531 92.531 92.531s92.531-41.51 92.531-92.531V23.055a23.05 23.05 0 0 0-7.948-17.417z"
+              fill="#808080"
+              data-original="#000000"
+              data-darkreader-inline-fill=""
+              style="--darkreader-inline-fill: #292a2b;"
+              class=""
+            ></path>
+          </g>
+        </svg>`
+      : html`<img
+          src=${Constant.url.blankThumbnail}
+          alt="Profile"
+          class="profile-img"
+        />`;
     /*
      * original: signed_metadata.capture_time or assetTree.assetTimestampCreated or uploaded_at
      * curated: integrity(signed_metadata) capture_time
@@ -281,8 +316,8 @@ export class CaptureEyeModal extends LitElement {
             ? html`<a
                 href=${`${Constant.url.profile}/${this.nid}`}
                 target="_blank"
-                ><img src=${imgSrc} alt="Profile" class="profile-img"
-              /></a>`
+                >${image}</a
+              >`
             : html`<div class="shimmer-profile-img"></div>`}
           <div class="profile-text">
             <div class="top-name">

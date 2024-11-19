@@ -9,6 +9,7 @@ interface Url {
   showcase: string;
   collect: string;
   fontFaceCssUrl: string;
+  blankThumbnail: string;
   blockchainIcon: string;
   txIcon: string;
   curatorIcon: string;
@@ -68,6 +69,7 @@ export const Constant: ConstantType = {
     showcase: 'https://dashboard.captureapp.xyz/showcase',
     collect: 'https://captureappiframe.numbersprotocol.io/checkout',
     fontFaceCssUrl: `${numbersCdnUrl}/fonts/degular.css`,
+    blankThumbnail: 'https://via.placeholder.com/100',
     blockchainIcon: `${numbersCdnUrl}/capture-eye/capture-eye-blockchain-icon.svg`,
     txIcon: `${numbersCdnUrl}/capture-eye/capture-eye-tx-icon.svg`,
     curatorIcon: `${numbersCdnUrl}/capture-eye/capture-eye-curator-icon.png`,
