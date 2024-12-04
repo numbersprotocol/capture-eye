@@ -310,8 +310,7 @@ suite('capture-eye-modal', () => {
     await el.updateComplete;
 
     // Check that the modal is visible
-    expect(modal.style.top).to.not.equal('-9999px');
-    expect(modal.style.left).to.not.equal('-9999px');
+    expect(modal.style.display).to.equal('block');
 
     // Set the modal to hidden
     el.modalHidden = true;
@@ -321,9 +320,8 @@ suite('capture-eye-modal', () => {
     modal.dispatchEvent(new Event('transitionend'));
     await el.updateComplete;
 
-    // Check that the modal is moved off-screen after hiding
-    expect(modal.style.top).to.equal('-9999px');
-    expect(modal.style.left).to.equal('-9999px');
+    // Check that the modal is display none
+    expect(modal.style.display).to.equal('none');
   });
 
   test('tracks engagement when engagement link is clicked', async () => {

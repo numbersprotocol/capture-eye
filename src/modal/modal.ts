@@ -151,28 +151,8 @@ export class CaptureEyeModal extends LitElement {
   private updateModalVisibility() {
     const closeButton = this.shadowRoot?.querySelector('.close-button');
     if (this.modalElement && closeButton) {
-      if (this.modalHidden) {
-        this.modalElement.classList.add('modal-hidden');
-        this.modalElement.classList.remove('modal-visible');
-        closeButton.classList.add('close-button-hidden');
-        closeButton.classList.remove('close-button-visible');
-        // Add a transitionend event listener to move the modal off-screen after the animation
-        this.modalElement.addEventListener(
-          'transitionend',
-          () => {
-            if (this.modalHidden) {
-              this.modalElement.style.top = '-9999px';
-              this.modalElement.style.left = '-9999px';
-            }
-          },
-          { once: true }
-        );
-      } else {
+      if (!this.modalHidden) {
         this.updateModelPosition(closeButton as HTMLElement);
-        this.modalElement.classList.remove('modal-hidden');
-        this.modalElement.classList.add('modal-visible');
-        closeButton.classList.remove('close-button-hidden');
-        closeButton.classList.add('close-button-visible');
       }
     }
   }
@@ -533,7 +513,12 @@ export class CaptureEyeModal extends LitElement {
             </div>
           </div>
           ${this.renderEngagementZone()}
-          <div class="close-button" @click=${this.hideModal}>
+          <div
+            class="close-button ${this.modalHidden
+              ? 'close-button-hidden'
+              : 'close-button-visible'}"
+            @click=${this.hideModal}
+          >
             ${generateCaptureEyeCloseSvg(color, size)}
           </div>
         </div>
