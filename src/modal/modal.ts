@@ -93,13 +93,12 @@ export class CaptureEyeModal extends LitElement {
     this.stopEngagementZoneRotation();
   }
 
-  override firstUpdated() {
-    this.updateModalVisibility();
-  }
-
   override updated(changedProperties: Map<string | number | symbol, unknown>) {
     if (changedProperties.has('modalHidden')) {
-      this.updateModalVisibility();
+      const closeButton = this.shadowRoot?.querySelector('.close-button');
+      if (this.modalElement && closeButton && !this.modalHidden) {
+        this.updateModelPosition(closeButton as HTMLElement);
+      }
     }
   }
 
@@ -146,15 +145,6 @@ export class CaptureEyeModal extends LitElement {
     this._asset = undefined;
     this._assetLoaded = false;
     this._position = undefined;
-  }
-
-  private updateModalVisibility() {
-    const closeButton = this.shadowRoot?.querySelector('.close-button');
-    if (this.modalElement && closeButton) {
-      if (!this.modalHidden) {
-        this.updateModelPosition(closeButton as HTMLElement);
-      }
-    }
   }
 
   private remToPixels(rem: number): number {
@@ -517,7 +507,7 @@ export class CaptureEyeModal extends LitElement {
             class="close-button ${this.modalHidden
               ? 'close-button-hidden'
               : 'close-button-visible'}"
-            @click=${this.hideModal}
+            @click=${this.emitRemoveEvent}
           >
             ${generateCaptureEyeCloseSvg(color, size)}
           </div>
@@ -537,8 +527,9 @@ export class CaptureEyeModal extends LitElement {
     }
   }
 
-  private hideModal() {
-    this.modalHidden = true;
+  private emitRemoveEvent() {
+    // Emit remove event to trigger ModalManager to remove the modal
+    this.dispatchEvent(new CustomEvent('remove-capture-eye-modal'));
   }
 
   private trackEngagement() {

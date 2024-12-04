@@ -31,24 +31,19 @@ export class ModalManager {
     return ModalManager.instance;
   }
 
-  initializeModal(): void {
-    if (!this.modalElement) {
-      this.modalElement = document.createElement('capture-eye-modal');
-      document.body.appendChild(this.modalElement);
-    }
-  }
-
   async updateModal(options: ModalOptions, delay = 150): Promise<void> {
-    if (!this.modalElement) return;
-    this.modalElement.modalHidden = true;
+    let modal = this.getModal();
+    modal.modalHidden = true;
     await new Promise((resolve) => setTimeout(resolve, delay));
-    const nidChanged = this.modalElement.nid !== options.nid;
+    const nidChanged = modal.nid !== options.nid;
     if (nidChanged) {
-      this.modalElement.clearModalOptions();
+      modal.clearModalOptions();
+      this.removeModal();
+      modal = this.getModal();
     }
-    this.modalElement.modalHidden = false;
+    modal.modalHidden = false;
     this.registerRootClickListener();
-    this.modalElement.updateModalOptions(options);
+    modal.updateModalOptions(options);
 
     if (nidChanged) {
       fetchAsset(options.nid).then((assetData) => {
@@ -68,19 +63,33 @@ export class ModalManager {
     }
   }
 
-  hideModal(): void {
-    if (this.modalElement) {
-      this.modalElement.modalHidden = true;
-      this.unregisterRootClickListener();
+  removeModal(): void {
+    const modal = this.getModal();
+    modal.modalHidden = true;
+    this.unregisterRootClickListener();
+    modal.remove();
+    this.modalElement = null;
+  }
+
+  private getModal(): CaptureEyeModal {
+    if (!this.modalElement) {
+      this.modalElement = document.createElement('capture-eye-modal');
+      this.modalElement.addEventListener('remove-capture-eye-modal', () => {
+        this.removeModal();
+      });
+      document.body.appendChild(this.modalElement);
+      return this.modalElement;
     }
+    return this.modalElement;
   }
 
   private updateModalAsset(
     assetModel: AssetModel | undefined,
     setAsLoaded: boolean
   ) {
-    if (!this.modalElement || !assetModel) return;
-    this.modalElement.updateAsset(assetModel, setAsLoaded);
+    const modal = this.getModal();
+    if (!assetModel) return;
+    modal.updateAsset(assetModel, setAsLoaded);
   }
 
   private registerRootClickListener() {
@@ -92,11 +101,9 @@ export class ModalManager {
   }
 
   private handleRootClick = (event: MouseEvent) => {
-    if (
-      this.modalElement &&
-      !this.modalElement.contains(event.target as Node)
-    ) {
-      this.hideModal();
+    const modal = this.getModal();
+    if (!modal.contains(event.target as Node)) {
+      this.removeModal();
     }
   };
 }
