@@ -27,7 +27,6 @@ export function getModalStyles() {
 
     .modal {
       z-index: 1000;
-      display: flex;
       justify-content: flex-start;
       align-items: flex-start;
       display: none;
@@ -40,7 +39,7 @@ export function getModalStyles() {
     }
 
     .modal-visible {
-      display: block;
+      display: flex;
       opacity: 1;
       transform: scale(1);
     }
