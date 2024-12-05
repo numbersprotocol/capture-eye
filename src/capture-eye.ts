@@ -89,6 +89,11 @@ export class CaptureEye extends LitElement {
     console.debug(CaptureEyeModal.name); // The line ensures CaptureEyeModal is included in compilation.
   }
 
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    ModalManager.getInstance().removeModal();
+  }
+
   get isOpened() {
     return !ModalManager.getInstance().modalHidden;
   }
@@ -99,7 +104,7 @@ export class CaptureEye extends LitElement {
   }
 
   close() {
-    ModalManager.getInstance().hideModal();
+    ModalManager.getInstance().removeModal();
   }
 
   private buttonTemplate() {
@@ -141,11 +146,6 @@ export class CaptureEye extends LitElement {
         ${this.buttonTemplate()}
       </div>
     `;
-  }
-
-  override async connectedCallback() {
-    super.connectedCallback();
-    ModalManager.getInstance().initializeModal();
   }
 
   openEye(event?: Event) {

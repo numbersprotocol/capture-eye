@@ -1,5 +1,5 @@
 import { html } from 'lit';
-import { fixture, assert, expect } from '@open-wc/testing';
+import { fixture, assert, expect, waitUntil } from '@open-wc/testing';
 import {
   CaptureEyeModal,
   formatTxHash,
@@ -90,9 +90,9 @@ suite('capture-eye-modal', () => {
     );
   });
 
-  test('handles modal visibility', async () => {
+  test('handles modal visibility correctly', async () => {
     const el = await fixture<CaptureEyeModal>(
-      html`<capture-eye-modal class="modal-hidden"></capture-eye-modal>`
+      html`<capture-eye-modal></capture-eye-modal>`
     );
     const modal = el.shadowRoot?.querySelector('.modal');
     expect(modal).to.not.be.null;
@@ -102,25 +102,33 @@ suite('capture-eye-modal', () => {
     await el.updateComplete;
     expect(modal?.classList.contains('modal-hidden')).to.be.false;
     expect(modal?.classList.contains('modal-visible')).to.be.true;
+
+    el.modalHidden = true;
+    await el.updateComplete;
+    expect(modal?.classList.contains('modal-hidden')).to.be.true;
   });
 
-  test('calls hideModal() when close button is clicked', async () => {
+  test('emits remove-capture-eye-modal event when close button is clicked', async () => {
     const el = await fixture<CaptureEyeModal>(
       html`<capture-eye-modal></capture-eye-modal>`
     );
     const closeButton = el.shadowRoot?.querySelector(
       '.close-button'
     ) as HTMLElement;
-    expect(closeButton).to.exist;
+
+    const eventSpy = sinon.spy(el, 'dispatchEvent');
 
     el.modalHidden = false;
     await el.updateComplete;
     closeButton.click();
-    await el.updateComplete;
 
-    const modal = el.shadowRoot?.querySelector('.modal');
-    expect(modal?.classList.contains('modal-hidden')).to.be.true;
-    expect(el.modalHidden).to.be.true;
+    expect(eventSpy).to.have.been.calledWith(
+      sinon.match
+        .instanceOf(CustomEvent)
+        .and(sinon.match.has('type', 'remove-capture-eye-modal'))
+    );
+
+    eventSpy.restore();
   });
 
   test('renders engagement image and link correctly', async () => {
@@ -128,12 +136,10 @@ suite('capture-eye-modal', () => {
       'https://static-cdn.numbersprotocol.io/capture-eye/capture-ad.png';
     const engagementLink = 'https://example.com';
 
-    // Fixture to create the CaptureEyeModal component
     const el = await fixture<CaptureEyeModal>(html`
       <capture-eye-modal></capture-eye-modal>
     `);
 
-    // Set the modal options with engagement zones
     el.updateModalOptions({
       nid: '123',
       engagementZones: [{ image: engagementImage, link: engagementLink }],
@@ -299,7 +305,7 @@ suite('capture-eye-modal', () => {
     expect((el as any)._position).to.equal(undefined);
   });
 
-  test('modal visibility toggle works with transition end', async () => {
+  test('modal visibility toggle works', async () => {
     const el = await fixture<CaptureEyeModal>(html`
       <capture-eye-modal></capture-eye-modal>
     `);
@@ -309,21 +315,23 @@ suite('capture-eye-modal', () => {
     el.modalHidden = false;
     await el.updateComplete;
 
-    // Check that the modal is visible
-    expect(modal.style.top).to.not.equal('-9999px');
-    expect(modal.style.left).to.not.equal('-9999px');
+    // Wait until the modal becomes visible
+    await waitUntil(
+      () => getComputedStyle(modal).display === 'flex',
+      'Modal should be visible'
+    );
+    expect(getComputedStyle(modal).display).to.equal('flex');
 
     // Set the modal to hidden
     el.modalHidden = true;
     await el.updateComplete;
 
-    // Simulate the 'transitionend' event to trigger moving the modal off-screen
-    modal.dispatchEvent(new Event('transitionend'));
-    await el.updateComplete;
-
-    // Check that the modal is moved off-screen after hiding
-    expect(modal.style.top).to.equal('-9999px');
-    expect(modal.style.left).to.equal('-9999px');
+    // Wait until the modal is hidden
+    await waitUntil(
+      () => getComputedStyle(modal).display === 'none',
+      'Modal should be hidden'
+    );
+    expect(getComputedStyle(modal).display).to.equal('none');
   });
 
   test('tracks engagement when engagement link is clicked', async () => {
@@ -389,16 +397,16 @@ suite('capture-eye-modal', () => {
     await el.updateComplete;
 
     // Check that the asset details are rendered
-    const creator = el.shadowRoot?.querySelector('.top-name') as HTMLElement;
-    expect(creator.innerText).to.equal(assetData.creator);
+    const creator = el.shadowRoot?.querySelector('.top-name a') as HTMLElement;
+    expect(creator.textContent?.trim()).to.equal(assetData.creator);
 
     const location = el.shadowRoot?.querySelector(
       '.top-info:last-child'
     ) as HTMLElement;
-    expect(location.innerText).to.equal(assetData.captureLocation);
+    expect(location.textContent?.trim()).to.equal(assetData.captureLocation);
 
     const headline = el.shadowRoot?.querySelector('.headline') as HTMLElement;
-    expect(headline.innerText).to.equal(assetData.headline);
+    expect(headline.textContent?.trim()).to.equal(assetData.headline);
 
     const img = el.shadowRoot?.querySelector(
       '.profile-img'

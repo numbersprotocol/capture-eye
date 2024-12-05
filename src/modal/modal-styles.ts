@@ -27,18 +27,34 @@ export function getModalStyles() {
 
     .modal {
       z-index: 1000;
-      display: flex;
       justify-content: flex-start;
       align-items: flex-start;
+      display: none;
       opacity: 0;
       transform: scale(0.5);
-      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in;
+      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in,
+        display 0.3s ease;
+      transition-behavior: allow-discrete;
       position: absolute;
     }
 
     .modal-visible {
+      display: flex;
       opacity: 1;
       transform: scale(1);
+    }
+
+    @starting-style {
+      .modal.modal-visible {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+    }
+
+    .modal-hidden {
+      display: none;
+      opacity: 0;
+      transform: scale(0.5);
     }
 
     .modal-container {
@@ -46,11 +62,6 @@ export function getModalStyles() {
       border-radius: var(--border-radius);
       width: 20rem;
       box-shadow: var(--box-shadow);
-    }
-
-    .modal-hidden {
-      opacity: 0;
-      transform: scale(0.5);
     }
 
     .modal-content {
