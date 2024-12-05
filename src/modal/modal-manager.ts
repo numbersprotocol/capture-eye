@@ -64,10 +64,10 @@ export class ModalManager {
   }
 
   removeModal(): void {
-    const modal = this.getModal();
-    modal.modalHidden = true;
+    if (!this.modalElement) return;
+    this.modalElement.modalHidden = true;
     this.unregisterRootClickListener();
-    modal.remove();
+    this.modalElement.remove();
     this.modalElement = null;
   }
 
@@ -87,9 +87,8 @@ export class ModalManager {
     assetModel: AssetModel | undefined,
     setAsLoaded: boolean
   ) {
-    const modal = this.getModal();
-    if (!assetModel) return;
-    modal.updateAsset(assetModel, setAsLoaded);
+    if (!this.modalElement || !assetModel) return;
+    this.modalElement.updateAsset(assetModel, setAsLoaded);
   }
 
   private registerRootClickListener() {
