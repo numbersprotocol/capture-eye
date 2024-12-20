@@ -32,17 +32,17 @@ export class ModalManager {
   }
 
   async updateModal(options: ModalOptions, delay = 150): Promise<void> {
+    const existed = this.modalElement !== null;
     let modal = this.getModal();
     modal.modalHidden = true;
     await new Promise((resolve) => setTimeout(resolve, delay));
     const nidChanged = modal.nid !== options.nid;
-    if (nidChanged) {
+    if (existed && nidChanged) {
       modal.clearModalOptions();
       this.removeModal();
       modal = this.getModal();
     }
     modal.modalHidden = false;
-    this.registerRootClickListener();
     modal.updateModalOptions(options);
 
     if (nidChanged) {
@@ -78,6 +78,7 @@ export class ModalManager {
         this.removeModal();
       });
       document.body.appendChild(this.modalElement);
+      this.registerRootClickListener();
       return this.modalElement;
     }
     return this.modalElement;

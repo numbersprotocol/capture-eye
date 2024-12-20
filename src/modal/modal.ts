@@ -110,7 +110,10 @@ export class CaptureEyeModal extends LitElement {
   updateModalOptions(options: ModalOptions) {
     if (options.nid) this.nid = options.nid;
     if (options.layout) this.layout = options.layout;
-    if (options.color) this._color = options.color;
+    if (options.color !== undefined && options.color !== this._color) {
+      this._color = options.color;
+      this.updateModalColor();
+    }
     if (options.copyrightZoneTitle)
       this._copyrightZoneTitle = options.copyrightZoneTitle;
     if (
@@ -545,6 +548,40 @@ export class CaptureEyeModal extends LitElement {
       this.nid,
       subid
     );
+  }
+
+  private updateModalColor() {
+    // Set primary color
+    this.style.setProperty('--primary-color', this._color);
+
+    // Set hover color
+    this.style.setProperty('--hover-color', '');  // Clear the color
+    if (!this._color) {
+      return;
+    }
+
+    const ctx = document.createElement('canvas').getContext('2d');
+    if (!ctx) {
+      return;
+    }
+
+    ctx.fillStyle = this._color;
+    let hoverColor = ctx.fillStyle;
+    const hexPattern = /^#[0-9a-fA-F]{6}$/;
+    if (!hexPattern.test(hoverColor)) {
+      return;
+    }
+
+    function fadeColor(start: number): number {
+      const n = parseInt(hoverColor.substring(start, start + 2), 16);
+      return Math.round(n + (255 - n) * 0.5);
+    }
+
+    const r = fadeColor(1);
+    const g = fadeColor(3);
+    const b = fadeColor(5);
+    hoverColor = `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+    this.style.setProperty('--hover-color', hoverColor);
   }
 
   private updateModelPosition(closeButton: HTMLElement) {
