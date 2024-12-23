@@ -12,8 +12,12 @@ It includes customizable action buttons for donations, purchases, or licensing, 
 
 <p align="center"><img src="https://static-cdn.numbersprotocol.io/capture-eye/overview.webp" /></p>
 
-For more info on Capture Eye, refer to the GitBook [Captue Eye](https://docs.captureapp.xyz/capture-eye) page.
+For more info on Capture Eye, refer to the GitBook [Capture Eye](https://docs.captureapp.xyz/capture-eye) page.
 
 ## Integration
 
 Please refer to the Capture Eye [Integration](https://docs.captureapp.xyz/capture-eye/installation-and-integration) GitBook page for detailed installation and usage guide.
+
+## Release
+
+For release process, please refer to [RELEASE.md](RELEASE.md).
