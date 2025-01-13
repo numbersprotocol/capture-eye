@@ -36,6 +36,12 @@ export class MediaViewer extends LitElement {
       }
       this.requestUpdate();
     }
+    if (
+      !this.mimeType ||
+      !(this.isImageMimeType(this.mimeType) || this.isVideoMimeType(this.mimeType))
+    ) {
+      this.dispatchEvent(new Event('error'));
+    }
   }
 
   isImageMimeType(mimeType: string): boolean {
@@ -63,6 +69,7 @@ export class MediaViewer extends LitElement {
         src=${this.src}
         alt="Image"
         style="width: ${this.width}; height: ${this.height};"
+        @error=${this.handleEvent}
       />`;
     }
 
@@ -74,6 +81,7 @@ export class MediaViewer extends LitElement {
           ?autoplay=${this.autoplay}
           ?loop=${this.loop}
           ?muted=${this.muted}
+          @error=${this.handleEvent}
         >
           <source src=${this.src} type=${this.mimeType} />
           Your browser does not support the video tag.
@@ -82,6 +90,10 @@ export class MediaViewer extends LitElement {
     }
 
     return html`<div class="unsupported">Unsupported file format</div>`;
+  }
+
+  private handleEvent(event: Event) {
+    this.dispatchEvent(new Event(event.type));
   }
 }
 

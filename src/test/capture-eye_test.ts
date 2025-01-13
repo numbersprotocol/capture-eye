@@ -123,4 +123,36 @@ suite('capture-eye', () => {
     );
     spyOpenEye.restore();
   });
+
+  test('button should change when its visibility is set to always', async () => {
+    const captureEye = await fixture<CaptureEye>(html`
+      <capture-eye nid="12345" visibility="always">
+        <div></div>
+      </capture-eye>
+    `);
+    const button = captureEye.shadowRoot?.querySelector('.capture-eye-button') as HTMLElement;
+
+    assert.isFalse(
+      button.classList.contains('full-visibility'),
+      'Button should not be fully visible beforehand'
+    );
+
+    const slot = captureEye.shadowRoot?.querySelector('slot') as HTMLSlotElement;
+    const div = slot.assignedNodes({ flatten: true }).find((node) => {
+      return node.nodeType === Node.ELEMENT_NODE && node.nodeName == 'DIV'
+    }) as HTMLElement;
+
+    // Simulate a size change
+    div.style.width = '50px';
+    div.style.height = '50px';
+
+    // Wait a ResizeObserver callback
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    await captureEye.updateComplete;
+
+    assert.isTrue(
+      button.classList.contains('full-visibility'),
+      'Button should be fully visible afterhand'
+    );
+  });
 });
