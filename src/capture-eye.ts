@@ -1,5 +1,5 @@
 import { LitElement, HTMLTemplateResult, html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { Constant } from './constant.js';
 import { getCaptureEyeStyles } from './capture-eye-styles.js';
 import { ModalManager } from './modal/modal-manager.js';
@@ -74,6 +74,11 @@ export class CaptureEye extends LitElement {
   @property({ type: String, attribute: 'action-button-link' })
   actionButtonLink = '';
 
+  @state({})
+  protected _isFullVisibility = false;
+
+  private _resizeObserver: ResizeObserver | null = null;
+
   get assetUrl() {
     return `${Constant.url.ipfsGateway}/${this.nid}`;
   }
@@ -89,9 +94,31 @@ export class CaptureEye extends LitElement {
     console.debug(CaptureEyeModal.name); // The line ensures CaptureEyeModal is included in compilation.
   }
 
+  override connectedCallback() {
+    super.connectedCallback();
+
+    if (!this._resizeObserver && (this.visibility === Constant.visibility.always || isMobile())) {
+      this._resizeObserver = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          this.handleResize(entry);
+        }
+      });
+
+      // Handle edge cases where the size remains unchanged and no errors occur
+      setTimeout(() => {
+        this.setButtonFullVisibility();
+      }, 3000);
+    }
+  }
+
   override disconnectedCallback() {
     super.disconnectedCallback();
     ModalManager.getInstance().removeModal();
+
+    if (this._resizeObserver) {
+      this._resizeObserver.disconnect();
+      this._resizeObserver = null;
+    }
   }
 
   get isOpened() {
@@ -122,8 +149,7 @@ export class CaptureEye extends LitElement {
     const positions = this.position.split(' ');
     return html`
       <div
-        class="capture-eye-button ${this.visibility ===
-          Constant.visibility.always || mobile
+        class="capture-eye-button ${this._isFullVisibility
           ? 'full-visibility'
           : ''}
           ${positions.includes('bottom') ? 'position-bottom' : 'position-top'}
@@ -142,6 +168,7 @@ export class CaptureEye extends LitElement {
         <slot
           @mouseenter=${this.handleMouseEnter}
           @mouseleave=${this.handleMouseLeave}
+          @slotchange=${this.handleSlotChange}
         ></slot>
         ${this.buttonTemplate()}
       </div>
@@ -283,6 +310,43 @@ export class CaptureEye extends LitElement {
     this.setButtonActive(false);
   }
 
+  private handleResize(entry: ResizeObserverEntry) {
+    if (entry.contentRect.width > 0 && entry.contentRect.height > 0) {
+      this.setButtonFullVisibility();
+    }
+  }
+
+  private handleSlotChange(event: Event) {
+    if (!this._resizeObserver) {
+      return;
+    }
+
+    const slot = event.target as HTMLSlotElement;
+    if (!slot) {
+      return;
+    }
+
+    let sizeNotEmpty = false;
+    const nodes = slot.assignedNodes({ flatten: true }).filter((node) => {
+      if (node.nodeType !== Node.ELEMENT_NODE) {
+        return false;
+      }
+      const rect = (node as Element).getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        sizeNotEmpty = true;
+      }
+      return true;
+    });
+    if (nodes.length === 0 || sizeNotEmpty) {
+      this.setButtonFullVisibility();
+    } else {
+      nodes.forEach((node) => {
+        this._resizeObserver?.observe(node as Element);
+        node.addEventListener('error', () => this.setButtonFullVisibility());
+      });
+    }
+  }
+
   private setButtonActive(active: boolean) {
     const button = this.getButtonElement();
     if (button) {
@@ -291,6 +355,14 @@ export class CaptureEye extends LitElement {
       } else {
         button.classList.remove('active');
       }
+    }
+  }
+
+  private setButtonFullVisibility() {
+    if (this._resizeObserver) {
+      this._isFullVisibility = true;
+      this._resizeObserver.disconnect();
+      this._resizeObserver = null;
     }
   }
 
