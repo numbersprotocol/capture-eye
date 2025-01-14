@@ -326,20 +326,24 @@ export class CaptureEye extends LitElement {
       return;
     }
 
-    if (!slot.assignedNodes({ flatten: true }).some((node) => {
+    let sizeNotEmpty = false;
+    const nodes = slot.assignedNodes({ flatten: true }).filter((node) => {
       if (node.nodeType !== Node.ELEMENT_NODE) {
         return false;
       }
       const rect = (node as Element).getBoundingClientRect();
       if (rect.width > 0 && rect.height > 0) {
-        this.setButtonFullVisibility();
-      } else {
-        this._resizeObserver?.observe(node as Element);
-        node.addEventListener('error', () => this.setButtonFullVisibility());
+        sizeNotEmpty = true;
       }
       return true;
-    })) {  // No any node
+    });
+    if (nodes.length === 0 || sizeNotEmpty) {
       this.setButtonFullVisibility();
+    } else {
+      nodes.forEach((node) => {
+        this._resizeObserver?.observe(node as Element);
+        node.addEventListener('error', () => this.setButtonFullVisibility());
+      });
     }
   }
 
