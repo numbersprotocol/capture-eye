@@ -71,8 +71,8 @@ export class CaptureEyeModal extends LitElement {
   @state() protected _engagementZones: EngagementZone[] = [];
   @state() protected _engagementZoneIndex = 0;
   @state() protected _engagementZoneRotationInterval = 5000;
-  @state() protected _engagementZoneRotationIntervalId: number | undefined =
-    undefined;
+  @state() protected _engagementZoneRotationIntervalId:
+    number | NodeJS.Timeout | undefined = undefined;
   @state() protected _position:
     | { top: number; left: number; name: string }
     | undefined = undefined;
@@ -313,7 +313,7 @@ export class CaptureEyeModal extends LitElement {
         <div class="headline">
           ${this._assetLoaded
             ? this._asset?.headline ?? ''
-            : html`<div class="shimmer-text"></div>`}
+            : html`<div class="shimmer-text" style="height: auto;">&nbsp;</div>`}
         </div>
       </div>
     `;
@@ -344,7 +344,7 @@ export class CaptureEyeModal extends LitElement {
                 <span class="value-text">${transactionText}</span>
               </a>`
             : html`<span class="value-text">${transactionText}</span>`}`
-      : html`<span class="shimmer-text"></span>`}`;
+      : html`<span class="shimmer-text" style="height: 21.5px;"></span>`}`;
   }
 
   private renderDefaultProvenanceZone() {
@@ -366,7 +366,7 @@ export class CaptureEyeModal extends LitElement {
                         >${Constant.text.numbersMainnet}</span
                       >
                     </a>`
-                : html`<span class="shimmer-text"></span>`}
+                : html`<span class="shimmer-text" style="height: 21.5px;"></span>`}
             </div>
             <div class="middle-row">${this.renderTransaction()}</div>`
         : html`<div class="middle-row">
@@ -375,7 +375,7 @@ export class CaptureEyeModal extends LitElement {
                   <span class="field-text">
                     ${this._asset?.backendOwnerName ?? ''}
                   </span>`
-              : html`<div class="shimmer-text"></div>`}
+              : html`<div class="shimmer-text" style="height: 21.5px;"></div>`}
           </div>`}
     </div>`;
   }
@@ -435,7 +435,7 @@ export class CaptureEyeModal extends LitElement {
             ? html`<a href=${Constant.url.numbersWebsite} target="_blank"
                 >Powered by Numbers Protocol</a
               >`
-            : html`<div class="shimmer-text"></div>`}
+            : html`<div class="shimmer-text" style="height: auto;">&nbsp;</div>`}
         </div>
       </div>
     `;
@@ -506,14 +506,14 @@ export class CaptureEyeModal extends LitElement {
             </div>
           </div>
           ${this.renderEngagementZone()}
-          <div
-            class="close-button ${this.modalHidden
-              ? 'close-button-hidden'
-              : 'close-button-visible'}"
-            @click=${this.emitRemoveEvent}
-          >
-            ${generateCaptureEyeCloseSvg(color, size)}
-          </div>
+        </div>
+        <div
+          class="close-button ${this.modalHidden
+            ? 'close-button-hidden'
+            : 'close-button-visible'}"
+          @click=${this.emitRemoveEvent}
+        >
+          ${generateCaptureEyeCloseSvg(color, size)}
         </div>
       </div>
     `;
@@ -605,7 +605,13 @@ export class CaptureEyeModal extends LitElement {
           document.documentElement.scrollHeight)
     ) {
       modelTop -= this.modalElement.offsetHeight;
+    } else if (
+      modelTop + this.modalElement.offsetHeight > document.documentElement.scrollHeight
+    ) {
+      modelTop =
+        document.documentElement.scrollHeight - this.modalElement.offsetHeight;
     }
+
     if (
       modelLeft > this.modalElement.offsetWidth &&
       (positions.includes('right') ||
@@ -613,22 +619,35 @@ export class CaptureEyeModal extends LitElement {
           document.documentElement.scrollWidth)
     ) {
       modelLeft -= this.modalElement.offsetWidth;
+    } else if (
+      modelLeft + this.modalElement.offsetWidth > document.documentElement.scrollWidth
+    ) {
+      modelLeft = document.documentElement.scrollWidth - this.modalElement.offsetWidth;
     }
 
     this.modalElement.style.top = `${modelTop}px`;
     this.modalElement.style.left = `${modelLeft}px`;
 
-    let transform_origin = top <= modelTop ? 'top' : 'bottom';
-    transform_origin =
-      transform_origin + ' ' + (left <= modelLeft ? 'left' : 'right');
-    this.modalElement.style.transformOrigin = transform_origin;
+    let startTop = top - modelTop;
+    let startLeft = left - modelLeft;
+    if (
+      startTop != 0 && startTop != this.modalElement.offsetHeight
+      && startLeft != 0 && startLeft != this.modalElement.offsetWidth
+    ) {  // The starting position is not aligned with the edge
+      if (startTop <= startLeft) {
+        startTop = 0;
+      } else {
+        startLeft = 0;
+      }
+    }
 
-    closeButton.style.top = `${
-      top - modelTop - closeButton.offsetHeight / 2
-    }px`;
-    closeButton.style.left = `${
-      left - modelLeft - closeButton.offsetWidth / 2
-    }px`;
+    const modalContainer = this.shadowRoot?.querySelector('.modal-container');
+    if (modalContainer) {
+        (modalContainer as HTMLDivElement).style.transformOrigin = `${startLeft}px ${startTop}px`;
+    }
+
+    closeButton.style.top = `${startTop - closeButton.offsetHeight / 2}px`;
+    closeButton.style.left = `${startLeft - closeButton.offsetWidth / 2}px`;
   }
 }
 

@@ -1,5 +1,6 @@
 import { html } from 'lit';
 import { fixture, assert, expect, waitUntil } from '@open-wc/testing';
+import { setViewport } from '@web/test-runner-commands';
 import {
   CaptureEyeModal,
   formatTxHash,
@@ -42,22 +43,38 @@ suite('capture-eye-modal', () => {
                   </div>
                 </div>
                 <div class="headline">
-                  <div class="shimmer-text"></div>
+                  <div
+                    class="shimmer-text"
+                    style="height: auto;"
+                  >
+                  </div>
                 </div>
               </div>
               <div class="section">
                 <div class="section-title">Origins</div>
                 <div class="middle-row">
-                  <span class="shimmer-text"></span>
+                  <span
+                    class="shimmer-text"
+                    style="height: 21.5px;"
+                  >
+                  </span>
                 </div>
                 <div class="middle-row">
-                  <span class="shimmer-text"></span>
+                  <span
+                    class="shimmer-text"
+                    style="height: 21.5px;"
+                  >
+                  </span>
                 </div>
               </div>
               <div class="section">
                 <a href="https://asset.captureapp.xyz/" target="_blank"><button class="view-more-btn">View More</button></a>
                 <div class="powered-by">
-                  <div class="shimmer-text"></div>
+                  <div
+                    class="shimmer-text"
+                    style="height: auto;"
+                  >
+                  </div>
                 </div>
               </div>
             </div>
@@ -78,12 +95,12 @@ suite('capture-eye-modal', () => {
               </div>
             </a>
           </div>
-          <div class="close-button close-button-hidden">
-            ${generateCaptureEyeCloseSvg(
-              Constant.color.defaultEye,
-              32
-            ).strings.join()}
-          </div>
+        </div>
+        <div class="close-button close-button-hidden">
+          ${generateCaptureEyeCloseSvg(
+            Constant.color.defaultEye,
+            32
+          ).strings.join()}
         </div>
       </div>
       `
@@ -229,6 +246,10 @@ suite('capture-eye-modal', () => {
       <capture-eye-modal></capture-eye-modal>
     `);
 
+    const originalWidth = window.innerWidth;
+    const originalHeight = window.innerHeight;
+    await setViewport({ width: 850, height: 850 });
+
     const position = { top: 100, left: 200, name: '' };
 
     el.updateModalOptions({
@@ -239,7 +260,7 @@ suite('capture-eye-modal', () => {
     el.modalHidden = false;
     await el.updateComplete;
 
-    let modal = el.shadowRoot?.querySelector('.modal') as HTMLDivElement;
+    const modal = el.shadowRoot?.querySelector('.modal') as HTMLDivElement;
 
     expect(modal.style.top).to.equal('116px'); // Assuming 1rem = 16px (this may vary)
     expect(modal.style.left).to.equal('216px');
@@ -253,8 +274,6 @@ suite('capture-eye-modal', () => {
     });
     await el.updateComplete;
 
-    modal = el.shadowRoot?.querySelector('.modal') as HTMLDivElement;
-
     expect(modal.style.top).to.equal(`${600 + 16 - modal.offsetHeight}px`);
     expect(modal.style.left).to.equal(`${800 + 16 - modal.offsetWidth}px`);
 
@@ -267,10 +286,28 @@ suite('capture-eye-modal', () => {
     });
     await el.updateComplete;
 
-    modal = el.shadowRoot?.querySelector('.modal') as HTMLDivElement;
-
     expect(modal.style.top).to.equal('116px');
     expect(modal.style.left).to.equal('216px');
+
+    // Position is top left without enough space between the modal and the edges
+    await setViewport({ width: 400, height: 600 });
+    document.body.style.position = 'fixed';
+    el.modalHidden = true;
+    el.modalHidden = false;
+    el.updateModalOptions({
+      nid: '123',
+      position: { top: 100, left: 200, name: '' },
+    });
+    await el.updateComplete;
+
+    expect(modal.style.top).to.equal(`${600 - modal.offsetHeight}px`);
+    expect(modal.style.left).to.equal(`${400 - modal.offsetWidth}px`);
+
+    // Reset
+    document.body.style.position = 'static';
+    await setViewport({ width: originalWidth, height: originalHeight });
+    expect(window.innerWidth).to.equal(originalWidth);
+    expect(window.innerHeight).to.equal(originalHeight);
   });
 
   test('clears modal options correctly', async () => {
