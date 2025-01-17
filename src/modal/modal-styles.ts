@@ -30,31 +30,15 @@ export function getModalStyles() {
       justify-content: flex-start;
       align-items: flex-start;
       display: none;
-      opacity: 0;
-      transform: scale(0.5);
-      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in,
-        display 0.3s ease;
-      transition-behavior: allow-discrete;
       position: absolute;
     }
 
     .modal-visible {
       display: flex;
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    @starting-style {
-      .modal.modal-visible {
-        opacity: 0;
-        transform: scale(0.5);
-      }
     }
 
     .modal-hidden {
       display: none;
-      opacity: 0;
-      transform: scale(0.5);
     }
 
     .modal-container {
@@ -62,6 +46,27 @@ export function getModalStyles() {
       border-radius: var(--border-radius);
       width: 20rem;
       box-shadow: var(--box-shadow);
+      opacity: 0;
+      transform: scale(0.5);
+      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in;
+      transition-behavior: allow-discrete;
+    }
+
+    .modal-visible .modal-container {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .modal-hidden .modal-container {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+
+    @starting-style {
+      .modal.modal-visible .modal-container {
+        opacity: 0;
+        transform: scale(0.5);
+      }
     }
 
     .modal-content {
@@ -89,6 +94,13 @@ export function getModalStyles() {
     .close-button-hidden {
       opacity: 0;
       transform: scale(0.5) rotate(-90deg);
+    }
+
+    @starting-style {
+      .close-button {
+        opacity: 0;
+        transform: scale(0.5) rotate(0deg);
+      }
     }
 
     .close-button img {
@@ -304,6 +316,7 @@ export function getModalStyles() {
       width: 4rem;
       height: 4rem;
       margin-right: 1rem;
+      margin-bottom: 0.375rem;
     }
 
     @keyframes shimmer {
