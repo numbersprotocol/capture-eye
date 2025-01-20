@@ -130,6 +130,20 @@ export function getModalStyles() {
       display: block;
     }
 
+    .badge-container {
+      display: flex;
+      position: absolute;
+      top: 16px;
+      right: 24px;
+      gap: 4px;
+    }
+
+    .badge-container img {
+      width: 32px;
+      height: 32px;
+      display: block;
+    }
+
     .profile-container {
       display: flex;
       align-items: center;
