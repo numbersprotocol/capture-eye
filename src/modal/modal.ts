@@ -219,7 +219,7 @@ export class CaptureEyeModal extends LitElement {
   private renderBadges() {
     const generatedViaAi = this._asset?.digitalSourceType === 'trainedAlgorithmicMedia'
       ? html`<img
-          src="${Constant.url.generatedViAi}"
+          src="${Constant.url.generatedViaAi}"
           alt="Generated via AI"
           title="Generated via AI"
         />`
