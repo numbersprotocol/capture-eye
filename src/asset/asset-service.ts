@@ -56,6 +56,7 @@ export async function fetchAsset(nid: string): Promise<AssetModel | undefined> {
       captureLocation:
         data.fullAssetTree?.['_api_c2_assetTree.assetLocationCreated'],
       backendOwnerName: data.backend_owner_name,
+      digitalSourceType: data.digitalSourceType,
       usedBy: data.usedBy,
       captureEyeCustom,
     };

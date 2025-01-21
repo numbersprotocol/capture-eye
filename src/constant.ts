@@ -13,6 +13,7 @@ interface Url {
   blockchainIcon: string;
   txIcon: string;
   curatorIcon: string;
+  generatedViaAi: string;
   defaultEngagementImage: string;
   defaultEngagementLink: string;
 }
@@ -73,6 +74,7 @@ export const Constant: ConstantType = {
     blockchainIcon: `${numbersCdnUrl}/capture-eye/capture-eye-blockchain-icon.svg`,
     txIcon: `${numbersCdnUrl}/capture-eye/capture-eye-tx-icon.svg`,
     curatorIcon: `${numbersCdnUrl}/capture-eye/capture-eye-curator-icon.png`,
+    generatedViaAi: `${numbersCdnUrl}/capture-eye/generated-via-ai.png`,
     defaultEngagementImage: `${numbersCdnUrl}/capture-eye/capture-ad.png`,
     defaultEngagementLink: 'https://captureapp.xyz',
   },

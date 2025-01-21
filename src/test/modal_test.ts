@@ -26,6 +26,7 @@ suite('capture-eye-modal', () => {
         <div class="modal-container">
           <div class="modal-content">
             <div class="card">
+              <div class="badge-container"></div>
               <div class="section">
                 <div class="section-title">Produced by</div>
                 <div class="profile-container">
@@ -449,5 +450,29 @@ suite('capture-eye-modal', () => {
       '.profile-img'
     ) as HTMLImageElement;
     expect(img.src).to.equal(assetData.thumbnailUrl);
+
+    const badge = el.shadowRoot?.querySelector(
+      'div.badge-container img[alt="Generated via AI"]'
+    );
+
+    expect(badge).to.null;
+  });
+
+  test('should render generated via AI correctly', async () => {
+    const el = await fixture<CaptureEyeModal>(html`
+      <capture-eye-modal></capture-eye-modal>
+    `);
+
+    el.updateAsset({
+      digitalSourceType: 'trainedAlgorithmicMedia',
+    });
+
+    await el.updateComplete;
+
+    const badge = el.shadowRoot!.querySelector(
+      'div.badge-container img[alt="Generated via AI"]'
+    );
+
+    expect(badge).to.exist;
   });
 });

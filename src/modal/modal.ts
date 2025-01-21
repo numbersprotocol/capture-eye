@@ -216,6 +216,22 @@ export class CaptureEyeModal extends LitElement {
     return this.layout == Constant.layout.original;
   }
 
+  private renderBadges() {
+    const generatedViaAi = this._asset?.digitalSourceType === 'trainedAlgorithmicMedia'
+      ? html`<img
+          src="${Constant.url.generatedViaAi}"
+          alt="Generated via AI"
+          title="Generated via AI"
+        />`
+      : html``;
+
+    return html`
+      <div class="badge-container">
+        ${generatedViaAi}
+      </div>
+    `;
+  }
+
   private renderCreatorOrAssetSourceType() {
     // Render creator and showcase link if layout is original, otherwise render assetSourceType
     return this.isOriginal()
@@ -497,6 +513,7 @@ export class CaptureEyeModal extends LitElement {
         <div class="modal-container">
           <div class="modal-content">
             <div class="card">
+              ${this.renderBadges()}
               ${this.renderTop()}
               ${this._asset?.captureEyeCustom &&
               this._asset.captureEyeCustom.length > 0

@@ -11,6 +11,7 @@ export interface AssetModel {
   captureTime?: string;
   captureLocation?: string;
   backendOwnerName?: string;
+  digitalSourceType?: string;
   usedBy?: string;
   captureEyeCustom?: Array<CaptureEyeCustomItem>;
   hasNftProduct?: boolean;
