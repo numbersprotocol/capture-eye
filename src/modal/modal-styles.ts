@@ -138,10 +138,41 @@ export function getModalStyles() {
       gap: 4px;
     }
 
+    .badge-container div,
     .badge-container img {
+      position: relative;
       width: 32px;
       height: 32px;
       display: block;
+    }
+
+    .button-content-credentials {
+      cursor: pointer;
+    }
+
+    .button-content-credentials svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .button-content-credentials.loading::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 3px;
+      background-color: var(--primary-color);
+      animation: button-content-credentials-loading 2s infinite;
+    }
+
+    @keyframes button-content-credentials-loading {
+      0% {
+      width: 0;
+      }
+      100% {
+        width: 50%;
+      }
     }
 
     .profile-container {

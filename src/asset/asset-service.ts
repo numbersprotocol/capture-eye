@@ -1,6 +1,42 @@
 import { Constant } from '../constant';
 import { AssetModel, CaptureEyeCustomItem } from './asset-model';
 
+export async function downloadC2pa(
+  nid: string, scopeToken: string | null
+): Promise<string | undefined> {
+  if (!scopeToken) {
+    console.log('Skip downloading C2PA');
+    return;
+  }
+
+  try {
+    const headers = {
+      Authorization: `Bearer ${scopeToken}`,
+    };
+
+    const response = await fetch(`${Constant.url.assetApi}${nid}/c2pa/`, {
+      method: 'POST',
+      headers: headers,
+    });
+
+    if (!response.ok) {
+      if (response.status >= 400 && response.status < 500) {
+        const errorResponse = await response.json();
+        throw new Error(
+          `HTTP ${response.status}: ` +
+          `${errorResponse?.error?.type} ${errorResponse?.error?.message}`
+        );
+      }
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const { url } = await response.json();
+    return url as string;
+  } catch (error) {
+    console.error('Download C2PA error:', error);
+    return;
+  }
+}
+
 export async function fetchAsset(nid: string): Promise<AssetModel | undefined> {
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
