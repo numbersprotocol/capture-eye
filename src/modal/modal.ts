@@ -85,7 +85,7 @@ export class CaptureEyeModal extends LitElement {
 
   @query('.modal') modalElement!: HTMLDivElement;
 
-  private _c2paNid = '';
+  private _c2paUrl = '';
 
   constructor() {
     super();
@@ -601,8 +601,8 @@ export class CaptureEyeModal extends LitElement {
   }
 
   private handleInspectContentCredentials() {
-    if (this._c2paNid) {
-      window.open(this._c2paNid);
+    if (this._c2paUrl) {
+      window.open(this._c2paUrl, '_blank', 'noopener,noreferrer');
       return;
     }
 
@@ -626,7 +626,7 @@ export class CaptureEyeModal extends LitElement {
       }
 
       if (url) {
-        this._c2paNid = `https://contentcredentials.org/verify?source=${url}`;
+        this._c2paUrl = `https://contentcredentials.org/verify?source=${url}`;
         button.title = 'View Content Credentials';
         alert(
           'Data is ready. Please click the Content Credential pin again to view it.'
