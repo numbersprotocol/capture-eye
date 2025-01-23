@@ -417,6 +417,7 @@ suite('capture-eye-modal', () => {
   test('renders asset correctly when asset is loaded', async () => {
     const assetData: AssetModel = {
       creator: 'John Doe',
+      encodingFormat: 'image/jpeg',
       thumbnailUrl: 'https://example.com/thumbnail.jpg',
       captureTime: '2024-10-16',
       captureLocation: 'New York, USA',
@@ -454,8 +455,10 @@ suite('capture-eye-modal', () => {
     const badge = el.shadowRoot?.querySelector(
       'div.badge-container img[alt="Generated via AI"]'
     );
-
     expect(badge).to.null;
+
+    const buttonCr = el.shadowRoot?.querySelector('.button-content-credentials');
+    expect(buttonCr).to.exist;
   });
 
   test('should render generated via AI correctly', async () => {
