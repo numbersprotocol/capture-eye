@@ -231,7 +231,6 @@ export class CaptureEyeModal extends LitElement {
       'video/mp4',
       'application/mp4',
       'video/quicktime',
-      'application/pdf',
       'image/png',
       'image/svg+xml',
       'image/tiff',
