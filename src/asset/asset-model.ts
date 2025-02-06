@@ -4,6 +4,7 @@ export interface AssetModel {
   createdTime?: string;
   encodingFormat?: string;
   headline?: string;
+  abstract?: string;
   initialTransaction?: string;
   thumbnailUrl?: string;
   explorerUrl?: string;
