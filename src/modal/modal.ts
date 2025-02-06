@@ -51,6 +51,7 @@ export interface ModalOptions {
   nid: string;
   layout?: string;
   color?: string;
+  headingSource?: string;
   copyrightZoneTitle?: string;
   engagementZones?: EngagementZone[];
   actionButtonText?: string;
@@ -73,6 +74,7 @@ export class CaptureEyeModal extends LitElement {
   @state() protected _engagementZoneRotationInterval = 5000;
   @state() protected _engagementZoneRotationIntervalId:
     number | NodeJS.Timeout | undefined = undefined;
+  @state() protected _headingSource = '';
   @state() protected _position:
     | { top: number; left: number; name: string }
     | undefined = undefined;
@@ -94,7 +96,10 @@ export class CaptureEyeModal extends LitElement {
   }
 
   override updated(changedProperties: Map<string | number | symbol, unknown>) {
-    if (changedProperties.has('modalHidden')) {
+    if (
+      changedProperties.has('modalHidden')
+      || changedProperties.has('_assetLoaded')
+    ) {
       const closeButton = this.shadowRoot?.querySelector('.close-button');
       if (this.modalElement && closeButton && !this.modalHidden) {
         this.updateModelPosition(closeButton as HTMLElement);
@@ -113,6 +118,9 @@ export class CaptureEyeModal extends LitElement {
     if (options.color !== undefined && options.color !== this._color) {
       this._color = options.color;
       this.updateModalColor();
+    }
+    if (options.headingSource) {
+      this._headingSource = options.headingSource;
     }
     if (options.copyrightZoneTitle)
       this._copyrightZoneTitle = options.copyrightZoneTitle;
@@ -247,6 +255,24 @@ export class CaptureEyeModal extends LitElement {
       : this._asset?.assetSourceType ?? '';
   }
 
+  private renderHeading() {
+    // Preserve headline for backward compatibility
+    // in case some references still use the older name
+    const headingClass = 'heading headline';
+    const headingText = this._assetLoaded
+      ? this._headingSource === 'abstract'
+        ? this._asset?.abstract ?? ''
+        : this._asset?.headline ?? ''
+      : '';
+    return html`
+      <div class="${headingClass}" title=${headingText} @click=${this.toggleHeading}>
+        ${this._assetLoaded
+          ? html`${headingText}`
+          : html`<div class="shimmer-text" style="height: auto;">&nbsp;</div>`}
+      </div>
+    `;
+  }
+
   private renderTop() {
     const image = this._asset?.thumbnailUrl
       ? html`<img
@@ -326,11 +352,7 @@ export class CaptureEyeModal extends LitElement {
             </div>
           </div>
         </div>
-        <div class="headline">
-          ${this._assetLoaded
-            ? this._asset?.headline ?? ''
-            : html`<div class="shimmer-text" style="height: auto;">&nbsp;</div>`}
-        </div>
+        ${this.renderHeading()}
       </div>
     `;
   }
@@ -625,8 +647,10 @@ export class CaptureEyeModal extends LitElement {
     } else if (
       modelTop + this.modalElement.offsetHeight > document.documentElement.scrollHeight
     ) {
-      modelTop =
-        document.documentElement.scrollHeight - this.modalElement.offsetHeight;
+      modelTop = Math.max(
+        0,
+        document.documentElement.scrollHeight - this.modalElement.offsetHeight
+      );
     }
 
     if (
@@ -639,7 +663,10 @@ export class CaptureEyeModal extends LitElement {
     } else if (
       modelLeft + this.modalElement.offsetWidth > document.documentElement.scrollWidth
     ) {
-      modelLeft = document.documentElement.scrollWidth - this.modalElement.offsetWidth;
+      modelLeft = Math.max(
+        0,
+        document.documentElement.scrollWidth - this.modalElement.offsetWidth
+      );
     }
 
     this.modalElement.style.top = `${modelTop}px`;
@@ -665,6 +692,15 @@ export class CaptureEyeModal extends LitElement {
 
     closeButton.style.top = `${startTop - closeButton.offsetHeight / 2}px`;
     closeButton.style.left = `${startLeft - closeButton.offsetWidth / 2}px`;
+  }
+
+  private toggleHeading() {
+    const heading = this.shadowRoot?.querySelector('.heading');
+    if (!heading) {
+      return;
+    }
+
+    heading.classList.toggle('expand');
   }
 }
 

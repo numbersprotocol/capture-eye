@@ -45,6 +45,12 @@ export class CaptureEye extends LitElement {
   color = '';
 
   /**
+   * Set heading source. Default is headline. Options: headline, abstract
+   */
+  @property({ type: String , attribute: 'heading-source' })
+  headingSource = '';
+
+  /**
    * Customizable copyright zone title.
    */
   @property({ type: String, attribute: 'cz-title' })
@@ -187,6 +193,7 @@ export class CaptureEye extends LitElement {
       nid: this.nid,
       layout: this.layout,
       color: this.color,
+      headingSource: this.headingSource,
       copyrightZoneTitle: this.copyrightZoneTitle,
       engagementZones: this.engagementZones,
       actionButtonText: this.actionButtonText,

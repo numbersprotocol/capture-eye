@@ -173,11 +173,21 @@ export function getModalStyles() {
       font-size: var(--font-size-very-small);
     }
 
-    .headline {
+    .heading {
       font-family: var(--font-light);
       color: var(--secondary-text-color);
       margin-bottom: 1rem;
       font-size: var(--font-size-small);
+      overflow: hidden;
+      max-height: 100px;
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+    }
+
+    .heading.expand {
+      max-height: none;
+      -webkit-line-clamp: none;
     }
 
     .middle-row {

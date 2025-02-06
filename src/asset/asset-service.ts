@@ -46,6 +46,7 @@ export async function fetchAsset(nid: string): Promise<AssetModel | undefined> {
       createdTime: data.assetTimestampCreated,
       encodingFormat: data.fullAssetTree?.['_api_c2_assetTree.encodingFormat'],
       headline: data.headline,
+      abstract: data.abstract,
       initialTransaction: data.initial_transaction,
       thumbnailUrl: data.thumnail_url, // [sic]
       explorerUrl: data.initial_transaction

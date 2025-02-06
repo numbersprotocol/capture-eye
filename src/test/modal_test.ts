@@ -43,7 +43,7 @@ suite('capture-eye-modal', () => {
                     </div>
                   </div>
                 </div>
-                <div class="headline">
+                <div class="heading headline" title="">
                   <div
                     class="shimmer-text"
                     style="height: auto;"
@@ -421,6 +421,7 @@ suite('capture-eye-modal', () => {
       captureTime: '2024-10-16',
       captureLocation: 'New York, USA',
       headline: 'Sample Asset',
+      abstract: 'A brief summary',
       initialTransaction:
         '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
       explorerUrl: 'https://example.com/explorer',
@@ -443,8 +444,8 @@ suite('capture-eye-modal', () => {
     ) as HTMLElement;
     expect(location.textContent?.trim()).to.equal(assetData.captureLocation);
 
-    const headline = el.shadowRoot?.querySelector('.headline') as HTMLElement;
-    expect(headline.textContent?.trim()).to.equal(assetData.headline);
+    const heading = el.shadowRoot?.querySelector('.heading') as HTMLElement;
+    expect(heading.textContent?.trim()).to.equal(assetData.headline);
 
     const img = el.shadowRoot?.querySelector(
       '.profile-img'
@@ -456,6 +457,16 @@ suite('capture-eye-modal', () => {
     );
 
     expect(badge).to.null;
+
+    // Headling source is abstract
+    el.updateModalOptions({
+      nid: '123',
+      headingSource: 'abstract'
+    });
+
+    await el.updateComplete;
+
+    expect(heading.textContent?.trim()).to.equal(assetData.abstract);
   });
 
   test('should render generated via AI correctly', async () => {
