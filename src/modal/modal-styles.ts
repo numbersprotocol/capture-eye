@@ -138,10 +138,21 @@ export function getModalStyles() {
       gap: 4px;
     }
 
+    .badge-container div,
     .badge-container img {
+      position: relative;
       width: 32px;
       height: 32px;
       display: block;
+    }
+
+    .button-content-credentials {
+      cursor: pointer;
+    }
+
+    .button-content-credentials svg {
+      width: 100%;
+      height: 100%;
     }
 
     .profile-container {

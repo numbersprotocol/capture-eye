@@ -220,6 +220,30 @@ export class CaptureEyeModal extends LitElement {
     this.startEngagementZoneRotation();
   }
 
+  private isC2paSupported() {
+    return typeof this._asset?.encodingFormat === 'string' && new Set([
+      'video/msvideo',
+      'video/avi',
+      'application-msvideo',
+      'image/avif',
+      'application/x-c2pa-manifest-store',
+      'image/x-adobe-dng',
+      'image/heic',
+      'image/heif',
+      'image/jpeg',
+      'audio/mp4',
+      'audio/mpeg',
+      'video/mp4',
+      'application/mp4',
+      'video/quicktime',
+      'image/png',
+      'image/svg+xml',
+      'image/tiff',
+      'audio/x-wav',
+      'image/webp',
+    ]).has(this._asset?.encodingFormat);
+  }
+
   private isOriginal() {
     return this.layout == Constant.layout.original;
   }
@@ -233,9 +257,34 @@ export class CaptureEyeModal extends LitElement {
         />`
       : html``;
 
+    const contentCredentials = this.isC2paSupported()
+      ? html`<div
+          class="button-content-credentials" title="Inspect Content Credentials"
+          @click=${this.handleInspectContentCredentials}
+        >
+          <svg viewBox="0 0 16 16">
+            <path
+              fill-rule="evenodd"
+              d="M14.6,8v6.6H8c-3.7,0-6.6-3-6.6-6.6s3-6.6,6.6-6.6S14.6,4.3,14.6,8z
+                M0,8c0-4.4,3.6-8,8-8s8,3.6,8,8v8H8 C3.6,16,0,12.4,0,8z
+                M3.2,8.3c0,1.6,1.1,3,2.9,3c1.5,0,2.4-1,2.7-2.2H7.3c-0.2,0.6-0.6,
+                0.9-1.2,0.9c-0.9,0-1.5-0.7-1.5-1.8
+                s0.6-1.8,1.5-1.8c0.6,0,1,0.3,1.2,0.9h1.4C8.5,6.2,7.5,5.3,6.1,5.3C4.3,
+                5.3,3.2,6.7,3.2,8.3z
+                M10.7,5.4H9.3v5.8h1.4v-3
+                c0-0.6,0.2-0.9,0.4-1.2c0.2-0.2,0.6-0.3,1.1-0.3h0.4V5.4h-0.4c-0.8,0-1.2,
+                0.3-1.6,0.7L10.7,5.4L10.7,5.4z"
+              clip-rule="evenodd"
+            >
+            </path>
+          </svg>
+        </div>`
+      : html``;
+
     return html`
       <div class="badge-container">
         ${generatedViaAi}
+        ${contentCredentials}
       </div>
     `;
   }
@@ -567,6 +616,11 @@ export class CaptureEyeModal extends LitElement {
     if (!isAnchorTag) {
       event.preventDefault();
     }
+  }
+
+  private handleInspectContentCredentials() {
+    const url = `${Constant.url.profile}/${this.nid}/inspect`;
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
 
   private emitRemoveEvent() {
