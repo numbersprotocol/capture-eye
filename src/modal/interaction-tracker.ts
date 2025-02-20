@@ -15,7 +15,7 @@ class InteractionTracker {
   static TOKEN_CRYPTO_ALGORITHM = 'AES-GCM';
   private domain: string;
   private path: string;
-  token: string | null;
+  private token: string | null;
 
   constructor() {
     this.domain = window.location.hostname;

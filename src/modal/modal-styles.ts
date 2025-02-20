@@ -155,26 +155,6 @@ export function getModalStyles() {
       height: 100%;
     }
 
-    .button-content-credentials.loading::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: 0;
-      height: 3px;
-      background-color: var(--primary-color);
-      animation: button-content-credentials-loading 2s infinite;
-    }
-
-    @keyframes button-content-credentials-loading {
-      0% {
-      width: 0;
-      }
-      100% {
-        width: 50%;
-      }
-    }
-
     .profile-container {
       display: flex;
       align-items: center;

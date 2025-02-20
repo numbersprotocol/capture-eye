@@ -3,7 +3,6 @@ import { customElement, property, state, query } from 'lit/decorators.js';
 import { getModalStyles } from './modal-styles.js';
 import { Constant } from '../constant.js';
 import { AssetModel } from '../asset/asset-model.js';
-import { downloadC2pa } from '../asset/asset-service.js';
 import interactionTracker, { TrackerEvent } from './interaction-tracker.js';
 import { isMobile } from '../utils.js';
 
@@ -86,8 +85,6 @@ export class CaptureEyeModal extends LitElement {
   @state() protected _imageLoaded = false;
 
   @query('.modal') modalElement!: HTMLDivElement;
-
-  private _c2paUrl = '';
 
   constructor() {
     super();
@@ -622,42 +619,8 @@ export class CaptureEyeModal extends LitElement {
   }
 
   private handleInspectContentCredentials() {
-    if (this._c2paUrl) {
-      window.open(this._c2paUrl, '_blank', 'noopener,noreferrer');
-      return;
-    }
-
-    const button = this.shadowRoot?.querySelector('.button-content-credentials') as HTMLElement;
-    if (button.classList.contains('loading')) {
-      return;
-    }
-
-    if (!confirm(
-      'Inspecting Content Credentials might take a little while. Proceed?'
-    )) {
-      return;
-    }
-
-    button.classList.add('loading');
-    button.title = 'Inspecting Content Credentials...';
-
-    downloadC2pa(this.nid, interactionTracker.token).then((url) => {
-      if (!this.isConnected) {
-        return;
-      }
-
-      if (url) {
-        this._c2paUrl = `https://contentcredentials.org/verify?source=${url}`;
-        button.title = 'View Content Credentials';
-        alert(
-          'Data is ready. Please click the Content Credential pin again to view it.'
-        );
-      } else {
-        button.title = 'Inspect Content Credentials';
-        alert('Something went wrong. Please try again later.');
-      }
-      button.classList.remove('loading');
-    })
+    const url = `${Constant.url.profile}/${this.nid}/inspect`;
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
 
   private emitRemoveEvent() {
