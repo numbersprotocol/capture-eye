@@ -1,6 +1,6 @@
 {
   "name": "@numbersprotocol/capture-eye",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Capture Eye widget seamlessly integrates into your website, facilitating secure and transparent provenance display and purchases of digital content directly from the creator",
   "main": "dist/capture-eye.js",
   "module": "dist/capture-eye.js",
