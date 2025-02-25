@@ -66,7 +66,7 @@ export const Constant: ConstantType = {
     ipfsGateway: 'https://ipfs-pin.numbersprotocol.io/ipfs',
     explorer: 'https://mainnet.num.network',
     profile: 'https://asset.captureapp.xyz',
-    showcase: 'https://dashboard.captureapp.xyz/showcase',
+    showcase: 'https://timecapsule.lollipoppool.org/showcase',
     collect: 'https://captureappiframe.numbersprotocol.io/checkout',
     fontFaceCssUrl: `${numbersCdnUrl}/fonts/degular.css`,
     blankThumbnail: 'https://via.placeholder.com/100',

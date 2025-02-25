@@ -416,7 +416,7 @@ export class CaptureEyeModal extends LitElement {
     const actionButtonLink = this._actionButtonLink
       ? this._actionButtonLink
       : this._asset?.hasNftProduct
-      ? `${Constant.url.collect}?nid=${this.nid}&from=capture-eye`
+      ? `${Constant.url.collect}?nid=${this.nid}&from=lpop`
       : this.isOriginal()
       ? `${Constant.url.profile}/${this.nid}`
       : this._asset?.usedBy ?? '';
@@ -555,7 +555,7 @@ export class CaptureEyeModal extends LitElement {
     this.style.setProperty('--primary-color', this._color);
 
     // Set hover color
-    this.style.setProperty('--hover-color', '');  // Clear the color
+    this.style.setProperty('--hover-color', ''); // Clear the color
     if (!this._color) {
       return;
     }
@@ -580,7 +580,9 @@ export class CaptureEyeModal extends LitElement {
     const r = fadeColor(1);
     const g = fadeColor(3);
     const b = fadeColor(5);
-    hoverColor = `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+    hoverColor = `#${((1 << 24) + (r << 16) + (g << 8) + b)
+      .toString(16)
+      .slice(1)}`;
     this.style.setProperty('--hover-color', hoverColor);
   }
 
