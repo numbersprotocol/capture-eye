@@ -74,15 +74,6 @@ export class CaptureEye extends LitElement {
   @property({ type: String, attribute: 'action-button-link' })
   actionButtonLink = '';
 
-  get assetUrl() {
-    return `${Constant.url.ipfsGateway}/${this.nid}`;
-  }
-
-  // This link is constructed for project needs
-  get assetProfileUrl() {
-    return `${Constant.url.ipfsGateway}/${this.nid}`;
-  }
-
   constructor() {
     super();
     this.loadFontFace();
