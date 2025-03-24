@@ -78,8 +78,9 @@ export class CaptureEye extends LitElement {
     return `${Constant.url.ipfsGateway}/${this.nid}`;
   }
 
+  // This link is constructed for project needs
   get assetProfileUrl() {
-    return `${Constant.url.profile}/${this.nid}`;
+    return `${Constant.url.ipfsGateway}/${this.nid}`;
   }
 
   constructor() {
