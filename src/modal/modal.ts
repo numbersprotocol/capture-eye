@@ -287,7 +287,7 @@ export class CaptureEyeModal extends LitElement {
         <div class="profile-container">
           ${this._assetLoaded
             ? html`<a
-                href=${`${Constant.url.profile}/${this.nid}`}
+                href=${`${Constant.url.ipfsGateway}/${this.nid}`}
                 target="_blank"
                 >${image}</a
               >`
