@@ -7,7 +7,10 @@ on: ['push', 'pull_request']
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # playwright requires 22.04 for node 18.x and 20.x (playwirght 1.39.0)
+    # for 24.04, playwright 1.59.0 is required
+    # https://github.com/microsoft/playwright/issues/30368#issuecomment-2669259798
+    runs-on: ubuntu-22.04
 
     strategy:
       matrix:
