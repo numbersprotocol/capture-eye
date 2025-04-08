@@ -57,6 +57,7 @@ export interface ModalOptions {
   actionButtonText?: string;
   actionButtonLink?: string;
   position?: { top: number; left: number; name: string };
+  crPin?: string;
 }
 
 @customElement('capture-eye-modal')
@@ -83,6 +84,7 @@ export class CaptureEyeModal extends LitElement {
   @state() protected _asset: AssetModel | undefined = undefined;
   @state() protected _assetLoaded = false;
   @state() protected _imageLoaded = false;
+  @state() protected _crPin = Constant.crPin.on;
 
   @query('.modal') modalElement!: HTMLDivElement;
 
@@ -132,6 +134,9 @@ export class CaptureEyeModal extends LitElement {
       this._imageLoaded = false;
       this._engagementZones = options.engagementZones;
     }
+    if (options.crPin !== undefined) {
+      this._crPin = options.crPin;
+    }
     this.preloadEngagementZoneImages();
     if (options.actionButtonText)
       this._actionButtonText = options.actionButtonText;
@@ -156,6 +161,7 @@ export class CaptureEyeModal extends LitElement {
     this._asset = undefined;
     this._assetLoaded = false;
     this._position = undefined;
+    this._crPin = Constant.crPin.on;
   }
 
   private remToPixels(rem: number): number {
@@ -257,7 +263,7 @@ export class CaptureEyeModal extends LitElement {
         />`
       : html``;
 
-    const contentCredentials = this.isC2paSupported()
+    const contentCredentials = this._crPin !== Constant.crPin.off && this.isC2paSupported()
       ? html`<div
           class="button-content-credentials" title="Inspect Content Credentials"
           @click=${this.handleInspectContentCredentials}

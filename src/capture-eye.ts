@@ -80,6 +80,12 @@ export class CaptureEye extends LitElement {
   @property({ type: String, attribute: 'action-button-link' })
   actionButtonLink = '';
 
+  /**
+   * Control the CR Pin behavior. Default is on. Options: on, off
+   */
+  @property({ type: String, attribute: 'cr-pin' })
+  crPin = Constant.crPin.on;
+
   @state({})
   protected _isFullVisibility = false;
 
@@ -198,6 +204,7 @@ export class CaptureEye extends LitElement {
       engagementZones: this.engagementZones,
       actionButtonText: this.actionButtonText,
       actionButtonLink: this.actionButtonLink,
+      crPin: this.crPin,
       position: {
         top: buttonRect.top + window.scrollY,
         left: buttonRect.left + window.scrollX,

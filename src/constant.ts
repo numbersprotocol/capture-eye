@@ -32,6 +32,7 @@ interface ConstantType {
   visibility: Visibility;
   color: Color;
   position: Position;
+  crPin: CrPin;
 }
 
 interface Layout {
@@ -54,6 +55,11 @@ interface Position {
   topRight: string;
   bottomLeft: string;
   bottomRight: string;
+}
+
+interface CrPin {
+  on: string;
+  off: string;
 }
 
 const numbersCdnUrl = 'https://static-cdn.numbersprotocol.io';
@@ -101,5 +107,9 @@ export const Constant: ConstantType = {
     topRight: 'top right',
     bottomLeft: 'bottom left',
     bottomRight: 'bottom right',
+  },
+  crPin: {
+    on: 'on',
+    off: 'off',
   },
 };

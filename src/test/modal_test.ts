@@ -489,4 +489,39 @@ suite('capture-eye-modal', () => {
 
     expect(badge).to.exist;
   });
+
+  test('should hide content credentials when disabled', async () => {
+    const el = await fixture<CaptureEyeModal>(html`
+      <capture-eye-modal></capture-eye-modal>
+    `);
+
+    el.updateAsset({
+      encodingFormat: 'image/jpeg',
+    }, true);
+
+    // By default, Content Credentials should be enabled
+    await el.updateComplete;
+    let buttonCr = el.shadowRoot!.querySelector('.button-content-credentials');
+    expect(buttonCr).to.exist;
+
+    // Enable Content Credentials
+    el.updateModalOptions({
+      nid: '123',
+      crPin: Constant.crPin.on
+    });
+    await el.updateComplete;
+
+    buttonCr = el.shadowRoot!.querySelector('.button-content-credentials');
+    expect(buttonCr).to.exist;
+
+    // Disable Content Credentials
+    el.updateModalOptions({
+      nid: '123',
+      crPin: Constant.crPin.off
+    });
+    await el.updateComplete;
+
+    buttonCr = el.shadowRoot!.querySelector('.button-content-credentials');
+    expect(buttonCr).to.not.exist;
+  });
 });
