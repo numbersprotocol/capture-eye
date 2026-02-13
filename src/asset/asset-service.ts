@@ -92,15 +92,22 @@ export async function hasNftProduct(nid: string): Promise<boolean> {
   return false;
 }
 
-export async function getUsername(nid: string): Promise<string | undefined> {
+export async function fetchAssetMetadata(nid: string): Promise<{ hasC2pa: boolean; showcaseLink?: string } | undefined> {
   try {
     const response = await fetch(`${Constant.url.assetApi}${nid}/`, {
       method: 'GET',
     });
 
     if (response.ok) {
-      const responseJson = await response.json();
-      return `${responseJson.owner_name}`;
+      const assetData = await response.json();
+      const hasC2pa = assetData.c2pa === true;
+      const ownerName = assetData.owner_name;
+      return {
+        hasC2pa,
+        showcaseLink: ownerName
+          ? `${Constant.url.showcase}/${ownerName.toLowerCase()}`
+          : undefined,
+      };
     }
 
     const errorResponse = await response.json();
@@ -110,5 +117,5 @@ export async function getUsername(nid: string): Promise<string | undefined> {
   } catch (error) {
     console.error('Fetch error:', error);
   }
-  return;
+  return undefined;
 }

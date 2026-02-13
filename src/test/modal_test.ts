@@ -113,17 +113,17 @@ suite('capture-eye-modal', () => {
       html`<capture-eye-modal></capture-eye-modal>`
     );
     const modal = el.shadowRoot?.querySelector('.modal');
-    expect(modal).to.not.be.null;
-    expect(modal?.classList.contains('modal-hidden')).to.be.true;
+    assert.isNotNull(modal);
+    assert.isTrue(modal?.classList.contains('modal-hidden'));
 
     el.modalHidden = false;
     await el.updateComplete;
-    expect(modal?.classList.contains('modal-hidden')).to.be.false;
-    expect(modal?.classList.contains('modal-visible')).to.be.true;
+    assert.isFalse(modal?.classList.contains('modal-hidden'));
+    assert.isTrue(modal?.classList.contains('modal-visible'));
 
     el.modalHidden = true;
     await el.updateComplete;
-    expect(modal?.classList.contains('modal-hidden')).to.be.true;
+    assert.isTrue(modal?.classList.contains('modal-hidden'));
   });
 
   test('emits remove-capture-eye-modal event when close button is clicked', async () => {
@@ -165,16 +165,16 @@ suite('capture-eye-modal', () => {
     await el.updateComplete;
 
     const img = el.shadowRoot?.querySelector('.eng-img') as HTMLImageElement;
-    expect(img).to.exist;
+    assert.exists(img);
 
     expect(new URL(img.src).href).to.equal(new URL(engagementImage).href);
 
     await (el as any).preloadEngagementZoneImages();
     await el.updateComplete;
-    expect(img.style.display).to.equal('block');
+    assert.equal(img.style.display, 'block');
 
     const link = el.shadowRoot?.querySelector('.eng-link') as HTMLAnchorElement;
-    expect(link).to.exist;
+    assert.exists(link);
     expect(new URL(link.href).href).to.equal(new URL(engagementLink).href);
   });
 
@@ -215,21 +215,21 @@ suite('capture-eye-modal', () => {
       const link = itemElement.querySelector('a');
 
       if (item.iconSource) {
-        expect(icon).to.exist;
+        assert.exists(icon);
         expect(icon!.src).to.equal(item.iconSource);
       } else {
-        expect(icon).to.not.exist;
+        assert.notExists(icon);
       }
 
-      expect(fieldText).to.exist;
+      assert.exists(fieldText);
       expect(fieldText!.textContent).to.equal(`${item.field}:`);
 
       if (item.url) {
-        expect(link).to.exist;
+        assert.exists(link);
         expect(new URL(link!.href).href).to.equal(new URL(item.url).href);
         expect(valueText!.textContent).to.equal(item.value);
       } else {
-        expect(link).to.not.exist;
+        assert.notExists(link);
         expect(valueText!.textContent).to.equal(item.value);
       }
     });
@@ -263,8 +263,8 @@ suite('capture-eye-modal', () => {
 
     const modal = el.shadowRoot?.querySelector('.modal') as HTMLDivElement;
 
-    expect(modal.style.top).to.equal('116px'); // Assuming 1rem = 16px (this may vary)
-    expect(modal.style.left).to.equal('216px');
+    assert.equal(modal.style.top, '116px'); // Assuming 1rem = 16px (this may vary)
+    assert.equal(modal.style.left, '216px');
 
     // Position is bottom right with enough space in that direction
     el.modalHidden = true;
@@ -275,8 +275,8 @@ suite('capture-eye-modal', () => {
     });
     await el.updateComplete;
 
-    expect(modal.style.top).to.equal(`${600 + 16 - modal.offsetHeight}px`);
-    expect(modal.style.left).to.equal(`${800 + 16 - modal.offsetWidth}px`);
+    assert.equal(modal.style.top, `${600 + 16 - modal.offsetHeight}px`);
+    assert.equal(modal.style.left, `${800 + 16 - modal.offsetWidth}px`);
 
     // Position is bottom right without enough space in that direction
     el.modalHidden = true;
@@ -287,8 +287,8 @@ suite('capture-eye-modal', () => {
     });
     await el.updateComplete;
 
-    expect(modal.style.top).to.equal('116px');
-    expect(modal.style.left).to.equal('216px');
+    assert.equal(modal.style.top, '116px');
+    assert.equal(modal.style.left, '216px');
 
     // Position is top left without enough space between the modal and the edges
     await setViewport({ width: 400, height: 600 });
@@ -301,8 +301,8 @@ suite('capture-eye-modal', () => {
     });
     await el.updateComplete;
 
-    expect(modal.style.top).to.equal(`${600 - modal.offsetHeight}px`);
-    expect(modal.style.left).to.equal(`${400 - modal.offsetWidth}px`);
+    assert.equal(modal.style.top, `${600 - modal.offsetHeight}px`);
+    assert.equal(modal.style.left, `${400 - modal.offsetWidth}px`);
 
     // Reset
     document.body.style.position = 'static';
@@ -398,7 +398,7 @@ suite('capture-eye-modal', () => {
     await el.updateComplete;
 
     const link = el.shadowRoot?.querySelector('.eng-link') as HTMLAnchorElement;
-    expect(link).to.exist;
+    assert.exists(link);
 
     // Simulate a click on the engagement link
     link.click();
@@ -426,6 +426,7 @@ suite('capture-eye-modal', () => {
       initialTransaction:
         '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
       explorerUrl: 'https://example.com/explorer',
+      hasC2pa: true,
     };
 
     const el = await fixture<CaptureEyeModal>(html`
@@ -456,10 +457,10 @@ suite('capture-eye-modal', () => {
     const badge = el.shadowRoot?.querySelector(
       'div.badge-container img[alt="Generated via AI"]'
     );
-    expect(badge).to.null;
+    assert.isNull(badge);
 
     const buttonCr = el.shadowRoot?.querySelector('.button-content-credentials');
-    expect(buttonCr).to.exist;
+    assert.exists(buttonCr);
 
     // Headling source is abstract
     el.updateModalOptions({
@@ -487,7 +488,7 @@ suite('capture-eye-modal', () => {
       'div.badge-container img[alt="Generated via AI"]'
     );
 
-    expect(badge).to.exist;
+    assert.exists(badge);
   });
 
   test('should hide content credentials when disabled', async () => {
@@ -497,12 +498,13 @@ suite('capture-eye-modal', () => {
 
     el.updateAsset({
       encodingFormat: 'image/jpeg',
+      hasC2pa: true,
     }, true);
 
     // By default, Content Credentials should be enabled
     await el.updateComplete;
     let buttonCr = el.shadowRoot!.querySelector('.button-content-credentials');
-    expect(buttonCr).to.exist;
+    assert.exists(buttonCr);
 
     // Enable Content Credentials
     el.updateModalOptions({
@@ -512,7 +514,7 @@ suite('capture-eye-modal', () => {
     await el.updateComplete;
 
     buttonCr = el.shadowRoot!.querySelector('.button-content-credentials');
-    expect(buttonCr).to.exist;
+    assert.exists(buttonCr);
 
     // Disable Content Credentials
     el.updateModalOptions({
@@ -522,6 +524,6 @@ suite('capture-eye-modal', () => {
     await el.updateComplete;
 
     buttonCr = el.shadowRoot!.querySelector('.button-content-credentials');
-    expect(buttonCr).to.not.exist;
+    assert.notExists(buttonCr);
   });
 });

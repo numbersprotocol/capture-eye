@@ -97,7 +97,7 @@ class InteractionTracker {
         const token = await this.decryptData(base64Key);
         this.token = token;
         return token;
-      } catch (error) {
+      } catch (_error) {
         console.log(`Get invalid token from cache.`);
       }
     }
