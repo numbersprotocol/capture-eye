@@ -227,27 +227,8 @@ export class CaptureEyeModal extends LitElement {
   }
 
   private isC2paSupported() {
-    return typeof this._asset?.encodingFormat === 'string' && new Set([
-      'video/msvideo',
-      'video/avi',
-      'application-msvideo',
-      'image/avif',
-      'application/x-c2pa-manifest-store',
-      'image/x-adobe-dng',
-      'image/heic',
-      'image/heif',
-      'image/jpeg',
-      'audio/mp4',
-      'audio/mpeg',
-      'video/mp4',
-      'application/mp4',
-      'video/quicktime',
-      'image/png',
-      'image/svg+xml',
-      'image/tiff',
-      'audio/x-wav',
-      'image/webp',
-    ]).has(this._asset?.encodingFormat);
+    // Check if asset has C2PA support from backend
+    return this._asset?.hasC2pa === true;
   }
 
   private isOriginal() {
@@ -625,7 +606,9 @@ export class CaptureEyeModal extends LitElement {
   }
 
   private handleInspectContentCredentials() {
-    const url = `${Constant.url.profile}/${this.nid}/inspect`;
+    // New way: directly open c2pa verify page with source URL parameter
+    const assetUrl = `${Constant.url.ipfsGateway}/${this.nid}`;
+    const url = `${Constant.url.c2paVerify}?source=${encodeURIComponent(assetUrl)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
   }
 

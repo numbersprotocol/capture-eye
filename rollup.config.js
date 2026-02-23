@@ -1,5 +1,5 @@
 import summary from 'rollup-plugin-summary';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 import resolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
 import typescript from '@rollup/plugin-typescript';
@@ -18,7 +18,10 @@ export default {
     }
   },
   plugins: [
-    replace({ 'Reflect.decorate': 'undefined' }),
+    replace({ 
+      'Reflect.decorate': 'undefined',
+      preventAssignment: true
+    }),
     resolve(),
     typescript({ tsconfig: './tsconfig.json' }),
     terser({

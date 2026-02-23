@@ -3,10 +3,9 @@ import { AssetModel } from '../asset/asset-model.js';
 import {
   fetchAsset,
   hasNftProduct,
-  getUsername,
+  fetchAssetMetadata,
 } from '../asset/asset-service.js';
 import interactionTracker, { TrackerEvent } from './interaction-tracker.js';
-import { Constant } from '../constant.js';
 
 export class ModalManager {
   private static instance: ModalManager;
@@ -49,17 +48,17 @@ export class ModalManager {
       fetchAsset(options.nid).then((assetData) => {
         this.updateModalAsset(assetData, true);
       });
-      getUsername(options.nid).then((username) => {
-        if (username) {
-          const showcaseLink = `${
-            Constant.url.showcase
-          }/${username.toLowerCase()}`;
-          this.updateModalAsset({ showcaseLink }, false);
-        }
-      });
       hasNftProduct(options.nid).then((hasNftProduct) =>
         this.updateModalAsset({ hasNftProduct }, false)
       );
+      fetchAssetMetadata(options.nid).then((metadata) => {
+        if (metadata) {
+          this.updateModalAsset({
+            hasC2pa: metadata.hasC2pa,
+            showcaseLink: metadata.showcaseLink,
+          }, false);
+        }
+      });
     }
   }
 

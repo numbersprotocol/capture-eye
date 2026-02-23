@@ -17,6 +17,7 @@ export interface AssetModel {
   captureEyeCustom?: Array<CaptureEyeCustomItem>;
   hasNftProduct?: boolean;
   showcaseLink?: string;
+  hasC2pa?: boolean;
 }
 
 export interface CaptureEyeCustomItem {

@@ -8,6 +8,7 @@ interface Url {
   profile: string;
   showcase: string;
   collect: string;
+  c2paVerify: string;
   fontFaceCssUrl: string;
   blankThumbnail: string;
   blockchainIcon: string;
@@ -75,6 +76,7 @@ export const Constant: ConstantType = {
     profile: 'https://asset.captureapp.xyz',
     showcase: 'https://dashboard.captureapp.xyz/showcase',
     collect: 'https://captureappiframe.numbersprotocol.io/checkout',
+    c2paVerify: 'https://verify.contentauthenticity.org/inspect',
     fontFaceCssUrl: `${numbersCdnUrl}/fonts/degular.css`,
     blankThumbnail: 'https://via.placeholder.com/100',
     blockchainIcon: `${numbersCdnUrl}/capture-eye/capture-eye-blockchain-icon.svg`,
