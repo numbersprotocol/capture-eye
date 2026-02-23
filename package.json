@@ -14,13 +14,6 @@
     "lint": "npm run lint:eslint",
     "lint:eslint": "eslint 'src/**/*.ts'",
     "format": "prettier \"**/*.{html,json,md,ts}\" --ignore-path ./.eslintignore --write",
-    "docs": "npm run docs:clean && npm run build && npm run analyze && npm run docs:build && npm run docs:assets && npm run docs:gen",
-    "docs:clean": "rimraf docs",
-    "docs:gen": "eleventy --config=.eleventy.cjs",
-    "docs:gen:watch": "eleventy --config=.eleventy.cjs --watch",
-    "docs:build": "rollup -c --file docs/capture-eye.bundled.js",
-    "docs:assets": "cp node_modules/prismjs/themes/prism-okaidia.css docs/",
-    "docs:serve": "wds --root-dir=docs --node-resolve --watch",
     "analyze": "cem analyze --litelement --globs \"src/**/*.ts\"",
     "analyze:watch": "cem analyze --litelement --globs \"src/**/*.ts\" --watch",
     "serve": "wds --watch",
@@ -45,8 +38,6 @@
     "lit": "^3.0.0"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^3.1.2",
-    "@11ty/eleventy-plugin-syntaxhighlight": "^4.0.0",
     "@custom-elements-manifest/analyzer": "^0.6.3",
     "@eslint/js": "^9.39.3",
     "@open-wc/testing": "^3.1.5",
