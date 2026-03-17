@@ -10,7 +10,7 @@ export default {
     file: 'dist/capture-eye.bundled.js',
     format: 'esm',
     name: 'CaptureEye',
-    sourcemap: true,
+    sourcemap: process.env.MODE !== 'prod',
   },
   onwarn(warning) {
     if (warning.code !== 'THIS_IS_UNDEFINED') {
