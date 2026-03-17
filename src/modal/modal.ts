@@ -284,6 +284,7 @@ export class CaptureEyeModal extends LitElement {
             class="link-text"
             href=${this._asset?.showcaseLink ?? '#'}
             target="_blank"
+            rel="noopener noreferrer"
           >
             ${this._asset?.creator ?? ''}
           </a>
@@ -367,6 +368,7 @@ export class CaptureEyeModal extends LitElement {
             ? html`<a
                 href=${`${Constant.url.profile}/${this.nid}`}
                 target="_blank"
+                rel="noopener noreferrer"
                 >${image}</a
               >`
             : html`<div class="shimmer-profile-img"></div>`}
@@ -414,6 +416,7 @@ export class CaptureEyeModal extends LitElement {
                 class="link-text"
                 href=${this._asset.explorerUrl}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 <span class="value-text">${transactionText}</span>
               </a>`
@@ -435,6 +438,7 @@ export class CaptureEyeModal extends LitElement {
                       class="link-text"
                       href=${Constant.url.explorer}
                       target="_blank"
+                      rel="noopener noreferrer"
                     >
                       <span class="value-text"
                         >${Constant.text.numbersMainnet}</span
@@ -474,7 +478,7 @@ export class CaptureEyeModal extends LitElement {
 
               <span class="field-text">${item.field}:</span>
               ${item.url
-                ? html`<a class="link-text" href=${item.url} target="_blank"
+                ? html`<a class="link-text" href=${item.url} target="_blank" rel="noopener noreferrer"
                     ><span class="value-text">${item.value}</span></a
                   >`
                 : html`<span class="value-text">${item.value}</span>`}
@@ -501,12 +505,12 @@ export class CaptureEyeModal extends LitElement {
       : Constant.text.viewMore;
     return html`
       <div class="section">
-        <a href=${actionButtonLink} target="_blank"
+        <a href=${actionButtonLink} target="_blank" rel="noopener noreferrer"
           ><button class="view-more-btn">${actionButtonText}</button></a
         >
         <div class="powered-by">
           ${this._assetLoaded
-            ? html`<a href=${Constant.url.numbersWebsite} target="_blank"
+            ? html`<a href=${Constant.url.numbersWebsite} target="_blank" rel="noopener noreferrer"
                 >Powered by Numbers Protocol</a
               >`
             : html`<div class="shimmer-text" style="height: auto;">&nbsp;</div>`}
@@ -533,6 +537,7 @@ export class CaptureEyeModal extends LitElement {
         <a
           href=${this.currentEngagementZone.link}
           target="_blank"
+          rel="noopener noreferrer"
           class="eng-link"
           @click=${this.trackEngagement}
         >

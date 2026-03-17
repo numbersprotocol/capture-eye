@@ -69,7 +69,7 @@ suite('capture-eye-modal', () => {
                 </div>
               </div>
               <div class="section">
-                <a href="https://asset.captureapp.xyz/" target="_blank"><button class="view-more-btn">View More</button></a>
+                <a href="https://asset.captureapp.xyz/" target="_blank" rel="noopener noreferrer"><button class="view-more-btn">View More</button></a>
                 <div class="powered-by">
                   <div
                     class="shimmer-text"
@@ -84,6 +84,7 @@ suite('capture-eye-modal', () => {
             <a
               class="eng-link"
               href="https://captureapp.xyz"
+              rel="noopener noreferrer"
               target="_blank"
             >
               <img
