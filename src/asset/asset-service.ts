@@ -101,8 +101,11 @@ export async function fetchAsset(
       nitCustom.creatorWallet ??
       data.creator_addresses?.asset_wallet_address;
 
-    // showcaseLink: derived from owner_name
+    // backendOwnerName: prefer display name for UI presentation
     const ownerName = data.owner_profile_display_name ?? data.owner_name;
+    // showcaseLink: intentionally uses owner_name (username slug) instead of
+    // owner_profile_display_name, because the showcase URL path requires the
+    // account username, not the display name.
     const showcaseLink = data.owner_name
       ? `${Constant.url.showcase}/${data.owner_name.toLowerCase()}`
       : undefined;
