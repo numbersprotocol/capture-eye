@@ -23,17 +23,32 @@ function formatIsoDateGmt(isoDate?: string): string | undefined {
 }
 
 /**
- * Format latitude and longitude into a readable location string.
+ * Reverse geocode latitude and longitude into a human-readable address
+ * using OpenStreetMap Nominatim. Falls back to coordinate string on failure.
  */
-function formatLocation(
+async function reverseGeocode(
   lat?: number | string,
   lng?: number | string
-): string | undefined {
+): Promise<string | undefined> {
   if (lat == null || lng == null) return undefined;
   const latNum = typeof lat === 'string' ? parseFloat(lat) : lat;
   const lngNum = typeof lng === 'string' ? parseFloat(lng) : lng;
   if (isNaN(latNum) || isNaN(lngNum)) return undefined;
-  return `${latNum.toFixed(4)}, ${lngNum.toFixed(4)}`;
+
+  const coordFallback = `${latNum.toFixed(4)}, ${lngNum.toFixed(4)}`;
+  try {
+    const url =
+      `https://nominatim.openstreetmap.org/reverse` +
+      `?lat=${latNum}&lon=${lngNum}&format=json&zoom=10&accept-language=en`;
+    const response = await fetch(url, {
+      headers: { 'User-Agent': 'CaptureEye/1.10.0' },
+    });
+    if (!response.ok) return coordFallback;
+    const data = await response.json();
+    return data?.display_name || coordFallback;
+  } catch {
+    return coordFallback;
+  }
 }
 
 /**
@@ -81,13 +96,13 @@ export async function fetchAsset(
         ? formatTimestampGmt(captureTimeRaw)
         : undefined;
 
-    // captureLocation: nit_commit_custom.assetLocationCreated, or lat/lng from signed_metadata
+    // captureLocation: nit_commit_custom.assetLocationCreated, or reverse geocode from signed_metadata
     const captureLocation =
       nitCustom.assetLocationCreated ??
-      formatLocation(
+      (await reverseGeocode(
         signedMeta?.location_latitude,
         signedMeta?.location_longitude
-      );
+      ));
 
     // creator: nit_commit_custom.assetCreator > creator_profile_display_name > creator_name > nft_creator_address
     const creator =
