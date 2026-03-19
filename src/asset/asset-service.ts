@@ -107,21 +107,9 @@ export async function fetchAsset(
       ? `${Constant.url.showcase}/${data.owner_name.toLowerCase()}`
       : undefined;
 
-    // captureEyeCustom: from nit_commit_custom.captureEyeCustom
+    // captureEyeCustom: directly from nit_commit_custom.captureEyeCustom
     const captureEyeCustom: CaptureEyeCustomItem[] | undefined =
-      nitCustom.captureEyeCustom?.map(
-        (custom: {
-          _api_c2_field?: string;
-          _api_c2_value?: string;
-          _api_c2_iconSource?: string;
-          _api_c2_url?: string;
-        }) => ({
-          field: custom._api_c2_field,
-          value: custom._api_c2_value,
-          iconSource: custom._api_c2_iconSource,
-          url: custom._api_c2_url,
-        })
-      );
+      nitCustom.captureEyeCustom;
 
     const assetModel: AssetModel = {
       creator,
