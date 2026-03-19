@@ -1,6 +1,13 @@
 import { Constant } from '../constant';
 import { AssetModel, CaptureEyeCustomItem } from './asset-model';
 
+// Injected by rollup at build time from package.json
+declare const __CAPTURE_EYE_VERSION__: string;
+const VERSION =
+  typeof __CAPTURE_EYE_VERSION__ !== 'undefined'
+    ? __CAPTURE_EYE_VERSION__
+    : 'dev';
+
 /**
  * Format a timestamp (seconds or milliseconds) to a human-readable GMT string.
  * Handles both Unix seconds and milliseconds.
@@ -40,9 +47,13 @@ async function reverseGeocode(
     const url =
       `https://nominatim.openstreetmap.org/reverse` +
       `?lat=${latNum}&lon=${lngNum}&format=json&zoom=10&accept-language=en`;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
     const response = await fetch(url, {
-      headers: { 'User-Agent': 'CaptureEye/1.10.0' },
+      headers: { 'User-Agent': `CaptureEye/${VERSION}` },
+      signal: controller.signal,
     });
+    clearTimeout(timeoutId);
     if (!response.ok) return coordFallback;
     const data = await response.json();
     return data?.display_name || coordFallback;
