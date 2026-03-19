@@ -1,65 +1,81 @@
 import { Constant } from '../constant';
-import { AssetModel, CaptureEyeCustomItem } from './asset-model';
+import { AssetModel } from './asset-model';
 
-export async function fetchAsset(nid: string): Promise<AssetModel | undefined> {
-  const headers: HeadersInit = {
-    'Content-Type': 'application/json',
-  };
+/**
+ * Format a Unix timestamp (seconds) to a readable date string.
+ */
+function formatTimestamp(unixSeconds: number): string {
+  const date = new Date(unixSeconds * 1000);
+  return date.toISOString().split('T')[0];
+}
 
+/**
+ * Format latitude and longitude into a readable location string.
+ */
+function formatLocation(lat?: string, lng?: string): string | undefined {
+  if (!lat || !lng) return undefined;
+  return `${parseFloat(lat).toFixed(4)}, ${parseFloat(lng).toFixed(4)}`;
+}
+
+/**
+ * Format an ISO date string to a readable date string.
+ */
+function formatIsoDate(isoDate?: string): string | undefined {
+  if (!isoDate) return undefined;
+  return isoDate.split('T')[0];
+}
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export async function fetchAsset(
+  nid: string
+): Promise<AssetModel | undefined> {
   try {
-    const response = await fetch(`${Constant.url.dataApi}?nid=${nid}`, {
+    const response = await fetch(`${Constant.url.assetApi}${nid}/`, {
       method: 'GET',
-      headers,
     });
 
     if (!response.ok) {
       const errorResponse = await response.json();
-      console.error(`Error ${response.status}: ${errorResponse.message}`);
+      console.error(
+        `Error ${response.status}: ${errorResponse?.detail ?? errorResponse?.message}`
+      );
       return;
     }
 
-    const {
-      response: { data },
-    } = await response.json();
+    const data: any = await response.json();
     console.debug(data);
 
-    if (!data) return;
-
-    const captureEyeCustom: CaptureEyeCustomItem[] | undefined =
-      data.captureEyeCustom?.map(
-        (custom: {
-          _api_c2_field?: string;
-          _api_c2_value?: string;
-          _api_c2_iconSource?: string;
-          _api_c2_url?: string;
-        }) => ({
-          field: custom._api_c2_field,
-          value: custom._api_c2_value,
-          iconSource: custom._api_c2_iconSource,
-          url: custom._api_c2_url,
-        })
-      );
+    const initialTx = data.integrity_info?.[0];
+    const captureTime = data.parsed_meta?.capture_time
+      ? formatTimestamp(data.parsed_meta.capture_time)
+      : undefined;
+    const showcaseLink = data.owner_name
+      ? `${Constant.url.showcase}/${data.owner_name.toLowerCase()}`
+      : undefined;
 
     const assetModel: AssetModel = {
-      creator: data.assetCreator,
-      creatorWallet: data.fullAssetTree?.['_api_c2_assetTree.creatorWallet'],
-      createdTime: data.assetTimestampCreated,
-      encodingFormat: data.fullAssetTree?.['_api_c2_assetTree.encodingFormat'],
-      headline: data.headline,
-      abstract: data.abstract,
-      initialTransaction: data.initial_transaction,
-      thumbnailUrl: data.thumnail_url, // [sic]
-      explorerUrl: data.initial_transaction
-        ? `${Constant.url.explorer}/tx/${data.initial_transaction}`
-        : '',
-      assetSourceType: data.assetSourceType,
-      captureTime: data.integrity_capture_time,
-      captureLocation:
-        data.fullAssetTree?.['_api_c2_assetTree.assetLocationCreated'],
-      backendOwnerName: data.backend_owner_name,
-      digitalSourceType: data.digitalSourceType,
-      usedBy: data.usedBy,
-      captureEyeCustom,
+      creator: data.creator_name,
+      creatorWallet:
+        data.nit_commit_custom?.creatorWallet ??
+        data.creator_addresses?.managed_wallet_address,
+      createdTime: formatIsoDate(data.uploaded_at),
+      encodingFormat: data.asset_file_mime_type,
+      headline: data.headline || data.caption,
+      abstract: data.caption,
+      initialTransaction: initialTx?.search_id,
+      thumbnailUrl: data.asset_file_thumbnail,
+      explorerUrl: initialTx?.explorer_url ?? '',
+      assetSourceType: data.source_type,
+      captureTime,
+      captureLocation: formatLocation(
+        data.parsed_meta?.capture_latitude,
+        data.parsed_meta?.capture_longitude
+      ),
+      backendOwnerName: data.owner_name,
+      digitalSourceType: data.digital_source_type,
+      usedBy: data.nit_commit_custom?.usedBy,
+      hasC2pa: data.c2pa === true,
+      showcaseLink,
     };
 
     console.debug(assetModel);
@@ -69,6 +85,7 @@ export async function fetchAsset(nid: string): Promise<AssetModel | undefined> {
     return;
   }
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export async function hasNftProduct(nid: string): Promise<boolean> {
   try {
@@ -90,32 +107,4 @@ export async function hasNftProduct(nid: string): Promise<boolean> {
     console.error('Fetch error:', error);
   }
   return false;
-}
-
-export async function fetchAssetMetadata(nid: string): Promise<{ hasC2pa: boolean; showcaseLink?: string } | undefined> {
-  try {
-    const response = await fetch(`${Constant.url.assetApi}${nid}/`, {
-      method: 'GET',
-    });
-
-    if (response.ok) {
-      const assetData = await response.json();
-      const hasC2pa = assetData.c2pa === true;
-      const ownerName = assetData.owner_name;
-      return {
-        hasC2pa,
-        showcaseLink: ownerName
-          ? `${Constant.url.showcase}/${ownerName.toLowerCase()}`
-          : undefined,
-      };
-    }
-
-    const errorResponse = await response.json();
-    console.error(
-      `Error ${response.status}: ${errorResponse?.error?.type} ${errorResponse?.error?.message}`
-    );
-  } catch (error) {
-    console.error('Fetch error:', error);
-  }
-  return undefined;
 }

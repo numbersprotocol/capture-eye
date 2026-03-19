@@ -1,6 +1,5 @@
 interface Url {
   numbersWebsite: string;
-  dataApi: string;
   assetApi: string;
   productApi: string;
   ipfsGateway: string;
@@ -68,7 +67,6 @@ const numbersCdnUrl = 'https://static-cdn.numbersprotocol.io';
 export const Constant: ConstantType = {
   url: {
     numbersWebsite: 'https://www.numbersprotocol.io',
-    dataApi: 'https://verify.numbersprotocol.io/api/1.1/wf/captureEyeData',
     assetApi: 'https://api.numbersprotocol.io/api/v3/assets/',
     productApi: 'https://api.numbersprotocol.io/api/v3/store/products/',
     ipfsGateway: 'https://ipfs-pin.numbersprotocol.io/ipfs',

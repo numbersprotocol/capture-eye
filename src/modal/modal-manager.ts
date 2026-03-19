@@ -3,7 +3,6 @@ import { AssetModel } from '../asset/asset-model.js';
 import {
   fetchAsset,
   hasNftProduct,
-  fetchAssetMetadata,
 } from '../asset/asset-service.js';
 import interactionTracker, { TrackerEvent } from './interaction-tracker.js';
 
@@ -51,14 +50,6 @@ export class ModalManager {
       hasNftProduct(options.nid).then((hasNftProduct) =>
         this.updateModalAsset({ hasNftProduct }, false)
       );
-      fetchAssetMetadata(options.nid).then((metadata) => {
-        if (metadata) {
-          this.updateModalAsset({
-            hasC2pa: metadata.hasC2pa,
-            showcaseLink: metadata.showcaseLink,
-          }, false);
-        }
-      });
     }
   }
 
