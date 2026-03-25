@@ -20,17 +20,55 @@ function updateElement(elem) {
     'en-US',
     options
   );
-  elem.innerHTML = `<capture-eye nid="${_nid}"><div class="container"><img src="${thumbnail}" alt="Image" class="image">
-              <div class="text-container">
-                <p class="title">註冊時間</p>
-                <p class="description">${captureUpdatedDate}</p>
-                <p class="title">創建者</p>
-                <p class="description">${creator}</p>
-                <p class="title">簡介</p>
-                <p class="description">${headline}</p>
-                <p class="title">影像 Nid</p>
-                <p class="nid" onclick="window.open('https://asset.captureapp.xyz/${_nid}', '_blank')">${nid}</p>
-             </div></div></capture-eye>`;
+
+  // Clear existing content safely
+  while (elem.firstChild) {
+    elem.removeChild(elem.firstChild);
+  }
+
+  // Build DOM safely without innerHTML to prevent XSS
+  const captureEye = document.createElement('capture-eye');
+  captureEye.setAttribute('nid', _nid);
+
+  const container = document.createElement('div');
+  container.className = 'container';
+
+  const img = document.createElement('img');
+  img.setAttribute('src', thumbnail);
+  img.setAttribute('alt', 'Image');
+  img.className = 'image';
+
+  const textContainer = document.createElement('div');
+  textContainer.className = 'text-container';
+
+  const createParagraph = (className, text) => {
+    const p = document.createElement('p');
+    p.className = className;
+    p.textContent = text;
+    return p;
+  };
+
+  textContainer.appendChild(createParagraph('title', '註冊時間'));
+  textContainer.appendChild(createParagraph('description', captureUpdatedDate));
+  textContainer.appendChild(createParagraph('title', '創建者'));
+  textContainer.appendChild(createParagraph('description', creator));
+  textContainer.appendChild(createParagraph('title', '簡介'));
+  textContainer.appendChild(createParagraph('description', headline));
+  textContainer.appendChild(createParagraph('title', '影像 Nid'));
+
+  const nidP = createParagraph('nid', nid);
+  nidP.addEventListener('click', () => {
+    window.open(
+      `https://asset.captureapp.xyz/${encodeURIComponent(_nid)}`,
+      '_blank'
+    );
+  });
+  textContainer.appendChild(nidP);
+
+  container.appendChild(img);
+  container.appendChild(textContainer);
+  captureEye.appendChild(container);
+  elem.appendChild(captureEye);
 }
 
 class CaptureEyeStyleElement extends HTMLElement {
