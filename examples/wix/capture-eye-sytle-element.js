@@ -22,9 +22,7 @@ function updateElement(elem) {
   );
 
   // Clear existing content safely
-  while (elem.firstChild) {
-    elem.removeChild(elem.firstChild);
-  }
+  elem.replaceChildren();
 
   // Build DOM safely without innerHTML to prevent XSS
   const captureEye = document.createElement('capture-eye');
@@ -61,7 +59,8 @@ function updateElement(elem) {
   nidP.addEventListener('click', () => {
     window.open(
       `https://asset.captureapp.xyz/${encodeURIComponent(_nid)}`,
-      '_blank'
+      '_blank',
+      'noopener'
     );
   });
   textContainer.appendChild(nidP);
