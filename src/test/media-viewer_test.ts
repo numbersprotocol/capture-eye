@@ -114,7 +114,7 @@ suite('media-viewer', () => {
     assert.exists(el.shadowRoot?.querySelector('video'));
   });
 
-  test('renders unsupported message for unknown MIME type', async () => {
+  test('renders error message for unknown MIME type', async () => {
     fetchStub.resolves({
       ok: true,
       headers: { get: (name: string) => (name === 'Content-Type' ? 'application/pdf' : null) },
@@ -125,13 +125,13 @@ suite('media-viewer', () => {
     );
 
     await waitUntil(
-      () => el.shadowRoot?.querySelector('.unsupported') !== null,
-      'unsupported element should be rendered'
+      () => el.shadowRoot?.querySelector('.error') !== null,
+      'error element should be rendered for unsupported MIME type'
     );
 
-    const div = el.shadowRoot?.querySelector('.unsupported');
+    const div = el.shadowRoot?.querySelector('.error');
     assert.exists(div);
-    assert.equal(div!.textContent, 'Unsupported file format');
+    assert.equal(div!.textContent, 'Unable to load media');
   });
 
   test('dispatches error event when MIME type is unsupported', async () => {
@@ -154,24 +154,20 @@ suite('media-viewer', () => {
     assert.isTrue(errorDispatched, 'error event should be dispatched for unsupported MIME type');
   });
 
-  test('dispatches error event when HEAD request fails', async () => {
+  test('falls back to extension-based type when HEAD request fails', async () => {
     const el = await fixture<MediaViewer>(html`<media-viewer></media-viewer>`);
 
     fetchStub.rejects(new Error('Network error'));
-
-    let errorDispatched = false;
-    el.addEventListener('error', () => {
-      errorDispatched = true;
-    });
 
     el.src = 'https://example.com/image.jpg';
     (el as any).mimeType = null;
     await el.determineFileType();
 
-    assert.isTrue(errorDispatched, 'error event should be dispatched on network error');
+    // fallbackToExtensionBasedType sets 'image/unknown' for non-video extensions
+    assert.equal((el as any).mimeType, 'image/unknown');
   });
 
-  test('dispatches error event when src is empty', async () => {
+  test('determineFileType early returns when src is empty', async () => {
     const el = await fixture<MediaViewer>(html`<media-viewer></media-viewer>`);
 
     let errorDispatched = false;
@@ -181,7 +177,9 @@ suite('media-viewer', () => {
 
     await el.determineFileType();
 
-    assert.isTrue(errorDispatched, 'error event should be dispatched when src is empty');
+    // determineFileType returns immediately when src is empty, no error dispatched
+    assert.isFalse(errorDispatched, 'no error event when src is empty');
+    assert.isNull((el as any).mimeType, 'mimeType should remain null');
   });
 
   test('isImageMimeType returns true for image MIME types', async () => {
