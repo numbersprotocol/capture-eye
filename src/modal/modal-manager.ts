@@ -91,8 +91,7 @@ export class ModalManager {
   }
 
   private handleRootClick = (event: MouseEvent) => {
-    const modal = this.getModal();
-    if (!modal.contains(event.target as Node)) {
+    if (this.modalElement && !this.modalElement.contains(event.target as Node)) {
       this.removeModal();
     }
   };

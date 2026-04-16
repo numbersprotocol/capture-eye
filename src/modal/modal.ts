@@ -171,6 +171,7 @@ export class CaptureEyeModal extends LitElement {
   }
 
   private startEngagementZoneRotation() {
+    this.stopEngagementZoneRotation();
     if (this._engagementZones.length <= 1) return;
     this._engagementZoneRotationIntervalId = setInterval(() => {
       this._engagementZoneIndex =
