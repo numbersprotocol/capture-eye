@@ -69,7 +69,7 @@ suite('capture-eye-modal', () => {
                 </div>
               </div>
               <div class="section">
-                <a href="https://asset.captureapp.xyz/" target="_blank"><button class="view-more-btn">View More</button></a>
+                <a href="https://asset.captureapp.xyz/" target="_blank" rel="noopener noreferrer"><button class="view-more-btn">View More</button></a>
                 <div class="powered-by">
                   <div
                     class="shimmer-text"
@@ -84,6 +84,7 @@ suite('capture-eye-modal', () => {
             <a
               class="eng-link"
               href="https://captureapp.xyz"
+              rel="noopener noreferrer"
               target="_blank"
             >
               <img
@@ -525,5 +526,63 @@ suite('capture-eye-modal', () => {
 
     buttonCr = el.shadowRoot!.querySelector('.button-content-credentials');
     assert.notExists(buttonCr);
+  });
+
+  suite('updateModalColor color validation', () => {
+    test('sets --primary-color for valid hex color', async () => {
+      const el = await fixture<CaptureEyeModal>(html`
+        <capture-eye-modal></capture-eye-modal>
+      `);
+      el.updateModalOptions({ nid: '1', color: '#027fe5' });
+      await el.updateComplete;
+      assert.equal(el.style.getPropertyValue('--primary-color'), '#027fe5');
+    });
+
+    test('sets --primary-color for valid short hex color', async () => {
+      const el = await fixture<CaptureEyeModal>(html`
+        <capture-eye-modal></capture-eye-modal>
+      `);
+      el.updateModalOptions({ nid: '1', color: '#fff' });
+      await el.updateComplete;
+      assert.equal(el.style.getPropertyValue('--primary-color'), '#fff');
+    });
+
+    test('sets --primary-color for valid named color', async () => {
+      const el = await fixture<CaptureEyeModal>(html`
+        <capture-eye-modal></capture-eye-modal>
+      `);
+      el.updateModalOptions({ nid: '1', color: 'red' });
+      await el.updateComplete;
+      assert.equal(el.style.getPropertyValue('--primary-color'), 'red');
+    });
+
+    test('does not set --primary-color for invalid color with semicolon injection', async () => {
+      const el = await fixture<CaptureEyeModal>(html`
+        <capture-eye-modal></capture-eye-modal>
+      `);
+      el.updateModalOptions({ nid: '1', color: 'red; --injected: value' });
+      await el.updateComplete;
+      assert.equal(el.style.getPropertyValue('--primary-color'), '');
+    });
+
+    test('does not set --primary-color for arbitrary string', async () => {
+      const el = await fixture<CaptureEyeModal>(html`
+        <capture-eye-modal></capture-eye-modal>
+      `);
+      el.updateModalOptions({ nid: '1', color: 'not-a-color' });
+      await el.updateComplete;
+      assert.equal(el.style.getPropertyValue('--primary-color'), '');
+    });
+
+    test('clears --primary-color when color is empty', async () => {
+      const el = await fixture<CaptureEyeModal>(html`
+        <capture-eye-modal></capture-eye-modal>
+      `);
+      el.updateModalOptions({ nid: '1', color: '#027fe5' });
+      await el.updateComplete;
+      el.updateModalOptions({ nid: '1', color: '' });
+      await el.updateComplete;
+      assert.equal(el.style.getPropertyValue('--primary-color'), '');
+    });
   });
 });
