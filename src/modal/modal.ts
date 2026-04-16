@@ -637,15 +637,21 @@ export class CaptureEyeModal extends LitElement {
     );
   }
 
-  private updateModalColor() {
-    // Set primary color
-    this.style.setProperty('--primary-color', this._color);
+  private isValidColor(color: string): boolean {
+    return CSS.supports('color', color.trim());
+  }
 
-    // Set hover color
-    this.style.setProperty('--hover-color', '');  // Clear the color
-    if (!this._color) {
+  private updateModalColor() {
+    // Clear colors first; set only if color is valid
+    this.style.setProperty('--primary-color', '');
+    this.style.setProperty('--hover-color', '');
+
+    if (!this._color || !this.isValidColor(this._color)) {
       return;
     }
+
+    // Set primary color
+    this.style.setProperty('--primary-color', this._color);
 
     const ctx = document.createElement('canvas').getContext('2d');
     if (!ctx) {
