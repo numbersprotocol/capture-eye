@@ -57,6 +57,7 @@ function updateElement(elem) {
   textContainer.appendChild(createParagraph('title', '影像 Nid'));
 
   const nidP = createParagraph('nid', nid);
+  nidP.style.cursor = 'pointer';
   nidP.addEventListener('click', () => {
     window.open(
       `https://asset.captureapp.xyz/${encodeURIComponent(_nid)}`,
