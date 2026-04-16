@@ -16,6 +16,11 @@ export function getMediaViewerStyles() {
       font-size: 1rem;
       text-align: center;
     }
+    .error {
+      color: red;
+      font-size: 1rem;
+      text-align: center;
+    }
     .loading {
       text-align: center;
       font-size: 1rem;
