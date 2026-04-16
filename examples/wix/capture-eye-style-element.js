@@ -3,7 +3,7 @@ function updateElement(elem) {
   const nid = `${_nid.slice(0, 5)}...${_nid.slice(-5)}`;
   const thumbnail = elem.getAttribute('thumbnail');
   const creator = elem.getAttribute('creator') || 'N/A';
-  const headline = elem.getAttribute('headline');
+  const headline = elem.getAttribute('headline') || 'N/A';
   const _captureUpdatedDate = new Date(elem.getAttribute('captureUpdatedDate'));
   // Format the date to "Jul 25 2024 15:05:45" in GMT+8 timezone
   const options = {
