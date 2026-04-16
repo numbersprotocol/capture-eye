@@ -1,10 +1,6 @@
 import { assert } from '@open-wc/testing';
 import sinon from 'sinon';
-import {
-  fetchAsset,
-  hasNftProduct,
-  fetchAssetMetadata,
-} from '../asset/asset-service';
+import { fetchAsset, hasNftProduct } from '../asset/asset-service';
 import { Constant } from '../constant';
 
 suite('asset-service', () => {
@@ -20,37 +16,43 @@ suite('asset-service', () => {
 
   suite('fetchAsset', () => {
     test('maps API response fields correctly to AssetModel', async () => {
-      const mockData = {
-        assetCreator: 'Test Creator',
-        fullAssetTree: {
-          '_api_c2_assetTree.creatorWallet': '0xabc123',
-          '_api_c2_assetTree.encodingFormat': 'image/jpeg',
-          '_api_c2_assetTree.assetLocationCreated': 'New York, USA',
+      const mockResponse = {
+        nit_commit_custom: {
+          assetCreator: 'Test Creator',
+          creatorWallet: '0xabc123',
+          assetLocationCreated: 'New York, USA',
+          assetSourceType: 'upload',
+          usedBy: 'test-user',
+          captureEyeCustom: [
+            {
+              field: 'Custom Field',
+              value: 'Custom Value',
+              iconSource: 'https://example.com/icon.png',
+              url: 'https://example.com',
+            },
+          ],
         },
-        assetTimestampCreated: '2024-01-01T00:00:00Z',
-        headline: 'Test Headline',
-        abstract: 'Test Abstract',
-        initial_transaction: '0x123abc',
-        thumnail_url: 'https://example.com/thumb.jpg', // [sic] — intentional typo in the API field name
-        assetSourceType: 'upload',
-        integrity_capture_time: '2024-01-01T12:00:00Z',
-        backend_owner_name: 'Owner Name',
-        digitalSourceType: 'original',
-        usedBy: 'test-user',
-        captureEyeCustom: [
+        signed_metadata: JSON.stringify({ created_at: 1704067200 }),
+        integrity_info: [
           {
-            _api_c2_field: 'Custom Field',
-            _api_c2_value: 'Custom Value',
-            _api_c2_iconSource: 'https://example.com/icon.png',
-            _api_c2_url: 'https://example.com',
+            search_id: '0x123abc',
+            explorer_url: 'https://mainnet.num.network/tx/0x123abc',
           },
         ],
+        uploaded_at: '2024-01-01T00:00:00Z',
+        asset_file_mime_type: 'image/jpeg',
+        headline: 'Test Headline',
+        caption: 'Test Abstract',
+        asset_file_thumbnail: 'https://example.com/thumb.jpg',
+        digital_source_type: 'original',
+        owner_name: 'TestOwner',
+        owner_profile_display_name: 'Owner Display Name',
+        c2pa: true,
       };
 
       fetchStub.resolves({
         ok: true,
-        json: () =>
-          Promise.resolve({ response: { data: mockData } }),
+        json: () => Promise.resolve(mockResponse),
       } as unknown as Response);
 
       const result = await fetchAsset('test-nid');
@@ -58,7 +60,10 @@ suite('asset-service', () => {
       assert.isDefined(result);
       assert.equal(result!.creator, 'Test Creator');
       assert.equal(result!.creatorWallet, '0xabc123');
-      assert.equal(result!.createdTime, '2024-01-01T00:00:00Z');
+      assert.equal(
+        result!.createdTime,
+        new Date('2024-01-01T00:00:00Z').toUTCString()
+      );
       assert.equal(result!.encodingFormat, 'image/jpeg');
       assert.equal(result!.headline, 'Test Headline');
       assert.equal(result!.abstract, 'Test Abstract');
@@ -66,14 +71,22 @@ suite('asset-service', () => {
       assert.equal(result!.thumbnailUrl, 'https://example.com/thumb.jpg');
       assert.equal(
         result!.explorerUrl,
-        `${Constant.url.explorer}/tx/0x123abc`
+        'https://mainnet.num.network/tx/0x123abc'
       );
       assert.equal(result!.assetSourceType, 'upload');
-      assert.equal(result!.captureTime, '2024-01-01T12:00:00Z');
+      assert.equal(
+        result!.captureTime,
+        new Date(1704067200 * 1000).toUTCString()
+      );
       assert.equal(result!.captureLocation, 'New York, USA');
-      assert.equal(result!.backendOwnerName, 'Owner Name');
+      assert.equal(result!.backendOwnerName, 'Owner Display Name');
       assert.equal(result!.digitalSourceType, 'original');
       assert.equal(result!.usedBy, 'test-user');
+      assert.isTrue(result!.hasC2pa);
+      assert.equal(
+        result!.showcaseLink,
+        `${Constant.url.showcase}/testowner`
+      );
       assert.deepEqual(result!.captureEyeCustom, [
         {
           field: 'Custom Field',
@@ -84,25 +97,82 @@ suite('asset-service', () => {
       ]);
     });
 
-    test('sets explorerUrl to empty string when initial_transaction is absent', async () => {
+    test('sets explorerUrl to empty string when integrity_info is absent', async () => {
       fetchStub.resolves({
         ok: true,
         json: () =>
           Promise.resolve({
-            response: { data: { assetCreator: 'Creator' } },
+            creator_name: 'Creator',
           }),
       } as unknown as Response);
 
       const result = await fetchAsset('test-nid');
       assert.isDefined(result);
       assert.equal(result!.explorerUrl, '');
+      assert.isUndefined(result!.initialTransaction);
+    });
+
+    test('falls back creator through priority chain', async () => {
+      // No nit_commit_custom.assetCreator → fallback to creator_profile_display_name
+      fetchStub.resolves({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            creator_profile_display_name: 'Display Name',
+            creator_name: 'Username',
+          }),
+      } as unknown as Response);
+
+      const result = await fetchAsset('test-nid');
+      assert.isDefined(result);
+      assert.equal(result!.creator, 'Display Name');
+    });
+
+    test('returns hasC2pa and showcaseLink fields', async () => {
+      fetchStub.resolves({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            c2pa: true,
+            owner_name: 'TestOwner',
+            owner_profile_display_name: 'Owner Display',
+          }),
+      } as unknown as Response);
+
+      const result = await fetchAsset('test-nid');
+      assert.isDefined(result);
+      assert.isTrue(result!.hasC2pa);
+      assert.equal(
+        result!.showcaseLink,
+        `${Constant.url.showcase}/testowner`
+      );
+      assert.equal(result!.backendOwnerName, 'Owner Display');
+    });
+
+    test('showcaseLink is undefined when owner_name is absent', async () => {
+      fetchStub.resolves({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            c2pa: false,
+            owner_profile_display_name: 'Owner Display',
+          }),
+      } as unknown as Response);
+
+      const result = await fetchAsset('test-nid');
+      assert.isDefined(result);
+      assert.isFalse(result!.hasC2pa);
+      assert.isUndefined(result!.showcaseLink);
     });
 
     test('returns undefined on non-OK HTTP response', async () => {
       fetchStub.resolves({
         ok: false,
         status: 404,
-        json: () => Promise.resolve({ message: 'Not Found' }),
+        json: () =>
+          Promise.resolve({
+            error: { type: 'NotFound', message: 'Not Found' },
+          }),
       } as unknown as Response);
 
       const result = await fetchAsset('test-nid');
@@ -127,10 +197,10 @@ suite('asset-service', () => {
       assert.isUndefined(result);
     });
 
-    test('returns undefined when data is null', async () => {
+    test('returns undefined when response body is null', async () => {
       fetchStub.resolves({
         ok: true,
-        json: () => Promise.resolve({ response: { data: null } }),
+        json: () => Promise.resolve(null),
       } as unknown as Response);
 
       const result = await fetchAsset('test-nid');
@@ -178,69 +248,6 @@ suite('asset-service', () => {
 
       const result = await hasNftProduct('test-nid');
       assert.isFalse(result);
-    });
-  });
-
-  suite('fetchAssetMetadata', () => {
-    test('returns hasC2pa true and showcaseLink when owner_name is present', async () => {
-      fetchStub.resolves({
-        ok: true,
-        json: () =>
-          Promise.resolve({ c2pa: true, owner_name: 'TestOwner' }),
-      } as unknown as Response);
-
-      const result = await fetchAssetMetadata('test-nid');
-      assert.isDefined(result);
-      assert.isTrue(result!.hasC2pa);
-      assert.equal(
-        result!.showcaseLink,
-        `${Constant.url.showcase}/testowner`
-      );
-    });
-
-    test('returns hasC2pa false when c2pa field is not true', async () => {
-      fetchStub.resolves({
-        ok: true,
-        json: () =>
-          Promise.resolve({ c2pa: false, owner_name: 'TestOwner' }),
-      } as unknown as Response);
-
-      const result = await fetchAssetMetadata('test-nid');
-      assert.isDefined(result);
-      assert.isFalse(result!.hasC2pa);
-    });
-
-    test('returns showcaseLink as undefined when owner_name is absent', async () => {
-      fetchStub.resolves({
-        ok: true,
-        json: () => Promise.resolve({ c2pa: true }),
-      } as unknown as Response);
-
-      const result = await fetchAssetMetadata('test-nid');
-      assert.isDefined(result);
-      assert.isTrue(result!.hasC2pa);
-      assert.isUndefined(result!.showcaseLink);
-    });
-
-    test('returns undefined on non-OK HTTP response', async () => {
-      fetchStub.resolves({
-        ok: false,
-        status: 403,
-        json: () =>
-          Promise.resolve({
-            error: { type: 'Forbidden', message: 'Forbidden' },
-          }),
-      } as unknown as Response);
-
-      const result = await fetchAssetMetadata('test-nid');
-      assert.isUndefined(result);
-    });
-
-    test('returns undefined on network error', async () => {
-      fetchStub.rejects(new Error('Network error'));
-
-      const result = await fetchAssetMetadata('test-nid');
-      assert.isUndefined(result);
     });
   });
 });
