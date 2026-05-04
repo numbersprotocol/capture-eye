@@ -18,6 +18,7 @@
 ## Key Discoveries
 
 - `capture-eye/.github/workflows/production-release.yml` publishes `@numbersprotocol/capture-eye` to npm from the `publish-npm` job using npm Trusted Publishing/OIDC; npm package is configured with GitHub Actions trusted publisher.
+- npm vulnerability fix on 2026-05-04 only required `package-lock.json` updates for transitive dev dependencies: `brace-expansion`, `path-to-regexp`, and `smol-toml`.
 
 ---
-_Last system refresh: 2026-05-04 07:48 UTC_
+_Last system refresh: 2026-05-04 08:06 UTC_
