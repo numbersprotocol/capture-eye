@@ -13,10 +13,11 @@
 ## Environment & Tools
 
 - Local runtime observed: Node v22.13.0, npm 10.9.2; npm Trusted Publishing requires npm CLI 11.5.1+ and Node 22.14.0+.
+- GitHub Actions release workflows use Node 24; CI matrix covers Node 20.x, 22.x, and 24.x.
 
 ## Key Discoveries
 
 - `capture-eye/.github/workflows/production-release.yml` publishes `@numbersprotocol/capture-eye` to npm from the `publish-npm` job using npm Trusted Publishing/OIDC; npm package is configured with GitHub Actions trusted publisher.
 
 ---
-_Last system refresh: 2026-05-04 07:40 UTC_
+_Last system refresh: 2026-05-04 07:48 UTC_
