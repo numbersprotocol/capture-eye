@@ -34,6 +34,10 @@
   ],
   "author": "Numbers Protocol",
   "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/numbersprotocol/capture-eye.git"
+  },
   "dependencies": {
     "lit": "^3.0.0"
   },
