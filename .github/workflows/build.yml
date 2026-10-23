@@ -11,18 +11,34 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x, 22.x, 24.x]
+        node-version: ['22.23.4', '24.22.1']
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Report GitHub-managed Actions Node.js runtime
+        run: |
+          runner_root="$(dirname "$(dirname "$(readlink -f /proc/$PPID/exe)")")"
+          "$runner_root/externals/node24/bin/node" -e '
+            console.log("GitHub Actions runtime:", process.version, process.execPath);
+            const [major, minor, patch] = process.versions.node.split(".").map(Number);
+            if (major !== 24 || minor < 22 || (minor === 22 && patch < 1)) {
+              console.warn("::warning::GitHub-managed Action runtime is below Node.js 24.22.1; setup-node only secures the build runtime.");
+            }
+          '
+      - uses: actions/checkout@v7.0.1
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7.1.0
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+      - name: Verify build runtime
+        run: |
+          node --version
+          test "$(node --version)" = "v${{ matrix.node-version }}"
+          npm --version
       - run: npm ci
       - run: npm run lint
       - run: npm run build
+      - run: MODE=prod npm run build
       - run: npx playwright install
       - run: npm run test

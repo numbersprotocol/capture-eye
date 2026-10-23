@@ -9,16 +9,31 @@ jobs:
   publish-s3:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Report GitHub-managed Actions Node.js runtime
+        run: |
+          runner_root="$(dirname "$(dirname "$(readlink -f /proc/$PPID/exe)")")"
+          "$runner_root/externals/node24/bin/node" -e '
+            console.log("GitHub Actions runtime:", process.version, process.execPath);
+            const [major, minor, patch] = process.versions.node.split(".").map(Number);
+            if (major !== 24 || minor < 22 || (minor === 22 && patch < 1)) {
+              console.warn("::warning::GitHub-managed Action runtime is below Node.js 24.22.1; setup-node only secures the build runtime.");
+            }
+          '
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.1.0
         with:
-          node-version: 24
+          node-version: '24.22.1'
+      - name: Verify build runtime
+        run: |
+          node --version
+          test "$(node --version)" = "v24.22.1"
+          npm --version
       - name: Install dependencies
         run: npm ci
       - name: Build the project
         run: npm run build
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v3
+        uses: aws-actions/configure-aws-credentials@v6.3.0
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -30,9 +45,19 @@ jobs:
     needs: [publish-s3]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Report GitHub-managed Actions Node.js runtime
+        run: |
+          runner_root="$(dirname "$(dirname "$(readlink -f /proc/$PPID/exe)")")"
+          "$runner_root/externals/node24/bin/node" -e '
+            console.log("GitHub Actions runtime:", process.version, process.execPath);
+            const [major, minor, patch] = process.versions.node.split(".").map(Number);
+            if (major !== 24 || minor < 22 || (minor === 22 && patch < 1)) {
+              console.warn("::warning::GitHub-managed Action runtime is below Node.js 24.22.1; setup-node only secures the build runtime.");
+            }
+          '
+      - uses: actions/checkout@v7.0.1
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3.0.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
