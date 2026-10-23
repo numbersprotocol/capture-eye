@@ -15,14 +15,14 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - name: Verify GitHub Actions Node.js runtime
+      - name: Report GitHub-managed Actions Node.js runtime
         run: |
           runner_root="$(dirname "$(dirname "$(readlink -f /proc/$PPID/exe)")")"
           "$runner_root/externals/node24/bin/node" -e '
             console.log("GitHub Actions runtime:", process.version, process.execPath);
             const [major, minor, patch] = process.versions.node.split(".").map(Number);
             if (major !== 24 || minor < 22 || (minor === 22 && patch < 1)) {
-              throw new Error("GitHub Actions requires Node.js >=24.22.1 on the Node.js 24 line");
+              console.warn("::warning::GitHub-managed Action runtime is below Node.js 24.22.1; setup-node only secures the build runtime.");
             }
           '
       - uses: actions/checkout@v7.0.1
@@ -31,9 +31,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - name: Report build runtime
+      - name: Verify build runtime
         run: |
           node --version
+          test "$(node --version)" = "v${{ matrix.node-version }}"
           npm --version
       - run: npm ci
       - run: npm run lint
